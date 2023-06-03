@@ -1,69 +1,70 @@
 <template>
-        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm">
-                <el-form-item prop="username">
-                <el-input v-model="ruleForm.username" autocomplete="off"></el-input>
-                </el-form-item>    
-                <el-form-item prop="pwd">
-                        <el-input v-model="ruleForm.pwd" type="password" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item >
-                        <el-button type="primary" @click="loginFn()" >login</el-button>
-                </el-form-item>    
-        </el-form>
+        <div class="tabs">
+                <div class="tabs-item" v-for="(item,index) in 10" :key="item" @click="setActiveItem(index)"> {{ index }} </div>
+        </div>
+        <el-carousel indicator-position="none" ref="remarkCaruselUp" :autoplay="false" :interval="1000" arrow="always" class="thecontainer">
+                <el-carousel-item v-for="(item,index) in 10" :name="`${index}`" :key="item">
+                        <tabThree v-if="index==2"></tabThree>
+                        <tabTwo v-if="index==1"></tabTwo>
+                        <tabsOne v-if="index==0"></tabsOne>
+                        <tabFour v-if="index==3"></tabFour>
+                        <stars v-if="index==9"></stars>
+                        <LoginComponent v-if="index==8"></LoginComponent>
+                        <loading v-if="index==7"></loading>
+                        <tabEleben v-if="index==5"></tabEleben>
+                        <tabbbb v-if="index==6"></tabbbb>
+                        <tabSix v-if="index==4"></tabSix>
+    </el-carousel-item>
+  </el-carousel>
 </template>
 <script lang='ts' setup>
-import {reactive,toRefs,ref,toRef} from 'vue'
-import {adminLoginApi,getAdminInfoApi} from '../../request/api'
-import Cookie from 'js-cookie'
-import { useRouter} from 'vue-router'
-import {useStore} from 'vuex'
+import stars from './components/stars/index.vue'
+import tabsOne from './components/tab1/index.vue'
+import tabTwo from './components/tab2/index.vue'
+import tabThree from './components/tab3/index.vue'
+import tabFour from './components/tab4/index.vue'
+import tabSix from './components/tab6/index.vue'
+import tabEleben from './components/tab7/index.vue'
+import tabbbb from './components/tab8/index.vue'
+import loading from './components/loading/index.vue'
+import LoginComponent from './components/login/index.vue'
+import {ref,nextTick} from 'vue'
 
-const state = reactive({
-        ruleForm:{
-                username:'admin',
-                pwd:'123456'
-        }
-})
-let { ruleForm} = toRefs(state)
-let ruleFormRef = ref()
-let router = useRouter()
-let store = useStore()
-const validatePwd = (rule:unknown,value:string|undefined,cb:(msg?:string)=>void)=>{
-        if(!value){
-                cb('密码不能为空')
-        }else{
-                cb()
-        }
-}
-// 校验规则
-const rules = reactive({
-        username:[{required:true,message:'用户名不能为空',trigger:'blur'}],
-        pwd:[{required:validatePwd,trigger:'blur'}]
-})
-// 点击登录按钮触发
-const loginFn = ()=>{
-        ruleFormRef.value.validate().then(()=>{
-                console.log('校验通过');
-                adminLoginApi({
-                        password:ruleForm.value.pwd,
-                        username:ruleForm.value.username
-                }).then(res=>{
-                        if(res.code === 200){
-                                // console.log(res);
-                                
-                                // 使用js-cookie储存token
-                                Cookie.set('token',res.data.tokenHead + res.data.token,{expires:7})
-                                store.dispatch('getAdminInfo').then(res=>{
-                                        router.push('/index')
-                                })
-                        }
-                })
-                
-        }).catch(()=>{
-                console.log('校验不通过');
+const remarkCaruselUp = ref(null)
+// 点击查看图片
+const setActiveItem = (index:number) => {
+//查看对应name的图片
+        nextTick(() => {
+                remarkCaruselUp.value.setActiveItem(index)
         })
 }
 </script>
 <style lang='less' scoped>
-    
+@import url("./style.css");
+.tabs{  
+        z-index: 99999999;
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%,0);
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        border-bottom: 1px solid #e4e7ed;
+        background-color: transparent;
+        .tabs-item{
+                width: 80px;
+                height: 40px;
+                text-align: center;
+                line-height: 40px;
+                border-left: 1px solid #e4e7ed;
+        }
+        .tabs-item:last-child{
+                border-right: 1px solid #e4e7ed;
+
+        }
+}
+::v-deep .el-carousel__container{
+        height: 100vh !important;
+}
 </style>

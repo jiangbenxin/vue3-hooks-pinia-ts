@@ -2,19 +2,23 @@ import axios from 'axios'
 import Cookie from 'js-cookie'
 
 const instance = axios.create({
-    baseURL:'http://120.24.64.5:8088/mall-admin',
+    // baseURL:'http://120.24.64.5:8088/mall-admin',
+    baseURL:'http://192.168.50.96:3008/',
     timeout:15000
 })
 
 // 请求拦截器
 instance.interceptors.request.use(config=>{
     let token = Cookie.get('token')
+    // console.log(token);
+    // config.headers['Content-Type']="application/json"
+    // config.headers['Content-Type']="multipart/form-data"
+    // config.headers['Content-Type']="text/xml"
+    config.headers['Content-Type']="application/x-www-form-urlencoded; charset=UTF-8"
     if(token){
+        // console.log(config.headers);
         config.headers = config.headers || {}
         config.headers.Authorization = token
-        // config.headers = {
-        //     Authorization:token
-        // }
     }
     return config
 },err=>{

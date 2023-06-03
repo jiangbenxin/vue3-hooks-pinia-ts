@@ -1,12 +1,11 @@
-import {createRouter,createWebHashHistory,RouteRecordRaw} from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 // import VueRouter from 'vue-router'
 // import Vue from 'vue'
 // Vue.use(VueRouter)
 // Vue2 use : 强调的是参数上的install方法，或者是直接调用参数，Vue.propertype.$router/$route
-import {App} from 'vue'
+import { App } from 'vue'
 import store from '../store'
 import Cookies from 'js-cookie'
-import { getAdminInfoApi } from '../request/api'
 // const router = new VueRouter({})
 const routes:RouteRecordRaw[] =[
     {
@@ -23,7 +22,7 @@ const routes:RouteRecordRaw[] =[
           {
             path: 'index',
             name: 'index',
-            component: () => import('../view/index/index.vue'),
+            component: () => import('../view/index/index/index.vue'),
           }
         ]
     }
@@ -46,41 +45,27 @@ const genRoutes = ()=>{
             children:[]
         }
         for (let i = 0; i < menus[key].children.length; i++) {
-            newRoute.children?.push({
+            newRoute.children.push({
                 path:menus[key].children[i].name,
                 name:menus[key].children[i].name,
-                component:()=>import(`../view/${menus[key].name}/${menus[key].children[i].name}.vue`)
+                component:()=>import(`../view/${menus[key].name}/${menus[key].children[i].name}/index.vue`)
             })
         }
+        // console.log(newRoute)
     // 动态添加addRoute路由规则
     router.addRoute(newRoute)
     }
-    // 动态添加首页
-//   router.addRoute({
-//     path: '/homepage',
-//     name: 'homepage',
-//     component: () => import('../view/homepage/homepage.vue'),
-//     redirect: '/index',
-//     children: [
-//       {
-//         path: 'index',
-//         name: 'index',
-//         component: () => import('../view/index/index.vue'),
-//       }
-//     ]
-//   });
 }
 // 前置路由守卫
 router.beforeEach((to,from,next)=>{
     const token = Cookies.get('token')
     if(token&&store.state.menus.length === 0){
-        console.log('menus为空');
+        // console.log('menus为空');
         // 异步
         store.dispatch('getAdminInfo').then(()=>{
             genRoutes()
             next(to)
         })
-        
     }else if(token&&store.state.menus.length !== 0 && from.path ==='/login' &&to.path === '/homepage'){
         genRoutes()
         next('/index')

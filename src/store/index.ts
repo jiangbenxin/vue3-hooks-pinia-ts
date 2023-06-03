@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 import { App } from 'vue'
-import { getAdminInfoApi } from '../request/api'
-import { def } from '@vue/shared'
+import { getAdminInfo } from '../api/user'
+// import { def } from '@vue/shared'
 
 interface MenuObj {
     parentId:number
@@ -18,7 +18,14 @@ interface NewMenus {
 const store = createStore<State>({
     state(){
         return {
-            menus:[]
+            menus:[],
+            userInfo:{
+                id:null,
+                nickname:null,
+                email:null,
+                username:null,
+                user_pic:null
+            }
         }
     },
     getters:{
@@ -27,33 +34,127 @@ const store = createStore<State>({
             const newMenus:NewMenus = {}
             // 获取旧的菜单
             const menus = state.menus
-            for (let i = 0; i < menus.length; i++) {
-                if(menus[i].parentId === 0){
-                    // 一级菜单                
-                    newMenus[menus[i].id] = {...menus[i],children:newMenus[menus[i].id]?.children || []}
+            menus.forEach(item => {
+                if(!item.parentId){
+                    newMenus[item.id] = {...item,children:newMenus[item.id]?.children || []}
                 }else{
-                    // 二级菜单
-                    let parentId = menus[i].parentId //对应的一级菜单id
+                    let parentId = item.parentId //对应的一级菜单id
                     newMenus[parentId] = newMenus[parentId] || {}
                     newMenus[parentId].children = newMenus[parentId].children || []
-                    newMenus[parentId].children.push(menus[i])
+                    newMenus[parentId].children.push(item)
                 }
-            }
+            })
+            // console.log(newMenus);
+            
             return newMenus
         }
     },
     mutations:{
         updateMenus(state,menus){
             state.menus = menus
-        }
+        },
+        updateUserInfo(state,userInfo){
+            state.userInfo = userInfo
+        },
     },
     actions:{
         getAdminInfo({ commit }){
+            let user = {username:'admin'}
             return new Promise((resolve,reject)=>{
-                getAdminInfoApi().then(res=>{
-                    if(res.code == 200){
-                        commit('updateMenus', res.data?.menus)
-                        resolve(res.data)
+                getAdminInfo(user).then(res=>{
+                    if(res.status == 0){
+                        let routers = [
+                            {   
+                                parentId:0,
+                                title:'npm',
+                                name: 'npm',
+                                hidden:0,
+                                id:117,
+                                level:0,
+                            },
+                            {   
+                                parentId:0,
+                                title:'index',
+                                name: 'index',
+                                hidden:0,
+                                id:100,
+                                level:0,
+                            },
+                            {   
+                                hidden:0,
+                                id:88,
+                                parentId:100,
+                                title:'index',
+                                name: 'index',
+                            },
+                            {   
+                                path: '/components',
+                                parentId:0,
+                                id:118,
+                                level:0,
+                                name: 'components',
+                                hidden:0,
+                                title:'components',
+                            },
+                            {   
+                                path: '/map',
+                                parentId:0,
+                                id:120,
+                                level:0,
+                                name: 'map',
+                                hidden:0,
+                                title:'map',
+                            },
+                            {   
+                                parentId:120,
+                                id:121,
+                                name: 'map',
+                                hidden:0,
+                                title:'map',
+                            },
+                            {   
+                                path: '/vue3',
+                                parentId:0,
+                                id:121,
+                                level:0,
+                                name: 'vue3',
+                                hidden:0,
+                                title:'vue3',
+                            },
+                            {   
+                                parentId:121,
+                                id:122,
+                                name: 'vue3',
+                                hidden:0,
+                                title:'vue3',
+                            },
+                            {   
+                                hidden:0,
+                                id:42,
+                                parentId:118,
+                                title:'piniaAndVuex',
+                                name: 'piniaAndVuex',
+                            },
+                            {   
+                                hidden:0,
+                                id:43,
+                                parentId:118,
+                                title:'hooksUse',
+                                name: 'hooksUse',
+                                path: '/hooksUse',
+                            },
+                            {   
+                                parentId:117,
+                                title:'npm',
+                                hidden:0,
+                                name: 'npm',
+                                id:523,
+                            },
+                            
+                        ]
+                        commit('updateUserInfo', res.data)
+                        commit('updateMenus', routers)
+                        resolve(res)
                     }else{
                         reject(res)
                     }            
