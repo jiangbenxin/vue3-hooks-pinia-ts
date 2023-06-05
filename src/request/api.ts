@@ -5,7 +5,7 @@ import qs from 'qs'
 export const adminLogin = (data:AdminLoginData):PromiseRes<AdminLoginRes> => request.post('/api/login',data)
 export const adminResgiter = (data:AdminLoginData):PromiseRes<AdminLoginRes> => request.post('/api/register',data)
 // 退出登录
-export const adminLogout = (data:AdminLoginData) => request.post('/api/logout',data)
+export const adminLogout = (data:AdminLogoutData) => request.post('/api/logout',data)
 
 // 获取当前登录用户信息
 // export const getAdminInfoApi = ():PromiseRes<AdminInfoRes> => request.get('/admin/info')

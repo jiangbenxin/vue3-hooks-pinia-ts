@@ -5,11 +5,11 @@ import request from '../request/request'
 export const adminLogin = (data:AdminLoginData):PromiseRes<AdminLoginRes> => request.post('/api/login',data)
 export const adminResgiter = (data:AdminLoginData):PromiseRes<AdminLoginRes> => request.post('/api/register',data)
 // 退出登录
-export const adminLogout = (data:AdminLoginData) => request.post('/api/logout',data)
+export const adminLogout = (data:AdminLogoutData) => request.post('/api/logout',data)
 
 // 获取当前登录用户信息
 // export const getAdminInfoApi = ():PromiseRes<AdminInfoRes> => request.get('/admin/info')
-export const getAdminInfo = (data:AdminLoginData) => request.get('/my/userinfo',data)
+export const getAdminInfo = (data:AdminUserInfoData) => request.get('/my/userinfo',data)
 // 获取用户数据列表
 
 

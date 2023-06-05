@@ -1,21 +1,15 @@
 <template>
-    
-<audio controls autoplay>
-    <source src="./mp3/zzsc.mp3">
-</audio>
-
-<div id="background" class="wall"></div>
-<div id="midground" class="wall"></div>
-<div id="foreground" class="wall"></div>
-<div id="top" class="wall"></div>
+    <audio controls autoplay>
+        <source src="./mp3/zzsc.mp3">
+    </audio>
+    <div id="background" class="wall"></div>
+    <div id="midground" class="wall"></div>
+    <div id="foreground" class="wall"></div>
+    <div id="top" class="wall"></div>
 </template>
 <script lang='ts' setup>
 </script>
 <style lang='less' scoped>
-html,body{
-    margin: 0;
-    padding: 0;
-}
 /*满天星*/
 audio{
     z-index: 5;

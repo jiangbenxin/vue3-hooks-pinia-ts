@@ -8,7 +8,7 @@
                                 <el-input v-model="ruleForm.password" type="password" autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item>
-                                <button class="light-btn" @click="loginFn(1)" >{{ register?'register':'login' }}</button>
+                                <button class="light-btn" @click="loginFn()" >{{ register?'register':'login' }}</button>
                         </el-form-item>
                         <div style="text-align: right;padding-right: 40px;">
                                 <el-link type="primary" :underline="false" @click="register=!register">{{ register?'去登录':'去注册' }}</el-link>
@@ -19,7 +19,7 @@
 <script lang='ts' setup>
 import { useTestPinia } from '../../../../pinia/index'
 import { storeToRefs } from 'pinia'
-import {reactive,toRefs,ref,toRef,onMounted,nextTick} from 'vue'
+import {reactive,toRefs,ref} from 'vue'
 import {adminResgiter} from '../../../../api/user'
 import Cookie from 'js-cookie'
 import { useRouter} from 'vue-router'
@@ -54,14 +54,13 @@ const rules = reactive({
 })
 // 点击登录按钮触发
 const loginFn = async()=>{
-   
-        // ruleFormRef.value.validate().then( async()=>{
+        ruleFormRef.value.validate().then( async()=>{
                 let loginForm = {
                                 username:ruleForm.value.username,
                                 password:ruleForm.value.password,
                         }
                         if(!register.value){
-                                pinia.adminLogin(loginForm).then((res)=>{
+                                pinia.adminLogin(loginForm).then((res: { code: number; token: string })=>{
                                         if(res.code == 200){
                                                 // 使用js-cookie储存token
                                                 Cookie.set('token',res.token,{expires:7})
@@ -74,17 +73,13 @@ const loginFn = async()=>{
                         }else{
                         const res =  await adminResgiter(loginForm)
                         }
-                // }).catch(()=>{
-                //         console.log('校验不通过');
-                // })
-     
-        
+                }).catch(()=>{
+                        console.log('校验不通过');
+                })
 }
 
 </script>
 <style lang='less' scoped>
-@import url("./style.css");
-
 .login-container{
         background: linear-gradient(to right, #fbc2eb, #a6c1ee);
         width: 100vw;
@@ -113,5 +108,47 @@ const loginFn = async()=>{
                 justify-content: center;
         }
 }
+.light-btn {
+  text-decoration: none;
+  /* position: absolute;
+  left: 50%;
+  top:50%;
+  transform: translate(-50%, -50%); */
+  font-size: 24px;
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  background-size: 400%;
+  width: 100%;
+  height: 50px;
+  /* line-height:100px; */
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 50px;
+  z-index: 1;
+}
 
+.light-btn:hover::before,
+.light-btn:hover {
+  animation: sun 8s infinite;
+}
+
+.light-btn::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  right: -5px;
+  top: -5px;
+  bottom: -5px;
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  background-size: 400%;
+  border-radius: 50px;
+  filter: blur(10px);
+  z-index: -1;
+}
+
+@keyframes sun {
+  100%{
+    background-position: -400% 0;
+  }
+}
 </style>

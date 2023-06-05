@@ -6,13 +6,12 @@
                 <el-carousel-item v-for="(item,index) in 10" :name="`${index}`" :key="item">
                         <tabThree v-if="index==2"></tabThree>
                         <tabTwo v-if="index==1"></tabTwo>
-                        <tabsOne v-if="index==0"></tabsOne>
+                        <tabsOne v-if="index==4"></tabsOne>
                         <tabFour v-if="index==3"></tabFour>
-                        <stars v-if="index==9"></stars>
-                        <LoginComponent v-if="index==8"></LoginComponent>
-                        <loading v-if="index==7"></loading>
-                        <tabEleben v-if="index==5"></tabEleben>
-                        <tabbbb v-if="index==6"></tabbbb>
+                        <stars v-if="index==8"></stars>
+                        <toLogin v-if="index==9"></toLogin>
+                        <tabEleven v-if="index==5"></tabEleven>
+                        <tabbed v-if="index==6"></tabbed>
                         <tabSix v-if="index==4"></tabSix>
     </el-carousel-item>
   </el-carousel>
@@ -24,13 +23,12 @@ import tabTwo from './components/tab2/index.vue'
 import tabThree from './components/tab3/index.vue'
 import tabFour from './components/tab4/index.vue'
 import tabSix from './components/tab6/index.vue'
-import tabEleben from './components/tab7/index.vue'
-import tabbbb from './components/tab8/index.vue'
-import loading from './components/loading/index.vue'
-import LoginComponent from './components/login/index.vue'
-import {ref,nextTick} from 'vue'
+import tabEleven from './components/tab7/index.vue'
+import tabbed from './components/tab8/index.vue'
+import toLogin from './components/login/index.vue'
+import { ref, nextTick} from 'vue'
 
-const remarkCaruselUp = ref(null)
+const remarkCaruselUp:any = ref(null)
 // 点击查看图片
 const setActiveItem = (index:number) => {
 //查看对应name的图片

@@ -2,6 +2,12 @@ interface AdminLoginData {
     password:string
     username:string
 }
+interface AdminLogoutData {
+    username:string
+}
+interface AdminUserInfoData {
+    username:string
+}
 type PromiseRes<T = {}> = Promise<ManageResult<T>>
 
 interface ManageResult<T = {}>{

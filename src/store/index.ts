@@ -9,6 +9,7 @@ interface MenuObj {
     children:MenuObj[]
 }
 interface State {
+    [x: string]: any
     menus:MenuObj[]
 }
 interface NewMenus {
@@ -34,11 +35,11 @@ const store = createStore<State>({
             const newMenus:NewMenus = {}
             // 获取旧的菜单
             const menus = state.menus
-            menus.forEach(item => {
+            menus.forEach((item: MenuObj) => {
                 if(!item.parentId){
                     newMenus[item.id] = {...item,children:newMenus[item.id]?.children || []}
                 }else{
-                    let parentId = item.parentId //对应的一级菜单id
+                    let parentId:any = item.parentId //对应的一级菜单id
                     newMenus[parentId] = newMenus[parentId] || {}
                     newMenus[parentId].children = newMenus[parentId].children || []
                     newMenus[parentId].children.push(item)
@@ -59,12 +60,12 @@ const store = createStore<State>({
     },
     actions:{
         getAdminInfo({ commit }){
-            let user = {username:'admin'}
-            return new Promise((resolve,reject)=>{
-                getAdminInfo(user).then(res=>{
+            const user = {username:'admin'}
+            return new Promise((resolve: (arg0: unknown) => void,reject: (arg0: unknown) => void)=>{
+                getAdminInfo(user).then((res: any)=>{
                     if(res.status == 0){
                         let routers = [
-                            {   
+                            {
                                 parentId:0,
                                 title:'npm',
                                 name: 'npm',
