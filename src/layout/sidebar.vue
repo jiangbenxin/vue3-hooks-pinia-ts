@@ -59,7 +59,7 @@ background: linear-gradient(to top, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, Fir
 
 }
 
-::v-deep .el-sub-menu__title:hover{
+:v-deep .el-sub-menu__title:hover{
   background: #74ebd5;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to top, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to top, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
