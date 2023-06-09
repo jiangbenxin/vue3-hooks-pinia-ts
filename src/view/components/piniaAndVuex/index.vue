@@ -1,13 +1,13 @@
 <template>
     <div>
         pinia
-        <div>{{ testStore.count }}</div>
-        <div>{{ testStore.user.name }}</div>
-        <div>计算属性{{ testStore.doubleCount }}</div>
-        <div>{{ testStore.username }}</div>
+        <!-- <div>{{ testStore.count }}</div> -->
+        <!-- <div>{{ testStore.user.name }}</div> -->
+        <!-- <div>计算属性{{ testStore.doubleCount }}</div> -->
+        <!-- <div>{{ testStore.username }}</div> -->
         <div><el-button type="primary" @click="fn1()">修改state1</el-button></div>
         <div><el-button type="primary" @click="fn2()">修改state2</el-button></div>
-        <div><el-button type="primary" @click="fn4()">修改state4(建议)</el-button></div>
+        <!-- <div><el-button type="primary" @click="fn4()">修改state4(建议)</el-button></div> -->
         <div><el-button type="primary" @click="fn5()">修改state5</el-button></div>
         <div><el-button type="primary" @click="fn6()">修改state6</el-button></div>
         vuex
@@ -29,5 +29,5 @@ const fn2 = ()=>testStore.$patch(state => {
   state.count = 11
 })
 // 修改state数据方式4（建议）
-const fn4 = ()=>testStore.setCount(213)
+// const fn4 = ()=>testStore.setCount(213)
 </script>

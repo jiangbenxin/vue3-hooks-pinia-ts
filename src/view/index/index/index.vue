@@ -1,6 +1,6 @@
 <template>
   <div>
-    你好 {{ testStore.username }}
+    <!-- 你好 {{ testStore.username }} -->
     {{ store.state.userInfo.username }}
   </div>
 </template>

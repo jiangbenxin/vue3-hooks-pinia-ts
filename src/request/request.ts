@@ -3,7 +3,9 @@ import Cookie from 'js-cookie'
 
 const instance = axios.create({
     // baseURL:'http://120.24.64.5:8088/mall-admin',
-    baseURL:'http://192.168.50.96:3008/',
+    // baseURL:'http://192.168.50.96:3336/',
+    baseURL:'https://originalheart.love/',
+    // baseURL:'https://101.132.17.94:3334/',
     timeout:15000
 })
 

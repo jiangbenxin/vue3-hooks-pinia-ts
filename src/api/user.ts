@@ -1,3 +1,4 @@
+// @ts-nocheck
 import request from '../request/request'
 // import qs from 'qs'
 // getAdminLists, getRoleListAll, getAdminRoleById
@@ -9,7 +10,7 @@ export const adminLogout = (data:AdminLogoutData) => request.post('/api/logout',
 
 // 获取当前登录用户信息
 // export const getAdminInfoApi = ():PromiseRes<AdminInfoRes> => request.get('/admin/info')
-export const getAdminInfo = (data:AdminUserInfoData) => request.get('/my/userinfo',data)
+export const getAdminInfo = (username:AdminUserInfoData) => request.get('/my/userinfo',username)
 // 获取用户数据列表
 
 

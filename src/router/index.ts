@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 // import VueRouter from 'vue-router'
 // import Vue from 'vue'
@@ -80,5 +81,3 @@ router.beforeEach((to,from,next)=>{
 export const initRouter = (app:App<Element>)=>{
     app.use(router)
 }
-
-// export default router

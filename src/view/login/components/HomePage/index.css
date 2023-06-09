@@ -1,4 +1,4 @@
-body {
+.content {
     background: #fff;
     height: 100vh;
     overflow: hidden;
@@ -11,7 +11,7 @@ body {
     -webkit-perspective: 800px;
             perspective: 800px;
     font-family: 'Baloo Paaji 2', cursive;
-  }
+}
   
   .title {
     font-size: 6rem;
