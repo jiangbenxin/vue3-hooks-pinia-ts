@@ -12,7 +12,46 @@ const routes:RouteRecordRaw[] =[
     {
         path:'/login',
         name:'login',
-        component:()=>import('../view/login/index.vue')
+        component:()=>import('../view/login/index.vue'),
+        redirect: '/myBlogIndex',
+        children: [
+          {
+            path: '/myBlogIndex',
+            name: 'myBlogIndex',
+            component: () => import('../view/pages2/myBlogIndex.vue'),
+          },
+          {
+            path: '/Classification',
+            name: 'Classification',
+            component: () => import('../view/pages2/Classification.vue'),
+          },
+          {
+            path: '/theTabs',
+            name: 'theTabs',
+            component: () => import('../view/pages2/theTabs.vue'),
+          },
+          {
+            path: '/FriendChain',
+            name: 'FriendChain',
+            component: () => import('../view/pages2/FriendChain.vue'),
+          },
+          {
+            path: '/LeaveMessage',
+            name: 'LeaveMessage',
+            component: () => import('../view/pages2/LeaveMessage.vue'),
+          },
+          {
+            path: '/About',
+            name: 'About',
+            component: () => import('../view/pages2/About.vue'),
+          },
+          {
+            path: '/admin',
+            name: 'admin',
+            component: () => import('../view/pages2/login.vue'),
+          },
+        ]
+
     },
     {
         path: '/',
@@ -57,6 +96,7 @@ const genRoutes = ()=>{
     router.addRoute(newRoute)
     }
 }
+const whiteList = ['/myBlogIndex', '/Classification', '/theTabs', '/FriendChain', '/LeaveMessage', '/About', '/admin'] // no redirect whitelist
 // 前置路由守卫
 router.beforeEach((to,from,next)=>{
     const token = Cookies.get('token')
@@ -67,15 +107,19 @@ router.beforeEach((to,from,next)=>{
             genRoutes()
             next(to)
         })
-    }else if(token&&store.state.menus.length !== 0 && from.path ==='/login' &&to.path === '/homepage'){
-        genRoutes()
-        next('/index')
-    }else if(!token && to.path !== '/login'){
-        next('login')
-    }else if(token && to.path == '/login'){
-        next(from)
+        console.log(123);
+    // }else if(token&&store.state.menus.length !== 0 && from.path ==='/login' &&to.path === '/homepage'){
+    //     genRoutes()
+    //     next('/index')
+    // }else if(!token && to.path !== '/login'){
+    //     next('login')
+    // }else if(token && to.path == '/login'){
+    //     next(from)
+
+    }else if(!token && whiteList.indexOf(to.path) == -1){
+      next('myBlogIndex')
     }else{
-        next()
+      next()
     }
 })
 export const initRouter = (app:App<Element>)=>{

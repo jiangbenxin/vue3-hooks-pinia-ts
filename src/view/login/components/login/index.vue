@@ -1,16 +1,16 @@
 <template>
         <div class="login-container">
                 <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm">
-                        <el-form-item prop="username">
+                        <el-form-item label="账号:" prop="username">
                         <el-input v-model="ruleForm.username" autocomplete="off"></el-input>
                         </el-form-item>    
-                        <el-form-item prop="password">
+                        <el-form-item label="密码:" prop="password" style="margin-bottom: 50px;">
                                 <el-input v-model="ruleForm.password" type="password" autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item>
                                 <button class="light-btn" @click="loginFn()" >{{ register?'register':'login' }}</button>
                         </el-form-item>
-                        <div style="text-align: right;padding-right: 40px;">
+                        <div style="text-align: right;padding-right: 40px;margin-top: 40px;">
                                 <el-link type="primary" :underline="false" @click="register=!register">{{ register?'去登录':'去注册' }}</el-link>
                         </div>
                 </el-form> 
@@ -27,8 +27,8 @@ import {useStore} from 'vuex'
 
 const data = reactive({
         ruleForm:{
-                username:'admin',
-                password:'123456'
+                username:'',
+                password:''
         },
         register:false,
 })

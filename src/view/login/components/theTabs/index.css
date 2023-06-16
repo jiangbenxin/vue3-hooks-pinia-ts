@@ -1,4 +1,4 @@
-.content {
+.content22232 {
     background: #fff;
     height: 100vh;
     overflow: hidden;
@@ -8,8 +8,8 @@
             justify-content: center;
     -webkit-box-align: center;
             align-items: center;
-    -webkit-perspective: 800px;
-            perspective: 800px;
+    /* -webkit-perspective: 800px; */
+            /* perspective: 800px; */
     font-family: 'Baloo Paaji 2', cursive;
 }
   
@@ -22,12 +22,12 @@
     transform: translate(-50%,-50%);
   }
   
-  div {
+  /* div {
     -webkit-transform-style: preserve-3d;
             transform-style: preserve-3d;
     top: 0;
     left: 0;
-  }
+  } */
   
   .camera {
     position: absolute;

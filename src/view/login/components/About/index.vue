@@ -1,15 +1,20 @@
 <template>
-    <audio controls autoplay>
+    <div class="pop-box">
+        <audio controls autoplay>
         <source src="./mp3/zzsc.mp3">
     </audio>
     <div id="background" class="wall"></div>
     <div id="midground" class="wall"></div>
     <div id="foreground" class="wall"></div>
     <div id="top" class="wall"></div>
+    </div>
 </template>
 <script lang='ts' setup>
 </script>
 <style lang='less' scoped>
+.pop-box{
+  background-image: url('src/assets/images/bg1.jpg');
+}
 /*满天星*/
 audio{
     z-index: 5;
@@ -34,15 +39,7 @@ audio:hover{
     bottom: 0;
     right: 0;
 }
-div#background{
-    background: url("./img/preview.jpg")no-repeat;
-    -webkit-animation: dd 100s linear infinite;
-    -moz-animation: dd 100s linear infinite;
-    -o-animation: dd 100s linear infinite;
-    animation: dd 100s linear infinite;
-    background-size: cover;
-}
-div#midground{
+#midground{
     background: url("./img/midground.png");
     z-index: 1;
     -webkit-animation: cc 100s linear infinite;
@@ -50,7 +47,7 @@ div#midground{
     -o-animation: cc 100s linear infinite;
     animation: cc 100s linear infinite;
 }
-div#foreground{
+#foreground{
     background: url("./img/foreground.png");
     z-index: 2;
     -webkit-animation: cc 153s linear infinite;
@@ -58,7 +55,7 @@ div#foreground{
     -moz-animation: cc 153s linear infinite;
     animation: cc 153s linear infinite;
 }
-div#top{
+#top{
     background: url("./img/midground.png");
     z-index: 4;
     -webkit-animation: dd 100s linear infinite;
