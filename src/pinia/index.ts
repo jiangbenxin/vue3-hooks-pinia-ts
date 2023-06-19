@@ -8,7 +8,8 @@ type TestState = {
   user: {
     age: number
     name: string|number
-  }
+  },
+  themeFzColor:string
 }
 // 在此约束类型不管编写或使用都可有较好的提示
 export const useTestPinia = defineStore<string, TestState>('TestId', {
@@ -19,6 +20,7 @@ export const useTestPinia = defineStore<string, TestState>('TestId', {
       age: 18,
       name: '小明'
     },
+    themeFzColor:'#fff'
   }),
   getters: {
     doubleCount: (state:any) => state.count * 2,

@@ -1,40 +1,24 @@
 <template>
-  <div class="content22232  pop-box">
-    <!-- <h1 class="title">Stay Home</h1> -->
-    <!-- <div class="camera -x">
-      <div class="camera -y">
-        <div class="camera -z">
-          <div class="drop" v-for="item in 1">
-            <div class="z">
-              <div class="slide">
-                <div class="move">
-                  <div class="stagger">
-                    <div class="reverse">
-                      <div class="rotate">
-                        <div class="size">
-                          <div class="sakura"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
+  <div class="pop-box">
+    <h1 class="title">看不懂没关系，一天卷1个</h1>
+    <img class="theImg" src="src/assets/images/bg1.jpg" alt="">
 </div>
 </template>
 <script lang='ts' setup>
 </script>
 <style lang='less' scoped>
-@import url("./index.css");
 .pop-box{
-  background-image: url('src/assets/images/bg1.jpg');
-  height: 100vh;
-  width: auto;
-  background-repeat: no-repeat;
-  background-size: cover; 
+  position: relative
+}
+.title {
+  /* font-size: 6rem; */
+  font-size: 16px;
+  /* color: #fcc; */
+  color: #00ff66;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 9999;
 }
 </style>

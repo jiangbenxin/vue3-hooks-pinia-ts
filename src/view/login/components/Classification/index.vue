@@ -1,5 +1,6 @@
 <template>
     <div class="pop-box">
+    <img class="theImg" src="src/assets/images/bg1.jpg" alt="">
       <div class="buttons main">
       <!-- <button class="btn-hover color-1">BUTTON</button> -->
       <!-- <button class="btn-hover color-2">BUTTON</button>
@@ -21,6 +22,7 @@
  const img = new Image();
 // 杩欓噷鍘焜s浣滆€呰崚濡栨搷浣�,璇风湅婧愮爜,濡備綍杩涘埗杞垚妯辫姳
 img.src ='/src/assets/images/taohua.png'
+// img.src ='/src/assets/images/hua1.png'
 function Sakura(x, y, s, r, fn) {
   this.x = x;
   this.y = y;
@@ -147,7 +149,7 @@ function startSakura() {
   document.getElementsByTagName("body")[0].appendChild(canvas);
   cxt = canvas.getContext("2d");
   const sakuraList = new SakuraList();
-  for (let i = 0; i < 0; i++) {
+  for (let i = 0; i < 3; i++) {
     let sakura,
       randomX,
       randomY,
@@ -206,15 +208,6 @@ function stopp() {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
-.pop-box{
-  background-image: url('src/assets/images/bg1.jpg');
-}
-// body{background-color: #1F1F1F;overflow: hidden}
-.buttons {
-    padding: 10%;
-    text-align: center;
-}
-
 .btn-hover {
     width: 200px;
     font-size: 16px;

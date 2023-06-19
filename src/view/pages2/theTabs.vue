@@ -2,13 +2,13 @@
     <div>
         <theTitle>
             <template #title>
-                <div style="color: #000;">
+                <h2 style="color: #000;">
                     标签
-                </div>
+                </h2>
             </template>
             <template #inner>
                     <div class="tabBox">
-                        <div :style="{'background-color': colorArr[getRandomColor()]}" v-for="(item,index) in tabList" class="allTabs">
+                        <div :style="{'background-color': getRandomColor()}" v-for="(item,index) in tabList" class="allTabs">
                        {{ item.name }}
                     </div>
                     </div>
@@ -16,13 +16,13 @@
         </theTitle>
         <theTitle>
             <template #title>
-                <div style="color: #000;">
+                <h2 style="color: #000;">
                     标签2
-                </div>
+                </h2>
             </template>
             <template #inner>
                     <div class="tabBox">
-                        <div :style="{'background-color': colorArr[getRandomColor()]}" v-for="(item,index) in tabList" class="allTabs">
+                        <div :style="{'background-color': getRandomColor()}" v-for="(item,index) in tabList2" class="allTabs">
                        {{ item.name }}
                     </div>
                     </div>
@@ -36,58 +36,62 @@ import {getRandomColor} from '../../utils/niceFun'
 import { ref } from 'vue'
 
 const tabList:any = ref([
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
-    {name:'1213',},
+        {name:'RP',},
+        {name:'CRM',},
+        {name:'HR',},
+        {name:'OA',},
+        {name:'EAM',},
+        {name:'微前端',},
+        {name:'PM',},
     ])
-const colorArr:any = ref([
-    '#d7bde2',
-    '#f9ebea',
-    '#f5eef8',
-    '#d5f5e3',
-    '#e8f8f5',
-    '#f8f9f9',
-    '#82e0aa',
-    '#d7bde2',
-    '#a3e4d7',
-    '#85c1e9',
-    '#f8c471',
-    '#00FF66',
-    '#6600ff',
-    '#ff0000',
-    '#6600ff',
-    '#ffffcc',
-])
+    const tabList2:any = ref([
+        {name:'html',},
+        {name:'css',},
+        {name:'javascript',},
+        {name:'typescript',},
+        {name:'ES6',},
+        {name:'webpack',},
+        {name:'vite',},
+        {name:'vue2',},
+        {name:'vue3',},
+        {name:'npm',},
+        {name:'nvm',},
+        {name:'http/https',},
+        {name:'tcp/ip',},
+        {name:'websocket',},
+        {name:'webworker',},
+        {name:'sharedWorker',},
+        {name:'echarts',},
+        {name:'vue-amap',},
+        {name:'vue-baidu-map',},
+        {name:'vue-quill-editor',},
+        {name:'vue-i18n',},
+        {name:'vue-clipboard2',},
+        {name:'vue-clipboard',},
+        {name:'vue-esign',},
+        {name:'vue-router',},
+        {name:'vue-uuid',},
+        {name:'vuedraggable',},
+        {name:'pathToRegexp',},
+        {name:'lodash',},
+        {name:'DataV',},
+        {name:'ramda',},
+        {name:'qrcodejs',},
+        {name:'less-loader',},
+        {name:'sass-loader',},
+        {name:'js-beautify',},
+        {name:'screenfull',},
+        {name:'jquery',},
+        {name:'vue-cropper',},
+        {name:'vue-count-to',},
+        {name:'jsencrypt',},
+        {name:'nprogress',},
+        {name:'vue-plugin-hiprint',},
+        {name:'svg-sprite-loader',},
+    ])
 </script>
 <style lang="less" scoped>
 .tabBox{
-    padding: 0 100px;
     .allTabs{
         margin: 10px 15px;
         padding: 19px 14px;

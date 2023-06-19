@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex;">
       <Logo></Logo>
-    <div class="homepage_header"><div @click="logout()">退出登录</div></div>
+    <div class="homepage_header"><div @click="logout()">LOGOUT</div></div>
   </div>
 </template>
 <script lang='ts' setup>

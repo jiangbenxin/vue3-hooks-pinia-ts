@@ -1,8 +1,6 @@
 <template>
         <div class="container" :first="first">
-                <slot name="title"></slot>
-                <!-- <div class="message">我的我的我的我的</div> -->
-                <slot name="inner"></slot>
+                <div class="artileDetail">test</div>
         </div>
 </template>
 
@@ -12,7 +10,7 @@ const first = ref('relative')
 </script>
 <style lang="less" scoped>
 .container{
-position: relative;
+        position: relative;
         border-radius: 20px;
         margin: 0 auto;
         margin-bottom: 20px;
@@ -20,10 +18,6 @@ position: relative;
         box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07) !important;
         padding: 30px 0;
         background-color: #fff;
-        z-index: 0;
-        .message{
-                color:#000;
-        }
 }
 @media screen and (max-width:640px){
         .container{

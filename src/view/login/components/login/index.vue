@@ -55,36 +55,35 @@ const rules = reactive({
 // 点击登录按钮触发
 const loginFn = async()=>{
         ruleFormRef.value.validate().then( async()=>{
-                let loginForm = {
-                                username:ruleForm.value.username,
-                                password:ruleForm.value.password,
-                        }
-                        if(!register.value){
-                                pinia.adminLogin(loginForm).then((res: { code: number; token: string })=>{
-                                        if(res.code == 200){
-                                                // 使用js-cookie储存token
-                                                Cookie.set('token',res.token,{expires:7})
-                                                store.dispatch('getAdminInfo').then(res=>{
-                                                        router.push('/index')
-                                                })
-                                        }
-                        })
-                        
-                        }else{
-                        const res =  await adminResgiter(loginForm)
-                        }
-                }).catch(()=>{
-                        console.log('校验不通过');
+        let loginForm = {
+                        username:ruleForm.value.username,
+                        password:ruleForm.value.password,
+                }
+                if(!register.value){
+                        pinia.adminLogin(loginForm).then((res: { code: number; token: string })=>{
+                                if(res.code == 200){
+                                        // 使用js-cookie储存token
+                                        Cookie.set('token',res.token,{expires:7})
+                                        store.dispatch('getAdminInfo').then(res=>{
+                                                router.push('/index')
+                                        })
+                                }
                 })
+                
+                }else{
+                const res =  await adminResgiter(loginForm)
+                }
+        }).catch(()=>{
+                console.log('校验不通过');
+        })
 }
 
 </script>
 <style lang='less' scoped>
 .login-container{
-        background: linear-gradient(to right, #fbc2eb, #a6c1ee);
-        width: 100vw;
-        height: 100vh;
-        position: relative;
+        // position: relative;
+        background-color: greenyellow;
+        height: 100%;
         .loading{
                 position: absolute;
                 top: 25%;

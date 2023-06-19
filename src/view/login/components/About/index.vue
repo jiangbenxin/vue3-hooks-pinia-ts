@@ -1,5 +1,6 @@
 <template>
     <div class="pop-box">
+    <img class="theImg" src="src/assets/images/bg1.jpg" alt="">
         <audio controls autoplay>
         <source src="./mp3/zzsc.mp3">
     </audio>
@@ -12,9 +13,6 @@
 <script lang='ts' setup>
 </script>
 <style lang='less' scoped>
-.pop-box{
-  background-image: url('src/assets/images/bg1.jpg');
-}
 /*满天星*/
 audio{
     z-index: 5;

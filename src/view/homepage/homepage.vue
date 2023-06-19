@@ -16,18 +16,20 @@ import sideBar from '../../layout/sideBar.vue'
 </script>
 <style lang='less' scoped>
 .homepage_container {
-  position: relative;
+  // position: relative;
   height: calc(100% - 70px);
   .sidBar{
     height: 100%;
   }
   .homepage_content {
+    padding: 10px;
     position: absolute;
     height: 100%;
     top: 0px;
     right: 0;
     left: 250px;
-    bottom: 0;  
+    bottom: 0;
+    overflow-y: auto;
   }
 }
 </style>

@@ -50,6 +50,12 @@ const routes:RouteRecordRaw[] =[
             name: 'admin',
             component: () => import('../view/pages2/login.vue'),
           },
+          {
+            path: '/articleDetail',
+            name: 'articleDetail',
+            component: () => import('../view/pages2/articleDetail.vue'),
+          },
+          
         ]
 
     },
@@ -96,7 +102,7 @@ const genRoutes = ()=>{
     router.addRoute(newRoute)
     }
 }
-const whiteList = ['/myBlogIndex', '/Classification', '/theTabs', '/FriendChain', '/LeaveMessage', '/About', '/admin'] // no redirect whitelist
+const whiteList = ['/myBlogIndex','/articleDetail', '/Classification', '/theTabs', '/FriendChain', '/LeaveMessage', '/About', '/admin'] // no redirect whitelist
 // 前置路由守卫
 router.beforeEach((to,from,next)=>{
     const token = Cookies.get('token')

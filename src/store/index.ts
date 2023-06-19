@@ -25,7 +25,10 @@ const store = createStore<State>({
                 nickname:null,
                 email:null,
                 username:null,
-                user_pic:null
+                user_pic:null,
+                topMenuScroll: 'linear-gradient(to right, #9733EE, #DA22FF)',
+                // topMenuScroll: 'linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E)'
+                // topMenuScroll: 'linear-gradient(to right, #4cbf30 0%, #0f9d58 100%)',
             }
         }
     },
@@ -72,6 +75,50 @@ const store = createStore<State>({
                                 hidden:0,
                                 id:117,
                                 level:0,
+                            },
+                            {
+                                parentId:0,
+                                title:'articleManage',
+                                name: 'articleManage',
+                                hidden:0,
+                                id:999,
+                                level:0,
+                            },
+                            {   
+                                hidden:0,
+                                id:1000,
+                                parentId:999,
+                                title:'articleClassification',
+                                name: 'articleClassification',
+                            },
+                            {   
+                                hidden:0,
+                                id:1001,
+                                parentId:999,
+                                title:'articles',
+                                name: 'articles',
+                            },
+                           
+                            {   
+                                hidden:0,
+                                id:1002,
+                                parentId:999,
+                                title:'articleTabs',
+                                name: 'articleTabs',
+                            },
+                            {   
+                                hidden:0,
+                                id:1003,
+                                parentId:999,
+                                title:'friendChain',
+                                name: 'friendChain',
+                            },
+                            {   
+                                hidden:0,
+                                id:1004,
+                                parentId:999,
+                                title:'leaveMessage',
+                                name: 'leaveMessage',
                             },
                             {   
                                 parentId:0,
