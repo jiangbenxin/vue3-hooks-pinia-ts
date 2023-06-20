@@ -63,26 +63,75 @@ const store = createStore<State>({
     },
     actions:{
         getAdminInfo({ commit }){
-            const user = {username:'admin'}
+            const id = 5
             return new Promise((resolve: (arg0: unknown) => void,reject: (arg0: unknown) => void)=>{
-                getAdminInfo(user).then((res: any)=>{
+                getAdminInfo(id).then((res: any)=>{
                     if(res.status == 0){
+                        console.log(res.data.router);
+                        // let routers = res.data.router || [
+                        //     {   
+                        //         parentId:0,
+                        //         title:'index',
+                        //         name: 'index',
+                        //         hidden:0,
+                        //         id:100,
+                        //     },
+                        //     {   
+                        //         hidden:0,
+                        //         id:88,
+                        //         parentId:100,
+                        //         title:'index',
+                        //         name: 'index',
+                        //     },
+                        // ]
                         let routers = [
+                            {   
+                                parentId:0,
+                                title:'index',
+                                name: 'index',
+                                path: '/index',
+                                hidden:0,
+                                id:100,
+                            },
+                            {   
+                                hidden:0,
+                                id:88,
+                                parentId:100,
+                                title:'index',
+                                name: 'index',
+                                path: '/index',
+                            },
+                            {   
+                                parentId:0,
+                                title:'router',
+                                name: 'router',
+                                path: '/router',
+                                hidden:0,
+                                id:110,
+                            },
+                            {
+                                hidden:0,
+                                id:12,
+                                parentId:110,
+                                title:'router',
+                                name: 'router',
+                                path: '/router',
+                            },
                             {
                                 parentId:0,
                                 title:'npm',
                                 name: 'npm',
+                                path: '/npm',
                                 hidden:0,
                                 id:117,
-                                level:0,
                             },
                             {
                                 parentId:0,
                                 title:'articleManage',
                                 name: 'articleManage',
+                                path: '/articleManage',
                                 hidden:0,
                                 id:999,
-                                level:0,
                             },
                             {   
                                 hidden:0,
@@ -90,6 +139,7 @@ const store = createStore<State>({
                                 parentId:999,
                                 title:'articleClassification',
                                 name: 'articleClassification',
+                                path: '/articleClassification',
                             },
                             {   
                                 hidden:0,
@@ -97,6 +147,7 @@ const store = createStore<State>({
                                 parentId:999,
                                 title:'articles',
                                 name: 'articles',
+                                path: '/articles',
                             },
                            
                             {   
@@ -105,6 +156,7 @@ const store = createStore<State>({
                                 parentId:999,
                                 title:'articleTabs',
                                 name: 'articleTabs',
+                                path: '/articleTabs',
                             },
                             {   
                                 hidden:0,
@@ -112,6 +164,7 @@ const store = createStore<State>({
                                 parentId:999,
                                 title:'friendChain',
                                 name: 'friendChain',
+                                path: '/friendChain',
                             },
                             {   
                                 hidden:0,
@@ -119,27 +172,13 @@ const store = createStore<State>({
                                 parentId:999,
                                 title:'leaveMessage',
                                 name: 'leaveMessage',
+                                path: '/leaveMessage',
                             },
-                            {   
-                                parentId:0,
-                                title:'index',
-                                name: 'index',
-                                hidden:0,
-                                id:100,
-                                level:0,
-                            },
-                            {   
-                                hidden:0,
-                                id:88,
-                                parentId:100,
-                                title:'index',
-                                name: 'index',
-                            },
+
                             {   
                                 path: '/components',
                                 parentId:0,
                                 id:118,
-                                level:0,
                                 name: 'components',
                                 hidden:0,
                                 title:'components',
@@ -148,7 +187,6 @@ const store = createStore<State>({
                                 path: '/map',
                                 parentId:0,
                                 id:120,
-                                level:0,
                                 name: 'map',
                                 hidden:0,
                                 title:'map',
@@ -159,12 +197,12 @@ const store = createStore<State>({
                                 name: 'map',
                                 hidden:0,
                                 title:'map',
+                                path: '/map',
                             },
                             {   
                                 path: '/vue3',
                                 parentId:0,
                                 id:121,
-                                level:0,
                                 name: 'vue3',
                                 hidden:0,
                                 title:'vue3',
@@ -175,6 +213,7 @@ const store = createStore<State>({
                                 name: 'vue3',
                                 hidden:0,
                                 title:'vue3',
+                                path: '/vue3',
                             },
                             {   
                                 hidden:0,
@@ -182,6 +221,7 @@ const store = createStore<State>({
                                 parentId:118,
                                 title:'piniaAndVuex',
                                 name: 'piniaAndVuex',
+                                path: '/piniaAndVuex',
                             },
                             {   
                                 hidden:0,
@@ -197,6 +237,7 @@ const store = createStore<State>({
                                 hidden:0,
                                 name: 'npm',
                                 id:523,
+                                path: '/npm',
                             },
                             
                         ]

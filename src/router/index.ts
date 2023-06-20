@@ -113,7 +113,6 @@ router.beforeEach((to,from,next)=>{
             genRoutes()
             next(to)
         })
-        console.log(123);
     // }else if(token&&store.state.menus.length !== 0 && from.path ==='/login' &&to.path === '/homepage'){
     //     genRoutes()
     //     next('/index')

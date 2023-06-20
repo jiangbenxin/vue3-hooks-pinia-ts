@@ -13,7 +13,14 @@
     <el-button type="primary" @click="onSubmit">查询</el-button>
   </el-form-item>
 </el-form>
-  <el-table
+<div style="margin-top: 20px">
+    <el-button @click="batchDelete()"
+      >批量删除</el-button
+    ><el-button @click="toggleSelection(tableData)"
+      >反选</el-button
+    >
+  </div>
+<el-table
     ref="multipleTableRef"
     :data="tableData"
     style="width: 100%"
@@ -21,62 +28,132 @@
     border
   >
     <el-table-column type="selection" width="55" />
-    <el-table-column label="Date" width="120">
+    <el-table-column label="交友时间" width="120">
       <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
-    <el-table-column property="friendName" label="friendName" width="120" />
-    <el-table-column property="friendUrl" label="friendUrl" width="120" />
-    <el-table-column property="id" label="id" show-overflow-tooltip />
-    <el-table-column property="introduce" label="introduce" show-overflow-tooltip />
-    <el-table-column label="Operations">
+    <el-table-column property="articleName" label="友链名称" width="120" />
+    <el-table-column property="id" label="友链介绍" show-overflow-tooltip />
+    <el-table-column label="操作">
     <template #default="scope">
       <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
-        >Edit</el-button
+        >编辑</el-button
       >
       <el-button
         size="small"
         type="danger"
         @click="handleDelete(scope.$index, scope.row)"
-        >Delete</el-button
+        >删除</el-button
       >
     </template>
   </el-table-column>
   </el-table>
-  <div style="margin-top: 20px">
-    <el-button @click="toggleSelection([tableData[1], tableData[2]])"
-      >Toggle selection status of second and third rows</el-button
+ 
+  <div class="pagination-container"><el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="2"
+      :page-sizes="[100, 200, 300, 400]"
+      :page-size="100"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="400"
     >
-    <el-button @click="toggleSelection()">Clear selection</el-button>
-  </div>
+    </el-pagination></div>
+    <el-dialog title="收货地址" v-model="dialogFormVisible">
+  <el-form :model="dialogForm">
+    <el-form-item label="活动名称" :label-width="formLabelWidth">
+      <el-input v-model="dialogForm.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="活动区域" :label-width="formLabelWidth">
+      <el-select v-model="dialogForm.region" placeholder="请选择活动区域">
+        <el-option label="区域一" value="shanghai"></el-option>
+        <el-option label="区域二" value="beijing"></el-option>
+      </el-select>
+    </el-form-item>
+  </el-form>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false"
+        >确 定</el-button
+      >
+    </span>
+  </template>
+</el-dialog>
 </template>
 
 <script lang="ts" setup>
 import { ref ,reactive} from 'vue'
 import { ElTable } from 'element-plus'
-
 interface User {
   date: string
-  friendName: string
-  friendUrl: string,
-  introduce: string,
+  articleName: string
   id: number
 }
+const dialogForm =reactive({
+  name:'test',
+  region:3
+})
+const formLabelWidth = ref('120px')
 const formInline = reactive({
   user: '',
   region: '',
 })
+const dialogFormVisible = ref(false)
 const onSubmit = () => {
   console.log('submit!')
 }
 const handleEdit = (index: number, row: User) => {
+  dialogFormVisible.value = true
   console.log(index, row)
 }
 const handleDelete = (index: number, row: User) => {
   console.log(index, row)
 }
+const batchDelete = () => {
+  console.log(multipleSelection?.value[0]?.date);
+  tableData.value= [
+    {
+      date: '2016-05-02',
+      articleName: 'Tom',
+      id: 1,
+    },
+    {
+      date: '2016-05-04',
+      articleName: 'Tom',
+      id: 2,
+    },
+    {
+      date: '2016-05-01',
+      articleName: 'Tom',
+      id: 3,
+    },
+    {
+      date: '2016-05-08',
+      articleName: 'Tom',
+      id: 4,
+    },
+    {
+      date: '2016-05-06',
+      articleName: 'Tom',
+      id: 5,
+    },
+    {
+      date: '2016-05-07',
+      articleName: 'Tom',
+      id: 6,
+    },
+  ]
+}
+const  handleSizeChange = (val:any)=>{
+        console.log(`每页 ${val} 条`)
+      }
+const handleCurrentChange = (val:any)=> {
+        console.log(`当前页: ${val}`)
+      }
   const multipleTableRef = ref<InstanceType<typeof ElTable>>()
   const multipleSelection = ref<User[]>([])
   const toggleSelection = (rows?: User[]) => {
+    console.log(multipleSelection.value);
     if (rows) {
       rows.forEach((row) => {
         // TODO: improvement typing when refactor table
@@ -91,57 +168,49 @@ const handleDelete = (index: number, row: User) => {
   const handleSelectionChange = (val: User[]) => {
     multipleSelection.value = val
   }
-  
-  const tableData: User[] = [
+  const tableData:any = ref([
     {
       date: '2016-05-03',
-      friendName: 'Tom',
-      friendUrl:'www.baidu.com',
-      introduce:'介绍',
+      articleName: 'Tom',
       id: 0,
     },
     {
       date: '2016-05-02',
-      friendName: 'Tom',
-      friendUrl:'www.baidu.com',
-      introduce:'介绍',
-      id: 0,
+      articleName: 'Tom',
+      id: 1,
     },
     {
       date: '2016-05-04',
-      friendName: 'Tom',
-      friendUrl:'www.baidu.com',
-      introduce:'介绍',
-      id: 0,
+      articleName: 'Tom',
+      id: 2,
     },
     {
       date: '2016-05-01',
-      friendName: 'Tom',
-      friendUrl:'www.baidu.com',
-      introduce:'介绍',
-      id: 0,
+      articleName: 'Tom',
+      id: 3,
     },
     {
       date: '2016-05-08',
-      friendName: 'Tom',
-      friendUrl:'www.baidu.com',
-      introduce:'介绍',
-      id: 0,
+      articleName: 'Tom',
+      id: 4,
     },
     {
       date: '2016-05-06',
-      friendName: 'Tom',
-      friendUrl:'www.baidu.com',
-      introduce:'介绍',
-      id: 0,
+      articleName: 'Tom',
+      id: 5,
     },
     {
       date: '2016-05-07',
-      friendName: 'Tom',
-      friendUrl:'www.baidu.com',
-      introduce:'介绍',
-      id: 0,
+      articleName: 'Tom',
+      id: 6,
     },
-  ]
+  ])
   </script>
+<style lang="less" scoped>
+.pagination-container{
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
+}
+</style>
   

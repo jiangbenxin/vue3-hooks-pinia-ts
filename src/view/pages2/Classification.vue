@@ -5,7 +5,7 @@
                                 <h2 class="title">分类</h2>
                         </template>
                         <template #inner> 
-                                <div class="tabBox">
+                                <div class="tab-box">
                                 <div :style="{'background-color': getRandomColor()}" v-for="(item,index) in tabList" class="allTabs">
                                         {{ item.name }}
                                 </div>
@@ -14,17 +14,17 @@
                 </theTitle>
         <div class="articles">
                 <div @click="articleDetail(item.id)"  class="article" v-for="(item,index) in articleList">
-                        <img class="articleImg" src='src/assets/images/bg1.jpg' alt="">
-                        <div class="articleTitle">test</div>
-                        <div class="articleTab">axios</div>
+                        <img class="article-img" src='src/assets/images/bg1.jpg' alt="">
+                        <div class="article-title">test</div>
+                        <div class="article-tab">axios</div>
                 </div>
-                <div class="blogFooter">
-                <div class="blogFooter-left">左边</div>
-                <div class="blogFooter-center">1/10</div>
-                <div class="blogFooter-right">右边</div>
+                <div class="blog-footer">
+                <div class="blog-footer-left">左边</div>
+                <div class="blog-footer-center">1/10</div>
+                <div class="blog-footer-right">右边</div>
                 </div>
         </div>
-        <div class="blogFooter">
+        <div class="blog-footer">
         
         </div>
 </div>
@@ -50,7 +50,8 @@ const props = defineProps({
 
 // const {first} =toRefs(props)
 const articleDetail = (id:number)=>{
-        router.push(`articleDetail?=${id}`)
+        const url =  router.resolve(`/articleDetail?=${id}`)
+        window.open(url.href);
 }
 let articleList:any = ref([
         {title:'首页',icon:'/src/assets/icon/QQ.png'},
@@ -83,7 +84,7 @@ const tabList:any = ref([
 </script>
 <style lang="less" scoped>
 
-.tabBox{
+.tab-box{
     .allTabs{
         
         margin: 10px 15px;
@@ -118,12 +119,12 @@ const tabList:any = ref([
                 margin-bottom: 10px;
                 box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07) !important;
                 
-                .articleImg{
+                .article-img{
                         width: 100%;
                         height: 160px;
                         border-radius: 10px;
                 }
-                .articleTitle{
+                .article-title{
                         text-align-last: left;
                         color: #000;
                         padding-left: 10px;
@@ -132,7 +133,7 @@ const tabList:any = ref([
                         line-height: 20px;
                         border-bottom: 1px solid #000;
                 }
-                .articleTab {
+                .article-tab {
                         height: 16px;
                         width: 40px;
                         background-image: v-bind(themeColor);
@@ -146,14 +147,14 @@ const tabList:any = ref([
                 }
         }
 }
-.blogFooter{
+.blog-footer{
         color: v-bind(themeFzColor);
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-top: 10px;
-.blogFooter-left,.blogFooter-right{
+.blog-footer-left,.blog-footer-right{
         text-align: center;
         height: 50px;
         line-height: 50px;
@@ -161,7 +162,7 @@ const tabList:any = ref([
         border-radius: 50%;
         width: 50px;
 }
-.blogFooter-center{
+.blog-footer-center{
         text-align: center;
         height: 50px;
         line-height: 50px;

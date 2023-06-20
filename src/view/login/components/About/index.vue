@@ -1,9 +1,10 @@
 <template>
     <div class="pop-box">
-    <img class="theImg" src="src/assets/images/bg1.jpg" alt="">
-        <audio controls autoplay>
+      <h1 class="img-title">看不懂没关系，一天卷1个</h1>
+    <img class="the-img" src="src/assets/images/bg1.jpg" alt="">
+    <!-- <audio controls autoplay>
         <source src="./mp3/zzsc.mp3">
-    </audio>
+    </audio> -->
     <div id="background" class="wall"></div>
     <div id="midground" class="wall"></div>
     <div id="foreground" class="wall"></div>

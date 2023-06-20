@@ -61,13 +61,13 @@ const loginFn = async()=>{
                 }
                 if(!register.value){
                         pinia.adminLogin(loginForm).then((res: { code: number; token: string })=>{
-                                if(res.code == 200){
-                                        // 使用js-cookie储存token
-                                        Cookie.set('token',res.token,{expires:7})
-                                        store.dispatch('getAdminInfo').then(res=>{
-                                                router.push('/index')
-                                        })
-                                }
+                        if(res.code == 200){
+                                // 使用js-cookie储存token
+                                Cookie.set('token',res.token,{expires:7})
+                                store.dispatch('getAdminInfo').then(res=>{
+                                        router.push('index')
+                                })
+                        }
                 })
                 
                 }else{
@@ -81,8 +81,9 @@ const loginFn = async()=>{
 </script>
 <style lang='less' scoped>
 .login-container{
-        // position: relative;
-        background-color: greenyellow;
+        background-image: url('../../../../assets//images//bg1.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
         height: 100%;
         .loading{
                 position: absolute;

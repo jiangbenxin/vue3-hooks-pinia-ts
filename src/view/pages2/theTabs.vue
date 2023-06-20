@@ -7,7 +7,7 @@
                 </h2>
             </template>
             <template #inner>
-                    <div class="tabBox">
+                    <div class="tab-box">
                         <div :style="{'background-color': getRandomColor()}" v-for="(item,index) in tabList" class="allTabs">
                        {{ item.name }}
                     </div>
@@ -21,7 +21,7 @@
                 </h2>
             </template>
             <template #inner>
-                    <div class="tabBox">
+                    <div class="tab-box">
                         <div :style="{'background-color': getRandomColor()}" v-for="(item,index) in tabList2" class="allTabs">
                        {{ item.name }}
                     </div>
@@ -91,7 +91,7 @@ const tabList:any = ref([
     ])
 </script>
 <style lang="less" scoped>
-.tabBox{
+.tab-box{
     .allTabs{
         margin: 10px 15px;
         padding: 19px 14px;

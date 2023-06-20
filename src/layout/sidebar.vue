@@ -49,7 +49,7 @@ const newMenus = computed<NewMenus>(() => store.getters.getNewMenus);
 <style lang='less' scoped>
 .homepage_menu {
   position: absolute;
-  top: 0px;
+  top: 70px;
   left: 0;
   bottom: 0;
   width: 250px;

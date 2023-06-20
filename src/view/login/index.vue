@@ -1,8 +1,8 @@
 <template>
         <div :class="['testColor','tabs']">
                 <div v-if="!flag" class="left">originalheart</div>   
-                <div class="center" :style="{'font-size': !flag? '16px':'12px'}"><div class="tabs-item" v-for="(item,index) in tabList" :key="index" @click="setActiveItem(index,item.route)"><img class="theIcon" :src="item.icon" alt="" srcset="">{{ item.title }} </div></div>
-                <div v-if="!flag" class="right"><img class="avatar" src="src/assets/images/me.jpg"></div>
+                <div class="center" :style="{'font-size': !flag? '16px':'12px'}"><div class="center-tabs-item" v-for="(item,index) in tabList" :key="index" @click="setActiveItem(index,item.route)"><img class="the-icon" :src="item.icon" alt="" srcset="">{{ item.title }} </div></div>
+                <div v-if="!flag" class="right"><img class="right-avatar" src="src/assets/images/me.jpg"></div>
         </div>
         <el-carousel  indicator-position="none" ref="remarkCaruselUp" :autoplay="false" :interval="1000" arrow="never">
                 <el-carousel-item v-for="(item,index) in tabList" :name="`${index}`" :key="item">
@@ -15,20 +15,23 @@
                         <About v-if="index==6"></About>
                 </el-carousel-item>
         </el-carousel>
-        <div ref="containerBodys" class="containerBody">
+        <div class="container-body">
                 <keep-alive>
                         <router-view></router-view>
                 </keep-alive>
         </div>
-        <div class="footer" v-if="!adminFlag">
-                <div class="footer-left">test</div>
-                <div class="goScollTop" @click="goScollTop()">back</div>
-                <div class="footer-right">
-                        <img class="theIcon" src="src/assets/icon/QQ.png" alt="">
-                        <img class="theIcon" src="src/assets/icon/QQ.png" alt="">
-                        <img class="theIcon" src="src/assets/icon/QQ.png" alt="">
-                        <img class="theIcon" src="src/assets/icon/QQ.png" alt="">
-                        <img class="theIcon" src="src/assets/icon/QQ.png" alt="">
+        <div class="footer">
+                <div class="footer-inner">
+                        <span class="footer-left">Copyright ©
+                </span>
+                <div class="go-scoll-top" @click="goScollTop()">back</div>
+                <span class="footer-right">
+                        <img class="the-iconn" src="src/assets/icon/QQ.png" alt="">
+                        <img class="the-iconn" src="src/assets/icon/QQ.png" alt="">
+                        <img class="the-iconn" src="src/assets/icon/QQ.png" alt="">
+                        <img class="the-iconn" src="src/assets/icon/QQ.png" alt="">
+                        <!-- <img class="the-iconn" src="src/assets/icon/QQ.png" alt=""> -->
+                </span>
                 </div>
         </div>
 </template>
@@ -79,10 +82,12 @@ onMounted(()=>{
 const whiteList1 = ['myBlogIndex', 'Classification','theTabs','FriendChain','LeaveMessage','admin','About']
 const setActiveItem = (index:number,route:string) => {
         //查看对应name的图片
-        router.push({path:route})
-        routeTest(route)
+        setTimeout(()=>{
+                router.push({path:route})
+                routeTest(route)
+        },300)
         nextTick(() => {
-                remarkCaruselUp.value.setActiveItem(index)
+                        remarkCaruselUp.value.setActiveItem(index)
         })
 }
 
@@ -121,7 +126,7 @@ window.addEventListener('scroll', function () {
 const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
 </script>
 <style lang='less' scoped>
-.containerBody{
+.container-body{
         margin-top: v-bind(containerBodyMarginTop);
 }
 .testColor{
@@ -149,7 +154,7 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
                 justify-content: center;
                 align-items: center;
                 min-width: 60%;
-                        .tabs-item{
+                        .center-tabs-item{
                         transition: opacity 0.5s;
                         opacity: 1;
                         flex: 1;
@@ -161,7 +166,7 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
                         cursor:pointer;
                         // font-size: 12px;
                 }
-                .tabs-item:hover {
+                .center-tabs-item:hover {
                         opacity: 0.5;
                         // background: linear-gradient(to right, #4cbf30  0%,#0f9d58 100%) !important;
                 }
@@ -172,7 +177,7 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
                 justify-content: left;
                 align-items: center;
                 // margin-right: 20vw;
-                .avatar{
+                .right-avatar{
                         width: 40px;
                         height: 40px;
                         border-radius: 50%;
@@ -184,30 +189,46 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
 }
 .footer{
         color:v-bind(themeFzColor);
-        width: 100%;
         height: 80px;
+        margin: 0 auto;
         background-image: v-bind(themeColor);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-left: 20vw;
-        padding-right: 20vw;
-        .footer-left{
-        }
-        .footer-right{
-        }
-        .goScollTop{
-                position: fixed;
-                bottom: 100px;
-                right: 20px;
 
-                text-align: center;
-                height: 50px;
-                line-height: 50px;
-                background-image: v-bind(themeColor);
-                border-radius: 50%;
-                width: 50px;
-                cursor:pointer
+        .footer-inner{
+                margin: 0 auto;
+                width: 60%;
+                height: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .footer-left{
+                }
+                .footer-right{
+                        display: flex;
+                        justify-content: right;
+                        align-items: center;
+                        margin-left: 10%;
+                        .the-iconn{
+                                margin-left: 10px;
+                                width: 20%;
+                                height: 20%;
+                                max-width: 50px;
+                                max-height: 50px;
+                        }
+                }
+                .go-scoll-top{
+                        position: fixed;
+                        bottom: 100px;
+                        right: 20px;
+
+                        text-align: center;
+                        height: 50px;
+                        line-height: 50px;
+                        background-image: v-bind(themeColor);
+                        border-radius: 50%;
+                        width: 50px;
+                        cursor:pointer
+                }
         }
+       
 }
 </style>

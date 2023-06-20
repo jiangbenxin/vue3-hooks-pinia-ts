@@ -1,6 +1,7 @@
 <template>
     <div class="pop-box">
-    <img class="theImg" src="src/assets/images/bg1.jpg" alt="">
+      <h1 class="img-title">看不懂没关系，一天卷1个</h1>
+    <img class="the-img" src="src/assets/images/bg1.jpg" alt="">
       <div class="buttons main">
       <!-- <button class="btn-hover color-1">BUTTON</button> -->
       <!-- <button class="btn-hover color-2">BUTTON</button>

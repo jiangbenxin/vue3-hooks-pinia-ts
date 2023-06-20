@@ -12,14 +12,14 @@
         </theTitle>
         <div class="articles">
                 <div class="article" @click="articleDetail(item.id)" v-for="(item,index) in articleList">
-                        <img class="articleImg" src='src/assets/images/bg1.jpg' alt="">
-                        <div class="articleTitle">{{ item.title }}</div>
-                        <div class="articleTab">{{  item.type }}</div>
+                        <img class="article-img" src='src/assets/images/bg1.jpg' alt="">
+                        <div class="article-title">{{ item.title }}</div>
+                        <div class="article-tab">{{  item.type }}</div>
                 </div>
-                <div class="blogFooter">
-                    <div class="blogFooter-left">左边</div>
-                    <div class="blogFooter-center">1/10</div>
-                    <div class="blogFooter-right">右边</div>
+                <div class="blog-footer">
+                    <div class="blog-footer-left">左边</div>
+                    <div class="blog-footer-center">1/10</div>
+                    <div class="blog-footer-right">右边</div>
                 </div>
         </div>
     </div>
@@ -68,7 +68,8 @@ let articleList:any = ref([
                         // {title:'code',id:0,type:'移动端',time:'2023-10-24',test:1,test2:3},
         ])
 const articleDetail = (id:number)=>{
-        router.push(`articleDetail?=${id}`)
+        const url =  router.resolve(`/articleDetail?=${id}`)
+        window.open(url.href);
 }
 </script>
 <style lang="less" scoped>
@@ -88,12 +89,12 @@ const articleDetail = (id:number)=>{
                 margin-bottom: 10px;
                 box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07) !important;
                 cursor:pointer;
-                .articleImg{
+                .article-img{
                         width: 100%;
                         height: 160px;
                         border-radius: 10px;
                 }
-                .articleTitle{
+                .article-title{
                         text-align-last: left;
                         color: #000;
                         padding-left: 10px;
@@ -102,7 +103,7 @@ const articleDetail = (id:number)=>{
                         line-height: 20px;
                         border-bottom: 1px solid #000;
                 }
-                .articleTab {
+                .article-tab {
                         height: 16px;
                         width: 40px;
                         background-image: v-bind(themeColor);;
@@ -116,13 +117,13 @@ const articleDetail = (id:number)=>{
                 }
         }
 }
-.blogFooter{
+.blog-footer{
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
-    .blogFooter-left,.blogFooter-right{
+    .blog-footer-left,.blog-footer-right{
         text-align: center;
         height: 50px;
         line-height: 50px;
@@ -132,7 +133,7 @@ const articleDetail = (id:number)=>{
         color: v-bind(themeFzColor);
         cursor:pointer;
     }
-    .blogFooter-center{
+    .blog-footer-center{
         text-align: center;
         height: 50px;
         line-height: 50px;

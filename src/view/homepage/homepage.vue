@@ -24,8 +24,7 @@ import sideBar from '../../layout/sideBar.vue'
   .homepage_content {
     padding: 10px;
     position: absolute;
-    height: 100%;
-    top: 0px;
+    top: 70px;
     right: 0;
     left: 250px;
     bottom: 0;
