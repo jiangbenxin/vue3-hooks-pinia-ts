@@ -25,7 +25,7 @@ const store = createStore<State>({
                 nickname:null,
                 email:null,
                 username:null,
-                user_pic:null,
+                user_pic:'test',
                 topMenuScroll: 'linear-gradient(to right, #9733EE, #DA22FF)',
                 // topMenuScroll: 'linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E)'
                 // topMenuScroll: 'linear-gradient(to right, #4cbf30 0%, #0f9d58 100%)',
@@ -67,7 +67,6 @@ const store = createStore<State>({
             return new Promise((resolve: (arg0: unknown) => void,reject: (arg0: unknown) => void)=>{
                 getAdminInfo(id).then((res: any)=>{
                     if(res.status == 0){
-                        console.log(res.data.router);
                         // let routers = res.data.router || [
                         //     {   
                         //         parentId:0,

@@ -8,10 +8,12 @@ export const adminResgiter = (data:AdminLoginData):PromiseRes<AdminLoginRes> => 
 export const adminLogout = (data:AdminLogoutData) => request.post('/api/logout',data)
 // 获取当前登录用户信息
 export const getAdminInfo = (data:any) => request.get('/my/userinfo',data)
-// 获取当前登录用户信息
+// 更新用户信息
 export const updateUserInfo = (data:any) => request.post('/my/userinfo',data)
-// 获取当前登录用户信息
+// 修改密码
 export const updateUserPassword = (data:any) => request.post('/my/updatepwd',data)
+// 修改头像
+export const updateUserAvatar = (data:any) => request.post('/my/update/avatar',data)
 
 // 获取用户数据列表
 // export const getAdminLists = (data:AdminListParams):PromiseRes<{ list: {}[] }> => request.get('/admin/list',{ params: data })
