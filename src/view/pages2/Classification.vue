@@ -30,17 +30,21 @@
 </div>
 </template>
 <script lang='ts'  setup>
+import { getArtcate } from '../../api/artcate'
 import {getRandomColor} from '../../utils/niceFun'
 import { useRouter } from 'vue-router'
 import theTitle from '../../components/theTitle.vue'
-import { ref ,defineProps,toRefs } from 'vue'
+import { ref ,defineProps,toRefs,onMounted } from 'vue'
 import { useTestPinia  } from '../../pinia/index'
 import store from '../../store/index';
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const testStore = useTestPinia()
 const themeFzColor = testStore.themeFzColor
 const router = useRouter()
-
+onMounted(()=>{
+    const res = getArtcate()
+    console.log(res);
+})
 const props = defineProps({
 	first:{
 		type:String,//类型字符串
@@ -68,18 +72,18 @@ let articleList:any = ref([
         {title:'关于',icon:'/src/assets/icon/friend.png'},
 ])
 const tabList:any = ref([
-        {name:'移动端',},
-        {name:'web端',},
-        {name:'打包',},
-        {name:'业务',},
-        {name:'代码管理',},
-        {name:'传输',},
-        {name:'数据库',},
-        {name:'javascript',},
-        {name:'安全',},
-        {name:'ECMAscript',},
-        {name:'nodejs后端',},
-        {name:'css',},
+        // {name:'移动端',},
+        // {name:'web端',},
+        // {name:'打包',},
+        // {name:'业务',},
+        // {name:'代码管理',},
+        // {name:'传输',},
+        // {name:'数据库',},
+        // {name:'javascript',},
+        // {name:'安全',},
+        // {name:'ECMAscript',},
+        // {name:'nodejs后端',},
+        // {name:'css',},
     ])
 </script>
 <style lang="less" scoped>
@@ -107,6 +111,7 @@ const tabList:any = ref([
         color:#000;
 }
 .articles{
+        position: relative;
         display: flex;
         flex-wrap: wrap;
         margin: 0 auto;

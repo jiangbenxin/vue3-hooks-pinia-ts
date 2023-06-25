@@ -18,6 +18,12 @@
 </template>
 <script lang='ts'  setup>
 import theTitle from '../../components/theTitle.vue'
+import { getArtcate } from '../../api/friendChain'
+import { ref,onMounted} from 'vue'
+onMounted(async() => {
+    const res = await getArtcate()
+    console.log(res);
+})
 </script>
 <style lang="less" scoped>
 .friend-title{

@@ -1,13 +1,14 @@
 <template>
   <el-form :inline="true" :model="formInline" class="demo-form-inline">
     <el-form-item label="文章分类名称">
-    <el-input v-model="formInline.user" placeholder="文章分类名称"></el-input>
+    <el-input v-model="formInline.name" placeholder="请输入文章分类名称"></el-input>
   </el-form-item>
-  <el-form-item label="文章分类别名">
-    <el-input v-model="formInline.region" placeholder="文章分类别名"></el-input>
+  <el-form-item label="文章分类id">
+    <el-input v-model="formInline.id" placeholder="请输入文章分类id"></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="onSubmit">查询</el-button>
+    <el-button type="primary" @click="getArtcateListfn()">查询</el-button>
+    <el-button type="primary" @click="clear">重置</el-button>
   </el-form-item>
 </el-form>
 <div style="margin-top: 20px">
@@ -24,7 +25,6 @@
   >
     <el-table-column type="selection" width="55" />
     <el-table-column property="name" label="文章分类名称" width="120" />
-    <el-table-column property="alias" label="文章分类别名" width="120" />
     <el-table-column property="id" label="文章分类id" show-overflow-tooltip />
     <el-table-column label="操作">
     <template #default="scope">
@@ -53,49 +53,56 @@
     </el-pagination></div>
     <el-dialog title="收货地址" v-model="dialogFormVisible">
   <el-form :model="dialogForm">
-    <el-form-item label="活动名称" :label-width="formLabelWidth">
+    <el-form-item label="分类名称" :label-width="formLabelWidth">
       <el-input v-model="dialogForm.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="活动名称" :label-width="formLabelWidth">
-      <el-input v-model="dialogForm.alias" autocomplete="off"></el-input>
     </el-form-item>
   </el-form>
   <template #footer>
     <span class="dialog-footer">
       <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="!edit?addaddArtcate():updateArtcate()">确 定</el-button
-      >
+      <el-button type="primary" @click="!edit?addaddArtcate():updateArtcate()">确 定</el-button>
     </span>
   </template>
 </el-dialog>
 </template>
 <script lang="ts" setup>
-import { getArtcate, addArtcate,deleteArtcate,getArtcateDetail,updateArtcates,getArtcateList, deleteArtcates } from '../../../api/artcate'
-import { ref ,reactive,inject, onMounted } from 'vue'
+import { addArtcate,getArtcateDetail,updateArtcates,getArtcateList, deleteArtcates } from '../../../api/artcate'
+import { ref,inject, onMounted } from 'vue'
 import { ElTable } from 'element-plus'
 const testtest =  inject('$ElMessage') as any
-var dialogForm:any =ref({
-  region:3,
-  alias: "",
-  id: 13,
-  is_delete: "0",
+const tableData:any = ref()
+let dialogForm:any =ref({
+  id: null,
   name: ""
 })
 const formInline = ref({
-  user: '',
-  region: '',
+  name: null,
+  id: null,
   curPage:1,
   pageSize:5
 })
 const total = ref(5)
+const formLabelWidth = ref('120px')
+const dialogFormVisible = ref(false)
+const edit = ref(false)
+const clear = ()=>{
+  formInline.value = {
+    name: null,
+    id: null,
+    curPage:1,
+    pageSize:5
+  }
+  getArtcateListfn()
+}
+onMounted(()=>{
+  getArtcateListfn()
+})
 const getArtcateListfn = async()=>{
   const res:any =  await getArtcateList(formInline.value)
   tableData.value = res.data
   total.value =res.total
 }
-onMounted(()=>{
-  getArtcateListfn()
-})
+
 const addaddadd = ()=>{
   dialogFormVisible.value = true
   edit.value = false
@@ -114,7 +121,6 @@ const updateArtcate =async ()=>{
   let obj = {
     id: dialogForm.value.id,
     name: dialogForm.value.name,
-    alias: dialogForm.value.alias
   }
   await updateArtcates(obj).then((res:any)=>{
     if(res.status == 0){
@@ -124,14 +130,6 @@ const updateArtcate =async ()=>{
     }
   })
 }
-const formLabelWidth = ref('120px')
-
-const dialogFormVisible = ref(false)
-const onSubmit = () => {
-  console.log('submit!')
-  // testtest.success('成功')
-}
-const edit = ref(false)
 const handleEdit = (index: number, row: any) => {
   edit.value = true
   getArtcateDetail(row.id)
@@ -144,7 +142,9 @@ const handleEdit = (index: number, row: any) => {
   })
 }
 const handleDelete =async (index: number, row: any) => {
-  const res:any = await deleteArtcate(row.id)
+  let ids = [row.id]
+  let ids2:any = JSON.stringify(ids)
+  const res:any = await deleteArtcates({ids:ids2})
   if( res.status ==0){
     testtest.success(res.message)
     getArtcateListfn()
@@ -171,12 +171,7 @@ const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const multipleSelection = ref<any>([])
 const toggleSelection = (rows: any) => {
   if (rows) {
-    rows.forEach((row:any) => {
-      // TODO: improvement typing when refactor table
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      multipleTableRef.value!.toggleRowSelection(row, undefined)
-    })
+    rows.forEach((row:any) => multipleTableRef.value!.toggleRowSelection(row, undefined))
   } else {
     multipleTableRef.value!.clearSelection()
   }
@@ -184,7 +179,6 @@ const toggleSelection = (rows: any) => {
 const handleSelectionChange = (val: any) => {
   multipleSelection.value = val
 }
-const tableData:any = ref()
 </script>
 <style lang="less" scoped>
 .pagination-container{

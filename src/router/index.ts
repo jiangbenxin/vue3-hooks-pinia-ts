@@ -113,14 +113,10 @@ router.beforeEach((to,from,next)=>{
             genRoutes()
             next(to)
         })
-    // }else if(token&&store.state.menus.length !== 0 && from.path ==='/login' &&to.path === '/homepage'){
-    //     genRoutes()
-    //     next('/index')
-    // }else if(!token && to.path !== '/login'){
-    //     next('login')
-    // }else if(token && to.path == '/login'){
-    //     next(from)
-
+    }else if(token&&store.state.menus.length !== 0 && whiteList.indexOf(to.path) == -1){
+        next()
+    }else if(token&&store.state.menus.length !== 0 && whiteList.indexOf(to.path) == 0){
+        next('index')
     }else if(!token && whiteList.indexOf(to.path) == -1){
       next('myBlogIndex')
     }else{

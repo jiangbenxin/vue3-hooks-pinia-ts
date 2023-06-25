@@ -59,7 +59,15 @@
 </template>
 <script lang='ts'  setup>
 import theTitle from '../../components/theTitle.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import {getArtcateList} from '../../api/leaveMessage'
+onMounted(async()=>{
+        let obj ={
+                curPage:1,
+                pageSize:12,
+        }
+        const res = await getArtcateList(obj)
+})
 const textarea2 = ref()
 </script>
 <style lang="less" scoped>

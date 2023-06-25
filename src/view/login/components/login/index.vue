@@ -65,7 +65,9 @@ const loginFn = async()=>{
                                 // 使用js-cookie储存token
                                 Cookie.set('token',res.token,{expires:7})
                                 store.dispatch('getAdminInfo').then(res=>{
-                                        router.push('index')
+                                        setTimeout(()=>{
+                                                router.push('index')
+                                        },1000)
                                 })
                         }
                 })

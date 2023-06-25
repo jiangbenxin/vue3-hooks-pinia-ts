@@ -1,28 +1,29 @@
 <template>
-      <div class="homepage_menu">
-        <el-menu
-          active-text-color="#000"
-          background-color="#transparent"
-          class="el-menu-vertical-demo"
-          default-active="2"
-          text-color="#fff"
-          :unique-opened="true"
-          :router="true"
-        >
-          <el-sub-menu :index="menu.id + ''" v-for="menu in newMenus" :key="menu.id">
-              <template #title>
-              <span>{{ menu.title }}</span>
-            </template>
-            <template v-for="submenu in menu.children"> 
-              <el-menu-item
-                :index="'/' + menu.name + '/' + submenu.name"
-                v-if="!submenu.hidden"
-                :key="submenu.id"
-              >{{ submenu.title }}</el-menu-item>
-            </template>
-          </el-sub-menu>
-        </el-menu>
-      </div>
+  <div class="logo"><img class="logoImg" src="../assets/vue.svg" alt=""></div>
+  <div class="homepage_menu">
+    <el-menu
+      active-text-color="#000"
+      background-color="#transparent"
+      class="el-menu-vertical-demo"
+      default-active="2"
+      text-color="#fff"
+      :unique-opened="true"
+      :router="true"
+    >
+      <el-sub-menu :index="menu.id + ''" v-for="menu in newMenus" :key="menu.id">
+          <template #title>
+          <span>{{ menu.title }}</span>
+        </template>
+        <template v-for="submenu in menu.children"> 
+          <el-menu-item
+            :index="'/' + menu.name + '/' + submenu.name"
+            v-if="!submenu.hidden"
+            :key="submenu.id"
+          >{{ submenu.title }}</el-menu-item>
+        </template>
+      </el-sub-menu>
+    </el-menu>
+  </div>
 </template>
 
 <script lang='ts' setup>
@@ -47,15 +48,23 @@ const newMenus = computed<NewMenus>(() => store.getters.getNewMenus);
 
 </script>
 <style lang='less' scoped>
+.logo{
+    display: flex;
+    width: 250px;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    .logoImg{
+      height: 40px;
+    }
+  }
 .homepage_menu {
-  position: absolute;
-  top: 70px;
-  left: 0;
-  bottom: 0;
   width: 250px;
+  height: 100%;
+  overflow-y: auto;
   background: #1c92d2;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to top, #f2fcfe, #1c92d2);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to top, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to top, #f2fcfe, #1c92d2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
 

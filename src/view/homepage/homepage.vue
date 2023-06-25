@@ -1,9 +1,13 @@
 <template>
-    <Header></Header>
-    <div class="homepage_container">
-      <sideBar></sideBar>
-      <div class="homepage_content">
-        <router-view></router-view>
+    <div style="display: flex;height: 100%;">
+      <div class="homepage_container">
+        <sideBar></sideBar>
+      </div>
+      <div class="homepage_header">
+        <Header></Header>
+        <div class="homepage_content">
+          <router-view></router-view>
+        </div>
       </div>
     </div>
 </template>
@@ -21,14 +25,14 @@ import sideBar from '../../layout/sideBar.vue'
   .sidBar{
     height: 100%;
   }
+
+}
+.homepage_header{
   .homepage_content {
     padding: 10px;
-    position: absolute;
-    top: 70px;
-    right: 0;
-    left: 250px;
-    bottom: 0;
     overflow-y: auto;
+    height: calc(100% - 70px);
+    width: calc(100vw - 250px);
   }
 }
 </style>

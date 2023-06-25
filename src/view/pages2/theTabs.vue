@@ -33,8 +33,11 @@
 <script lang='ts'  setup>
 import theTitle from '../../components/theTitle.vue'
 import {getRandomColor} from '../../utils/niceFun'
-import { ref } from 'vue'
-
+import { ref, onMounted } from 'vue'
+import { getarticleTabs } from '../../api/articleTabs'
+onMounted(async()=>{
+    const res = await getarticleTabs()
+})
 const tabList:any = ref([
         {name:'RP',},
         {name:'CRM',},
@@ -101,7 +104,6 @@ const tabList:any = ref([
         color: #34495e;
         cursor: pointer;
         box-shadow: 0 3px 5px rgba(0, 0, 0, .12);
-
     }
     .allTabs:hover {
         color: #fff;

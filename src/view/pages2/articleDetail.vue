@@ -1,12 +1,12 @@
 <template>
         <div class="container" :first="first">
                 <div class="artile-detail-tabs">
-                        <div class="article-tab">axios</div>
-                        <div class="article-tab">axios</div>
+                        <div class="article-tab">{{articleDetails.articleTab}}</div>
+                        <div class="article-tab">{{articleDetails.classificationId}}</div>
                 </div>
-                <div class="artile-detail-time">2022-06-13</div>
+                <div class="artile-detail-time">{{articleDetails.classificationId}}</div>
                 <div class="artile-detail-line"></div>
-                <div class="artile-details" v-for="item in articleDetails">
+                <div class="artile-details" v-for="item in articleDetails.articleText">
                         <div class="artile-details-title" >{{ item.title }}</div>
                         <div class="artile-details-text" v-html="item.text"></div>
                         <Codemirror
@@ -20,7 +20,6 @@
                         </Codemirror>
                 </div>
         </div>
-        
         <div class="footer-articles">
                         <div class="footer-article" @click="articleDetail(item.id)" v-for="(item,index) in articlePreviousNext">
                                 <img class="footer-article-img" src='src/assets/images/bg1.jpg' alt="">
@@ -34,13 +33,15 @@
 import { ref, reactive, onMounted,onUnmounted } from 'vue'
 import store from '../../store';
 import { useTestPinia  } from '../../pinia/index'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute  } from 'vue-router'
 import "codemirror/mode/javascript/javascript.js"
 import Codemirror from "codemirror-editor-vue3"
 import "codemirror/theme/ayu-mirage.css";
 import "codemirror/theme/neo.css";
+import { getArtcateDetail } from '../../api/article'
 const testStore = useTestPinia()
 const router = useRouter()
+const route = useRoute()
 const themeFzColor = testStore.themeFzColor
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const first = ref('relative')
@@ -55,6 +56,15 @@ const cmOptions = reactive({
     autoCloseBrackets: true,
     styleActiveLine: true, // Display the style of the selected row
     readOnly:true,
+})
+onMounted(async()=>{
+        const res = await getArtcateDetail(route.query.id)
+        setTimeout(()=>{
+                articleDetails.value = res.data
+        articleDetails.value.articleText = JSON.parse(res.data.articleText)
+        console.log(articleDetails.value);
+        },1000)
+        
 })
 const onChange = (val:any, cm:any) => {
     console.log(val)
@@ -85,7 +95,7 @@ const onReady = (cm:any) => {
 // onUnmounted(() => {
 //     cmRef.value?.destroy()
 // })
-const articleDetails = ref([
+const articleDetails:any = ref([
         {title:'标题',text:'<div>正文</div><div>正文</div>',code: `for (let i = 0; i < 9; i++) {
      console.log(i);
 }`},

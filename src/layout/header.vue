@@ -1,6 +1,4 @@
 <template>
-  <div style="display: flex;">
-      <Logo></Logo>
     <div class="homepage_header">
       <el-dropdown>
       <span class="el-dropdown-link">
@@ -20,10 +18,8 @@
       </template>
       </el-dropdown>
     </div>
-  </div>
 </template>
 <script lang='ts' setup>
-import Logo from './logo.vue'
 import { useTestPinia } from '../pinia/index';
 import { useRouter} from 'vue-router'
 import store from '../store';
@@ -47,7 +43,6 @@ const logout = ()=>{
   width: 250px;
 }
 .homepage_header {
-  width: calc(100vw - 250px);
   height: 70px;
   background-color: antiquewhite;
   display: flex;

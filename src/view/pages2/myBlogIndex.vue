@@ -6,15 +6,15 @@
                 </template>
                 <template #inner> 
                 <div style="color: #000;">
-                        test22
+                        classificationId2
                 </div>
                 </template>
         </theTitle>
         <div class="articles">
                 <div class="article" @click="articleDetail(item.id)" v-for="(item,index) in articleList">
                         <img class="article-img" src='src/assets/images/bg1.jpg' alt="">
-                        <div class="article-title">{{ item.title }}</div>
-                        <div class="article-tab">{{  item.type }}</div>
+                        <div class="article-title">{{ item.articleTitle }}</div>
+                        <div class="article-tab">{{  item.classificationId }}</div>
                 </div>
                 <div class="blog-footer">
                     <div class="blog-footer-left">左边</div>
@@ -26,49 +26,58 @@
 </template>
 <script lang='ts'  setup>
 import theTitle from '../../components/theTitle.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import store from '../../store/index';
 import { useTestPinia  } from '../../pinia/index'
+import { getArtcateList } from '../../api/article'
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const testStore = useTestPinia()
 const themeFzColor = testStore.themeFzColor
 const router = useRouter()
 let articleList:any = ref([
-                        {title:'tcp/ip/http/https',id:0,type:'传输',time:'2023-10-24',test:1,test2:3},
-                        {title:'webpack',id:0,type:'打包',time:'2023-10-24',test:1,test2:3},
-                        {title:'nvm',id:0,type:'npm',time:'2023-10-24',test:1,test2:3},
-                        {title:'npm',id:0,type:'npm',time:'2023-10-24',test:1,test2:3},
-                        {title:'vite',id:0,type:'打包',time:'2023-10-24',test:1,test2:3},
-                        {title:'websocket',id:0,type:'html',time:'2023-10-24',test:1,test2:3},
-                        {title:'微信小程序',id:0,type:'uniapp',time:'2023-10-24',test:1,test2:3},
-                        {title:'vue2',id:0,type:'vue',time:'2023-10-24',test:1,test2:3},
-                        {title:'vue3',id:0,type:'vue3',time:'2023-10-24',test:1,test2:3},
-                        {title:'typescript',id:0,type:'vue3',time:'2023-10-24',test:1,test2:3},
-                        {title:'vite',id:0,type:'打包',time:'2023-10-24',test:1,test2:3},
-                        // {title:'双向绑定',id:0,type:'vue3',time:'2023-10-24',test:1,test2:3},
-                        // {title:'双向绑定',id:0,type:'vue2',time:'2023-10-24',test:1,test2:3},
-                        // {title:'语法性能优化',id:0,type:'vue',time:'2023-10-24',test:1,test2:3},
-                        // {title:'关于',id:0,type:'工程化',time:'2023-10-24',test:1,test2:3},
-                        // {title:'框架选型',id:0,type:'工程化',time:'2023-10-24',test:1,test2:3},
-                        // {title:'echarts大屏',id:0,type:'vue2',time:'2023-10-24',test:1,test2:3},
-                        // {title:'背景图',id:0,type:'css',time:'2023-10-24',test:1,test2:3},
-                        // {title:'布局',id:0,type:'css',time:'2023-10-24',test:1,test2:3},
-                        // {title:'git',id:0,type:'代码管理',time:'2023-10-24',test:1,test2:3},
-                        // {title:'规范',id:0,type:'规范',time:'2023-10-24',test:1,test2:3},
-                        // {title:'axios',id:0,type:'传输',time:'2023-10-24',test:1,test2:3},
-                        // {title:'MYSQL',id:0,type:'数据库',time:'2023-10-24',test:1,test2:3},
-                        // {title:'闭包',id:0,type:'javascript',time:'2023-10-24',test:1,test2:3},
-                        // {title:'微前端',id:0,type:'微前端',time:'2023-10-24',test:1,test2:3},
-                        // {title:'安全',id:0,type:'安全',time:'2023-10-24',test:1,test2:3},
-                        // {title:'express',id:0,type:'nodejs后端',time:'2023-10-24',test:1,test2:3},
-                        // {title:'ES6',id:0,type:'ECMAscript',time:'2023-10-24',test:1,test2:3},
-                        // {title:'数据处理',id:0,type:'javascript',time:'2023-10-24',test:1,test2:3},
-                        // {title:'code',id:0,type:'传输',time:'2023-10-24',test:1,test2:3},
-                        // {title:'code',id:0,type:'移动端',time:'2023-10-24',test:1,test2:3},
-        ])
+        {articleTitle:'tcp/ip/http/https',id:0,articleTab:'传输',date:'2023-10-24',classificationId:3},
+        {articleTitle:'webpack',id:0,articleTab:'打包',date:'2023-10-24',classificationId:3},
+        {articleTitle:'nvm',id:0,articleTab:'npm',date:'2023-10-24',classificationId:3},
+        {articleTitle:'npm',id:0,articleTab:'npm',date:'2023-10-24',classificationId:3},
+        {articleTitle:'vite',id:0,articleTab:'打包',date:'2023-10-24',classificationId:3},
+        {articleTitle:'websocket',id:0,articleTab:'html',date:'2023-10-24',classificationId:3},
+        {articleTitle:'微信小程序',id:0,articleTab:'uniapp',date:'2023-10-24',classificationId:3},
+        {articleTitle:'vue2',id:0,articleTab:'vue',date:'2023-10-24',classificationId:3},
+        {articleTitle:'vue3',id:0,articleTab:'vue3',date:'2023-10-24',classificationId:3},
+        {articleTitle:'articleTabscript',id:0,articleTab:'vue3',date:'2023-10-24',classificationId:3},
+        {articleTitle:'vite',id:0,articleTab:'打包',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'双向绑定',id:0,articleTab:'vue3',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'双向绑定',id:0,articleTab:'vue2',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'语法性能优化',id:0,articleTab:'vue',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'关于',id:0,articleTab:'工程化',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'框架选型',id:0,articleTab:'工程化',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'echarts大屏',id:0,articleTab:'vue2',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'背景图',id:0,articleTab:'css',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'布局',id:0,articleTab:'css',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'git',id:0,articleTab:'代码管理',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'规范',id:0,articleTab:'规范',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'axios',id:0,articleTab:'传输',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'MYSQL',id:0,articleTab:'数据库',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'闭包',id:0,articleTab:'javascript',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'微前端',id:0,articleTab:'微前端',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'安全',id:0,articleTab:'安全',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'express',id:0,articleTab:'nodejs后端',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'ES6',id:0,articleTab:'ECMAscript',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'数据处理',id:0,articleTab:'javascript',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'code',id:0,articleTab:'传输',date:'2023-10-24',classificationId:3},
+        // {articleTitle:'code',id:0,articleTab:'移动端',date:'2023-10-24',classificationId:3},
+])
+onMounted(async()=>{
+        let obj ={
+                curPage:1,
+                pageSize:12,
+        }
+        const res = await getArtcateList(obj)
+        articleList.value = res.data
+})
 const articleDetail = (id:number)=>{
-        const url =  router.resolve(`/articleDetail?=${id}`)
+        const url =  router.resolve(`/articleDetail?id=${id}`)
         window.open(url.href);
 }
 </script>
@@ -95,12 +104,8 @@ const articleDetail = (id:number)=>{
                         border-radius: 10px;
                 }
                 .article-title{
-                        text-align-last: left;
                         color: #000;
                         padding-left: 10px;
-                        width: 100%;
-                        height: 20px;
-                        line-height: 20px;
                         border-bottom: 1px solid #000;
                 }
                 .article-tab {
