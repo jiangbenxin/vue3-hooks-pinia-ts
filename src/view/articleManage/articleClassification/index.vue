@@ -68,7 +68,7 @@
 <script lang="ts" setup>
 import { addArtcate,getArtcateDetail,updateArtcates,getArtcateList, deleteArtcates } from '../../../api/artcate'
 import { ref,inject, onMounted } from 'vue'
-import { ElTable } from 'element-plus'
+import { ElTable,dayjs } from 'element-plus'
 const testtest =  inject('$ElMessage') as any
 const tableData:any = ref()
 let dialogForm:any =ref({

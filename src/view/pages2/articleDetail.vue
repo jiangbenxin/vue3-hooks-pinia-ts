@@ -4,33 +4,35 @@
                         <div class="article-tab">{{articleDetails.articleTab}}</div>
                         <div class="article-tab">{{articleDetails.classificationId}}</div>
                 </div>
-                <div class="artile-detail-time">{{articleDetails.classificationId}}</div>
+                <div class="artile-detail-time">{{articleDetails.articleTitle}} <span style="margin-left: 20px;">{{ dayjs(articleDetails.date).format('YYYY-MM-DD HH:mm:ss') }}</span> </div>
                 <div class="artile-detail-line"></div>
                 <div class="artile-details" v-for="item in articleDetails.articleText">
                         <div class="artile-details-title" >{{ item.title }}</div>
                         <div class="artile-details-text" v-html="item.text"></div>
                         <Codemirror
+                                v-if="item.code!=''&&item.code != null&& item.code!=undefined"
                                 :value="item.code"
                                 :options="cmOptions"
                                 border
                                 ref="cmRef"
-                                @change="onChange"
-                                @input="onInput"
-                                @ready="onReady">
+                                >
                         </Codemirror>
-                </div>
+                </div> 
         </div>
         <div class="footer-articles">
-                        <div class="footer-article" @click="articleDetail(item.id)" v-for="(item,index) in articlePreviousNext">
+                <div class="footer-article" @click="articleDetail(item.id)" v-for="(item,index) in articlePreviousNext">
+                        <div>
                                 <img class="footer-article-img" src='src/assets/images/bg1.jpg' alt="">
                                 <div class="footer-article-title">{{ item.title }}</div>
                                 <div class="footer-article-tab">{{  item.type }}</div>
                         </div>
+                        <div>{{index==1?'下一篇':'上一篇'}}</div>
                 </div>
+        </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted,onUnmounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import store from '../../store';
 import { useTestPinia  } from '../../pinia/index'
 import { useRouter, useRoute  } from 'vue-router'
@@ -39,6 +41,8 @@ import Codemirror from "codemirror-editor-vue3"
 import "codemirror/theme/ayu-mirage.css";
 import "codemirror/theme/neo.css";
 import { getArtcateDetail } from '../../api/article'
+import { dayjs } from 'element-plus'
+import { getJSonParse } from '../../utils/niceFun'
 const testStore = useTestPinia()
 const router = useRouter()
 const route = useRoute()
@@ -58,26 +62,14 @@ const cmOptions = reactive({
     readOnly:true,
 })
 onMounted(async()=>{
+        console.log(route.query);
         const res = await getArtcateDetail(route.query.id)
         setTimeout(()=>{
                 articleDetails.value = res.data
-        articleDetails.value.articleText = JSON.parse(res.data.articleText)
-        console.log(articleDetails.value);
-        },1000)
-        
+                let jsonString = res.data.articleText
+                articleDetails.value.articleText = getJSonParse(jsonString)
+        },400)
 })
-const onChange = (val:any, cm:any) => {
-    console.log(val)
-    console.log(cm.getValue())
-}
- 
-const onInput = (val:any) => {
-    console.log(val)
-}
- 
-const onReady = (cm:any) => {
-    console.log(cm.focus())
-}
 // onMounted(() => {
 //     setTimeout(() => {
 //         cmRef.value?.refresh()
@@ -95,27 +87,11 @@ const onReady = (cm:any) => {
 // onUnmounted(() => {
 //     cmRef.value?.destroy()
 // })
-const articleDetails:any = ref([
-        {title:'标题',text:'<div>正文</div><div>正文</div>',code: `for (let i = 0; i < 9; i++) {
-     console.log(i);
-}`},
-        {title:'标题',text:'<div>正文</div><div>正文</div>',code: `for (let i = 0; i < 9; i++) {
-     console.log(i);
-}`},
-        {title:'标题',text:'<div>正文</div><div>正文</div>',code: `for (let i = 0; i < 9; i++) {
-     console.log(i);
-}`},
-        {title:'标题',text:'<div>正文</div><div>正文</div>',code: `for (let i = 0; i < 9; i++) {
-     console.log(i);
-}`},
-        {title:'标题',text:'<div>正文</div><div>正文</div>',code: `for (let i = 0; i < 9; i++) {
-     console.log(i);
-}`},
-])
+const articleDetails:any = ref([])
 let articlePreviousNext:any = ref([
-                {title:'tcp/ip/http/https',id:0,type:'传输',time:'2023-10-24',test:1,test2:3},
-                {title:'webpack',id:0,type:'打包',time:'2023-10-24',test:1,test2:3},
-        ])
+        {title:'tcp/ip/http/https',id:0,type:'传输',time:'2023-10-24',test:1,test2:3},
+        {title:'webpack',id:0,type:'打包',time:'2023-10-24',test:1,test2:3},
+])
 const articleDetail = (id:number)=>{
         articleDetails.value = [
         {title:'标题',text:'<div>正文</div><div>正文</div>',code: `for (let i = 0; i < 9; i++) {
@@ -166,7 +142,7 @@ const articleDetail = (id:number)=>{
         }
         .artile-details{
                 text-align: left;
-                padding: 10px 3%;
+                padding: 0px 3% 0 3%;
                 .artile-details-title{
 
                 }

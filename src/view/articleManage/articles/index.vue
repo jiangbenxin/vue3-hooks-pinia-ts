@@ -33,11 +33,19 @@
     @selection-change="handleSelectionChange"
     border
   >
+  
     <el-table-column type="selection" width="55" />
     <el-table-column property="articleTitle" label="文章名称" width="120" />
-    <el-table-column property="articleTab" label="文章标签" width="120" />
-    <el-table-column property="classificationId" label="文章分类" width="120" />
-    <el-table-column property="date" label="发表时间" width="120" />
+    <el-table-column property="articleTab" label="文章标签" width="120">
+    <template #default="scope">{{articleTab2(scope.row.articleTab)}}</template>
+    </el-table-column>
+
+    <el-table-column property="classificationId" label="文章分类" width="120">
+    <template #default="scope">{{ classification2(scope.row.classificationId)}}</template>
+    </el-table-column>
+    <el-table-column property="date" label="发表时间">
+      <template #default="scope">{{  dayjs(scope.row.date).format('YYYY-MM-DD HH:mm:ss')}}</template>
+    </el-table-column>
     <el-table-column property="id" label="文章id" show-overflow-tooltip />
     <el-table-column label="操作">
     <template #default="scope">
@@ -79,16 +87,34 @@
       </el-select>
     </el-form-item>
     <el-form-item label="文章内容：" :label-width="formLabelWidth">
-      <div class="titleText" v-for="item in dialogForm.articleText" >
-        <el-form-item label="小标题" label-width = '83px' style="margin-bottom: 5px;">
+      <div class="titleText" v-for="(item,index) in dialogForm.articleText" :key="item" >
+        <el-form-item label="小标题" label-width = '83px' style="margin-bottom: 5px;display: flex;">
         <el-input v-model="item.title" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="小标题内容" style="margin-bottom: 5px;">
-        <el-input type="textarea" v-model="item.text" autocomplete="off"></el-input>
-      </el-form-item>
-      <div class="addtext" @click="addtext()">+</div>
+        </el-form-item>
+        <el-form-item label="小标题内容" style="margin-bottom: 5px;" v-if="item.text!=undefined">
+          <el-input type="textarea" v-model="item.text" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="小标题代码" style="margin-bottom: 5px;" v-if="item.code!=undefined">
+          <Codemirror
+            :value="item.code"
+            :options="cmOptions"
+            border
+            ref="cmRef"
+            @change="(val,cm)=>onChange(val,cm,index)"
+            @input="onInput"
+            @ready="onReady">
+          </Codemirror>
+        </el-form-item>
       </div>
+      <el-form-item style="margin-bottom: 5px;" label-width="120px">
+          <span class="add-Ipt" @click="reducetext(0)">删除小标题</span>
+          <span class="add-Ipt" @click="reducetext(1)">添加小正文</span>
+          <span class="add-Ipt" @click="reducetext(2)">添加小代码</span>
+      </el-form-item>
     </el-form-item>
+      <div style="display: flex;margin-left: 120px;justify-content: space-around;">
+        <div class="add-Ipt" @click="addtext()">添加小标题</div>
+      </div>
   </el-form>
   <template #footer>
     <span class="dialog-footer">
@@ -100,10 +126,35 @@
 </template>
 <script lang="ts" setup>
 import { addArtcate,getArtcateDetail,updateArtcates,getArtcateList, deleteArtcates } from '../../../api/article'
-import { getArtcate } from '../../../api/artcate'
-import { getarticleTabs } from '../../../api/articleTabs'
-import { ref,inject, onMounted } from 'vue'
-import { ElTable } from 'element-plus'
+import { ref,inject , onMounted, computed } from 'vue'
+import { ElTable,dayjs } from 'element-plus'
+import "codemirror/mode/javascript/javascript.js"
+import Codemirror from "codemirror-editor-vue3"
+import "codemirror/theme/ayu-mirage.css";
+import "codemirror/theme/neo.css";
+import store from '../../../store'
+import { getJSonParse } from '../../../utils/niceFun'
+const cmOptions = ref({
+    mode: "text/javascript",
+    lineNumbers: true, // Show line number
+    smartIndent: true, // Smart indent
+    indentUnit: 2, // The smart indent unit is 2 spaces in length
+    foldGutter: true, // Code folding
+    matchBrackets: true,
+    autoCloseBrackets: true,
+    styleActiveLine: true, // Display the style of the selected row
+    readOnly:false,
+})
+const onChange = (val:any, cm:any,index:number) => {
+  dialogForm.value.articleText[index].code = val
+}
+ 
+const onInput = (val:any) => {
+}
+ 
+const onReady = (cm:any) => {
+    // console.log(cm.focus())
+}
 const testtest =  inject('$ElMessage') as any
 const tableData:any = ref()
 let dialogForm:any =ref({
@@ -111,9 +162,11 @@ let dialogForm:any =ref({
   id: null,
   articleTab:null,
   articleText:[
-    {title:null,text:null},
-    {title:null,text:null},
-    {title:null,text:null},
+    {title:'',text:'',code:
+    `for (let i = 0; i < 9; i++) {
+      console.log(i);
+      }`
+  },
   ],
   classificationId:null
 })
@@ -140,6 +193,16 @@ const clear = ()=>{
   }
   getArtcateListfn()
 }
+const reducetext:any = (flag:number)=>{
+  let length =  dialogForm.value.articleText.length - 1
+  if(flag==0){
+    dialogForm.value.articleText.splice(length,1)
+  }else  if(flag==1&&!dialogForm.value.articleText[length].text){
+    dialogForm.value.articleText[length].text = ''
+  }else  if(flag==2&&!dialogForm.value.articleText[length].code){
+    dialogForm.value.articleText[length].code = ''
+  }
+}
 const clear2 = ()=>{
   dialogForm.value ={
     articleTitle: null,
@@ -147,35 +210,23 @@ const clear2 = ()=>{
     articleTab:null,
     articleText:[
       {title:null,text:null},
-      {title:null,text:null},
-      {title:null,text:null},
     ],
     classificationId:null
   }
 }
 const addtext = ()=>{
-  dialogForm.value.articleText.push({title:null,text:null})
+  dialogForm.value.articleText.push({title:null})
 }
-const classificationList:any = ref([])
-const articleTabList:any = ref([])
+const classificationList:any = ref(store.state.Artcate)
+const articleTabList:any = ref(store.state.articleTabs)
 onMounted(()=>{
   getArtcateListfn()
-  getSelection()
 })
-const getSelection = async()=>{
-  const res1 = await getarticleTabs()
-  const res2 = await getArtcate()
-  articleTabList.value = res1.data
-  classificationList.value = res2.data
-  console.log(classificationList.value);
-  
-}
 const getArtcateListfn = async()=>{
   const res:any =  await getArtcateList(formInline.value)
   tableData.value = res.data
   total.value =res.total
 }
-
 const addaddadd = ()=>{
   dialogFormVisible.value = true
   edit.value = false
@@ -200,13 +251,14 @@ const addaddArtcate =async ()=>{
 }
 const updateArtcate =async ()=>{
   let obj = {
-  articleTitle: dialogForm.value.articleTitle,
-  id: dialogForm.value.id,
-  articleTab:dialogForm.value.articleTab,
-  articleText:JSON.stringify(dialogForm.value.articleText),
-  classificationId:dialogForm.value.classificationId
-}
-  await updateArtcates(dialogForm.value).then((res:any)=>{
+    articleTitle: dialogForm.value.articleTitle,
+    id: dialogForm.value.id,
+    articleTab:dialogForm.value.articleTab,
+    articleText:JSON.stringify(dialogForm.value.articleText),
+    classificationId:dialogForm.value.classificationId
+  }
+  console.log();
+  await updateArtcates(obj).then((res:any)=>{
     if(res.status == 0){
       testtest.success(res.message)
       dialogFormVisible.value = !dialogFormVisible.value
@@ -220,8 +272,7 @@ const handleEdit =async (index: number, row: any) => {
   if(res.status==0){
     setTimeout(()=>{
       dialogForm.value = res.data
-      dialogForm.value.articleText = JSON.parse(res.data.articleText)
-      console.log(dialogForm.value);
+      dialogForm.value.articleText = getJSonParse(res.data.articleText)
       testtest.success(res.message)
     },100)
     dialogFormVisible.value = !dialogFormVisible.value
@@ -265,8 +316,35 @@ const toggleSelection = (rows: any) => {
 const handleSelectionChange = (val: any) => {
   multipleSelection.value = val
 }
+const classification2:any =computed(()=>{
+  return (id:any)=>{
+    let str:any =''
+    classificationList.value.forEach((item:any) => {
+      if(item.id == id){
+        str = item.name 
+      }
+    });
+    return str
+  }
+})
+const articleTab2:any =computed(()=>{
+  return (id:any)=>{
+    let str:any =''
+    articleTabList.value.forEach((item:any) => {
+      if(item.id == id) str = item.tabName 
+    });
+    return str
+  }
+})
 </script>
 <style lang="less" scoped>
+.add-Ipt{
+  font-size: 0.8rem;
+  background-color: #1b7eb4;
+  color: #fff;
+  border-radius: 5px;
+  width: 6rem;
+}
 .pagination-container{
   display: flex;
   justify-content: right;
@@ -275,7 +353,9 @@ const handleSelectionChange = (val: any) => {
 .titleText{
   width: 90%;
   position: relative;
-  .addtext{
+ 
+}
+.addtext{
     background-color: aquamarine;
     width: 20px;
     height: 20px;
@@ -283,11 +363,8 @@ const handleSelectionChange = (val: any) => {
     line-height: 20px;
     border-radius: 50%;
     color: aliceblue;
-    position: absolute;
     right: -30px;
-    top: 5px;
     cursor: pointer;
   }
-}
 </style>
   

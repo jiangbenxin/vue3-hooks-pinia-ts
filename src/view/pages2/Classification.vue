@@ -6,22 +6,28 @@
                         </template>
                         <template #inner> 
                                 <div class="tab-box">
-                                <div :style="{'background-color': getRandomColor()}" v-for="(item,index) in tabList" class="allTabs">
-                                        {{ item.name }}
+                                        <div :style="{'background-color': getRandomColor()}" v-for="(item,index) in tabList" class="allTabs" @click="classificationList(item.id)">
+                                                {{ item.name }}
+                                        </div>
                                 </div>
-                        </div>
                         </template>
                 </theTitle>
-        <div class="articles">
-                <div @click="articleDetail(item.id)"  class="article" v-for="(item,index) in articleList">
-                        <img class="article-img" src='src/assets/images/bg1.jpg' alt="">
-                        <div class="article-title">test</div>
-                        <div class="article-tab">axios</div>
+                <div class="articles">
+                <div class="article" @click="articleDetail(item.id)" v-for="(item,index) in articleList">
+                        <img class="article-img" :src='item.imgUrl||"src/assets/images/bg1.jpg"' alt="">
+                        <div class="article-title">
+                                <div>{{ item.articleTitle }}</div>
+                                <div>{{ dayjs(item.date).format('YYYY-MM-DD') }}</div>
+                        </div>
+                        <div class="article-tabs">
+                                <div class="classification">{{  classification2(item.classificationId) }}</div>
+                                <div class="tab">{{  articleTab2(item.articleTab) }}</div>
+                        </div>
                 </div>
                 <div class="blog-footer">
-                <div class="blog-footer-left">左边</div>
-                <div class="blog-footer-center">1/10</div>
-                <div class="blog-footer-right">右边</div>
+                    <div class="blog-footer-left" @click="addOrReduce('-')">左边</div>
+                    <div class="blog-footer-center">{{ form.curPage }} / {{ totals }}</div>
+                    <div class="blog-footer-right" @click="addOrReduce('+')">右边</div>
                 </div>
         </div>
         <div class="blog-footer">
@@ -30,67 +36,79 @@
 </div>
 </template>
 <script lang='ts'  setup>
-import { getArtcate } from '../../api/artcate'
+import { getArtcateList } from '../../api/article'
 import {getRandomColor} from '../../utils/niceFun'
 import { useRouter } from 'vue-router'
 import theTitle from '../../components/theTitle.vue'
-import { ref ,defineProps,toRefs,onMounted } from 'vue'
+import { ref , computed, onMounted } from 'vue'
 import { useTestPinia  } from '../../pinia/index'
 import store from '../../store/index';
+import { dayjs } from 'element-plus';
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const testStore = useTestPinia()
 const themeFzColor = testStore.themeFzColor
 const router = useRouter()
+let articleList:any = ref([])
+const tabList:any = ref(store.state.Artcate)
 onMounted(()=>{
-    const res = getArtcate()
-    console.log(res);
+        getList()
 })
-const props = defineProps({
-	first:{
-		type:String,//类型字符串
-		default:''//如果没有传递msg参数,默认值是这个
-	},
-})
-
-// const {first} =toRefs(props)
 const articleDetail = (id:number)=>{
-        const url =  router.resolve(`/articleDetail?=${id}`)
+        const url =  router.resolve(`/articleDetail?id=${id}`)
         window.open(url.href);
 }
-let articleList:any = ref([
-        {title:'首页',icon:'/src/assets/icon/QQ.png'},
-        {title:'分类',icon:'/src/assets/icon/github.png'},
-        {title:'标签',icon:'/src/assets/icon/邮箱.png'},
-        {title:'友链',icon:'/src/assets/icon/邮箱.png'},
-        {title:'留言',icon:'/src/assets/icon/微信.png'},
-        {title:'关于',icon:'/src/assets/icon/friend.png'},
-        {title:'关于',icon:'/src/assets/icon/friend.png'},
-        {title:'关于',icon:'/src/assets/icon/friend.png'},
-        {title:'关于',icon:'/src/assets/icon/friend.png'},
-        {title:'关于',icon:'/src/assets/icon/friend.png'},
-        {title:'关于',icon:'/src/assets/icon/friend.png'},
-        {title:'关于',icon:'/src/assets/icon/friend.png'},
-])
-const tabList:any = ref([
-        // {name:'移动端',},
-        // {name:'web端',},
-        // {name:'打包',},
-        // {name:'业务',},
-        // {name:'代码管理',},
-        // {name:'传输',},
-        // {name:'数据库',},
-        // {name:'javascript',},
-        // {name:'安全',},
-        // {name:'ECMAscript',},
-        // {name:'nodejs后端',},
-        // {name:'css',},
-    ])
+const form = ref({
+        curPage:1,
+        pageSize:12,
+        classificationId:null,
+})
+const classificationList = (id:any)=>{
+        form.value.classificationId = id
+        getList()
+}
+const getList = async()=>{
+        const res:any = await getArtcateList(form.value)
+        articleList.value = res.data
+        total.value = res.total
+}
+const addOrReduce = (flag:any)=>{
+        if(flag == '+' && form.value.curPage<totals.value){
+                form.value.curPage++
+                getList()
+        }else if(flag == '-' && form.value.curPage>=totals.value  &&form.value.curPage > 1){
+                form.value.curPage--
+                getList()
+        }
+}
+let total:any = ref()
+const totals:any =computed(()=>{
+        let totalcom = total.value / form.value.pageSize
+        return Math.ceil(totalcom)
+})
+const classification2:any =computed(()=>{
+        return (id:any)=>{
+                let str:any =''
+                store.state.Artcate.forEach((item:any) => {
+                        if(item.id == id){
+                                str = item.name 
+                        }
+                });
+                return str
+        }
+})
+const articleTab2:any =computed(()=>{
+        return (id:any)=>{
+                let str:any =''
+                store.state.articleTabs.forEach((item:any) => {
+                        if(item.id == id) str = item.tabName 
+                });
+                return str
+        }
+})
 </script>
 <style lang="less" scoped>
-
 .tab-box{
     .allTabs{
-        
         margin: 10px 15px;
         padding: 19px 14px;
         display: inline-block;
@@ -111,44 +129,52 @@ const tabList:any = ref([
         color:#000;
 }
 .articles{
-        position: relative;
         display: flex;
         flex-wrap: wrap;
         margin: 0 auto;
         justify-content: space-between;
         .article{
-                cursor:pointer;
                 flex: 1;
                 height: 220px;
                 border-radius: 10px;
                 margin-bottom: 10px;
                 box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07) !important;
-                
+                cursor:pointer;
                 .article-img{
                         width: 100%;
                         height: 160px;
                         border-radius: 10px;
                 }
                 .article-title{
-                        text-align-last: left;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
                         color: #000;
-                        padding-left: 10px;
-                        width: 100%;
-                        height: 20px;
-                        line-height: 20px;
+                        padding: 0 10px;
                         border-bottom: 1px solid #000;
                 }
-                .article-tab {
+                .article-tabs {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        color: #000;
+                        padding: 0 10px;
                         height: 16px;
-                        width: 40px;
-                        background-image: v-bind(themeColor);
-                        border-radius: 8px;
                         text-align: center;
-                        line-height: 16px;
-                        font-size: 12px;
-                        margin-left: 10px;
-                        margin-top: 10px;
-                        color:v-bind(themeFzColor)
+                        height: 30px;
+                        .classification ,.tab{
+                                font-size: 10px;
+                                line-height: 20px;
+                                border-radius: 14px;
+                                height: 20px;
+                                width: 60px;
+                                background-image: v-bind(themeColor);;
+                                color: v-bind(themeFzColor);
+                        }
+                        .tab{
+                                width: 60px;
+                                background-image: v-bind(themeColor);;
+                        }
                 }
         }
 }
@@ -166,6 +192,7 @@ const tabList:any = ref([
         background-image: v-bind(themeColor);
         border-radius: 50%;
         width: 50px;
+        cursor: pointer;
 }
 .blog-footer-center{
         text-align: center;

@@ -106,17 +106,16 @@ const whiteList = ['/myBlogIndex','/articleDetail', '/Classification', '/theTabs
 // 前置路由守卫
 router.beforeEach((to,from,next)=>{
     const token = Cookies.get('token')
+    store.dispatch('getSelect')
     if(token&&store.state.menus.length === 0){
-        // console.log('menus为空');
-        // 异步
-        store.dispatch('getAdminInfo').then(()=>{
-            genRoutes()
-            next(to)
-        })
-    }else if(token&&store.state.menus.length !== 0 && whiteList.indexOf(to.path) == -1){
-        next()
-    }else if(token&&store.state.menus.length !== 0 && whiteList.indexOf(to.path) == 0){
-        next('index')
+      // console.log('menus为空');
+      // 异步
+      store.dispatch('getAdminInfo').then(()=>{
+        genRoutes()
+        next(to)
+      })
+    }else if(token&&store.state.menus.length !== 0){
+      next()
     }else if(!token && whiteList.indexOf(to.path) == -1){
       next('myBlogIndex')
     }else{

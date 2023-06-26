@@ -2,6 +2,8 @@ import { createStore } from 'vuex'
 import { App } from 'vue'
 import { getAdminInfo } from '../api/user'
 // import { def } from '@vue/shared'
+import { getArtcate } from './../api/artcate'
+import { getarticleTabs } from './../api/articleTabs'
 
 interface MenuObj {
     parentId:number
@@ -29,7 +31,9 @@ const store = createStore<State>({
                 topMenuScroll: 'linear-gradient(to right, #9733EE, #DA22FF)',
                 // topMenuScroll: 'linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E)'
                 // topMenuScroll: 'linear-gradient(to right, #4cbf30 0%, #0f9d58 100%)',
-            }
+            },
+            articleTabs:null,
+            Artcate:null,
         }
     },
     getters:{
@@ -59,6 +63,12 @@ const store = createStore<State>({
         },
         updateUserInfo(state,userInfo){
             state.userInfo = userInfo
+        },
+        updatearticleTabs(state,articleTabs){
+            state.articleTabs = articleTabs
+        },
+        updateArtcate(state,Artcate){
+            state.Artcate = Artcate
         },
     },
     actions:{
@@ -246,6 +256,17 @@ const store = createStore<State>({
                     }else{
                         reject(res)
                     }            
+                })
+            })
+        },
+        getSelect({ commit }){
+            const id = 5
+            new Promise((resolve: (arg0: unknown) => void,reject: (arg0: unknown) => void)=>{
+                getarticleTabs().then((res: any)=>{
+                    commit('updatearticleTabs', res.data)
+                })
+                getArtcate().then((res: any)=>{
+                    commit('updateArtcate', res.data)
                 })
             })
         }

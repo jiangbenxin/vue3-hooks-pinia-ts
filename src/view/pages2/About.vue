@@ -9,9 +9,16 @@
                    <div>爱好：摸鱼，学习,打游戏</div>
                    <div>简介：作者是一位前端菜鸡</div>
                    <div class="about-tabs" title="qweqwe">
-                        <div title="test"  v-for="item in list">
-                            <div class="about-tab" ></div>
-                            <div>{{ item.title }}</div>
+                        <div title="test"  v-for="(item,index) in list" @click="goto(item.url,index)">
+                            <el-tooltip
+                                class="item"
+                                effect="dark"
+                                :content="item.url"
+                                placement="top"
+                            >
+                                <div><div class="about-tab" ></div>
+                                <div>{{ item.title }}</div></div>
+                            </el-tooltip>
                         </div>
                     </div>
                     <div class="about-info">     职业规划：做一名摸鱼菜鸡，在这个高速发展，信息万变的时代，没有人能有最固定的职业规划，我的职业规划也不例外，如果不出意外的话，几年内一定会前端主流技术学好，学到熟练很熟练的程度</div>
@@ -22,7 +29,7 @@
                     <div>关于</div>
                     <div>关于</div>
                     <div>关于</div>
-                 
+                    <articleCom :item="itemss"></articleCom>
                 </div>
             </template>
         </theTitle>
@@ -31,13 +38,27 @@
 import theTitle from '../../components/theTitle.vue'
 import { ref } from 'vue'
 import store from '../../store';
+import { useRouter } from 'vue-router';
+import articleCom from '../../components/article.vue'
+const itemss:any = ref({
+    articleTitle:'test',
+    date:'2020-12-13',
+    classificationId:25,
+    articleTab:58,
+})
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const list =ref([
-    {title:'gitee',info:'访问我的gitee'},
-    {title:'gitee',info:'访问我的github'},
-    {title:'小程序',info:'查看我的小程序'},
-    {title:'公众号',info:'查看我的公众号'},
+    {title:'github',info:'访问我的gitee',url:'www.baidu.com'},
+    {title:'gitee',info:'访问我的github',url:'www.baidu.com'},
+    {title:'小程序',info:'查看我的小程序',url:'前往微信搜索小程序'},
+    {title:'公众号',info:'查看我的公众号',url:'请前往微信公众搜索'},
 ])
+const goto = (url:string,index:number)=>{
+    if(index == 0 ||index ==1){
+        let path = window.location.protocol +  "//" + url
+        window.open(path)
+    }
+}
 </script>
 <style lang="less" scoped>
 .about{

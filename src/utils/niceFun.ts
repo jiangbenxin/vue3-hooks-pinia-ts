@@ -25,3 +25,13 @@ const colorArr:any = [
 export const getRandomColor =()=>{
     return colorArr[Math.floor(Math.random() * 20)]
 }
+export const getJSonParse =(str:string)=>{
+    const specialChar = '@'
+        const parsedJson = str.replace(/\n/g, specialChar);
+        const arr = JSON.parse(parsedJson)
+        arr.forEach((item:any) => {
+            item.code = item.code?.replace(/@/g, '\n')
+            item.text = item.text?.replace(/@/g, '\n')
+        });
+    return arr
+}

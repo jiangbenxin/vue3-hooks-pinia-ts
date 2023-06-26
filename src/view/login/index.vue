@@ -73,8 +73,6 @@ onMounted(()=>{
         }else{
                 adminFlag.value= true
         }
-        console.log(adminFlag.value);
-        
         if(route.name =='admin'){
                 carouselHeight.value = '100vh'
         }
@@ -217,9 +215,8 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
                 }
                 .go-scoll-top{
                         position: fixed;
-                        bottom: 100px;
+                        bottom: 20px;
                         right: 20px;
-
                         text-align: center;
                         height: 50px;
                         line-height: 50px;

@@ -31,9 +31,11 @@
   >
     <el-table-column type="selection" width="55" />
     <el-table-column property="friendName" label="友链名称" width="120" />
-    <el-table-column property="url" label="友链地址" width="120" />
-    <el-table-column property="date" label="友链时间" width="120" />
-    <el-table-column property="id" label="文章标签id" show-overflow-tooltip />
+    <el-table-column property="url" label="友链地址" show-overflow-tooltip />
+    <el-table-column property="date" label="友链时间" width="120">
+    <template #default="scope">{{  dayjs(scope.row.date).format('YYYY-MM-DD')}}</template>
+    </el-table-column>
+    <el-table-column property="id" label="文章标签id" />
     <el-table-column label="操作">
     <template #default="scope">
       <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
@@ -82,7 +84,7 @@
 <script lang="ts" setup>
 import { addArtcate,getArtcateDetail,updateArtcates,getArtcateList, deleteArtcates } from '../../../api/friendChain'
 import { ref,inject, onMounted } from 'vue'
-import { ElTable } from 'element-plus'
+import { ElTable,dayjs } from 'element-plus'
 const testtest =  inject('$ElMessage') as any
 const tableData:any = ref()
 let dialogForm:any =ref({
