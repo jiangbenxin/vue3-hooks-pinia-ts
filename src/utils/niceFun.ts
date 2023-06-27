@@ -35,3 +35,25 @@ export const getJSonParse =(str:string)=>{
         });
     return arr
 }
+export const genRoutesFn = (routers:any)=>{
+    // console.log(`------------`);
+    const treeObj:any = []
+    // 获取旧的菜单
+    const menus = routers
+    menus.forEach((item: any) => {
+        if(item.parentId ==0){
+            item.children = []
+            treeObj.push(item)
+        }
+    })
+    menus.forEach((item: any) => {
+        if(item.parentId!==0){
+            treeObj.forEach((item2:any)=>{
+                if(item2.id == item.parentId){
+                    item2.children.push(item)
+                }
+            })
+        }
+    })
+    return treeObj
+}

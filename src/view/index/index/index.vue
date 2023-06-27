@@ -1,68 +1,80 @@
 <template>
   <div>
     <!-- 你好 {{ testStore.username }} -->
-    <el-button @click="updateUser()">修改个人用户信息</el-button>
-       <el-button @click="updateUserPwd()">修改密码</el-button>
-    <img class="userAvatar" @click="handleUserInfo()" :src="user_pic" alt="">
-    该账号无权限
-    {{ store.state.userInfo.username }}
-    <el-dialog v-model="dialogFormVisible" title="头像上传">
-    <img class="userAvatar" :src="imageUrl||user_pic" alt="" srcset="">
-      <el-upload
-    ref="uploadRef"
-    class="upload-demo"
-    action="#"
-    :auto-upload="false"
-    :show-file-list="false"
-    :name="'avatar'"
-    :on-change="handleChange"
-  >
-    <template #trigger>
-      <el-button type="primary">select file</el-button>
-    </template>
-    <el-button class="ml-3" type="success" @click="submitUpload">
-      upload to server
-    </el-button>
-  </el-upload>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary">
-          Confirm
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
+    <el-button @click="handleUserInfo()">修改个人用户信息</el-button>
+      <el-button @click="updateUserPwd()">修改密码</el-button>
+      <div>用户头像：<img class="userAvatar"  :src="user_pic" alt=""></div>
+      <div>用户昵称:{{ store.state.userInfo.nickname }}</div>
+      <div>用户联系方式:{{ store.state.userInfo.email }}</div>
+      <div>用户账号：{{ store.state.userInfo.username }}</div>
+      <el-dialog v-model="dialogFormVisible" title="信息修改">
+        <el-form ref="form" :model="formInfo" label-width="80px">
+          <el-form-item label="头像:" :label-width="labelWidth">
+            <img class="userAvatar" :src="imageUrl||user_pic" alt="" srcset="">
+            <el-upload
+              ref="uploadRef"
+              class="upload-demo"
+              action="#"
+              :auto-upload="false"
+              :show-file-list="false"
+              :name="'avatar'"
+              :on-change="handleChange"
+            >
+              <template #trigger>
+                <el-button type="primary">选择头像</el-button>
+              </template>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="用户昵称:" :label-width="labelWidth">
+            <el-input v-model="formInfo.nickname"></el-input>
+          </el-form-item>
+          <el-form-item label="用户联系方式:"  :label-width="labelWidth">
+            <el-input v-model="formInfo.email"></el-input>
+          </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="updateUserInfoFn()">
+            Confirm
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 <script lang="ts" setup>
-import  { updateUserInfo,updateUserPassword, updateUserAvatar } from '../../../api/user'
-import { useRouter } from 'vue-router';
-
+import  { updateUserInfo,updateUserPassword } from '../../../api/user'
 import store from '../../../store';
 import avatar from '../../../assets/images/me.jpg'
-import { ref, computed, inject, reactive } from 'vue'
+import { ref, computed, inject, reactive, onMounted } from 'vue'
 import type { UploadProps} from 'element-plus'
 import type { UploadInstance } from 'element-plus'
-import Cookie from 'js-cookie'
-const testtest =  inject('$ElMessage') as any
+import { useRouter, useRoute} from 'vue-router'
 
-const headers = {Authorization:Cookie.get('token')}
+const ElMessage =  inject('$ElMessage') as any
+const labelWidth = ref('120px')
 const user_pic = computed(()=>{
   return store.state.userInfo.user_pic|| avatar
 })
+let router = useRouter()
+let route = useRoute()
+console.log(router,route);
 const dialogFormVisible = ref(false)
 const handleUserInfo = ()=>{
   dialogFormVisible.value = !dialogFormVisible.value
 }
-
 const uploadRef = ref<UploadInstance>()
-const submitUpload = async() => {
-  // uploadRef.value!.submit()
-  const res:any = await updateUserAvatar({avatar:imageUrl.value})
-  if(res.status ==0){
-    testtest.success(res.message)
-  }
+// const submitUpload = async() => {
+//   // uploadRef.value!.submit()
+//   const res:any = await updateUserAvatar({avatar:imageUrl.value})
+//   if(res.status ==0){
+//     ElMessage.success(res.message)
+//   }
+// }
+const updateUserInfoFn = async()=>{
+  const res = await updateUserInfo(formInfo)
+  console.log(res);
 }
 const imageUrl:any = ref()
 const handleChange: UploadProps['onChange'] = (uploadFile:any) => {
@@ -71,40 +83,35 @@ const handleChange: UploadProps['onChange'] = (uploadFile:any) => {
    })
 }
 const tobase64 = (uploadFile:any)=>{
-return new Promise(function (resolve, reject) {
-  const reader = new FileReader();
-  let imgResult:any = null;
-  reader.readAsDataURL(uploadFile.raw);
-  reader.onload = function () {
-    imgResult = reader.result;
-  };
-  reader.onerror = function (error) {
-    reject(error);
-  };
-  reader.onloadend = function () {
-    resolve(imgResult);
-  };
-});
+  return new Promise(function (resolve, reject) {
+    const reader = new FileReader();
+    let imgResult:any = null;
+    reader.readAsDataURL(uploadFile.raw);
+    reader.onload = function () {
+      imgResult = reader.result;
+    };
+    reader.onerror = function (error) {
+      reject(error);
+    };
+    reader.onloadend = function () {
+      resolve(imgResult);
+    };
+  });
 }
-const router = useRouter()
-console.log(router);
-const form:any = reactive({
-    id:5,
+const formInfo:any = reactive({
+    id:store.state.userInfo.id,
     nickname:'111',
     email:'111@qq.com',
-    menuRouters:[1,2,3]
+    avatar:imageUrl.value,
+    menuRouters:'[1,3,2]'
 })
-const form2 = reactive({
-    id:5,
+const formPwd = reactive({
+    id:store.state.userInfo.id,
     newPwd:'1234567',
     oldPwd:'123456'
 })
-const updateUser = async ()=>{
-    form.menuRouters = JSON.stringify(form.menuRouters)
-    const data = await updateUserInfo(form)
-}
 const updateUserPwd = async ()=>{
-    const data = await updateUserPassword(form2)
+    const data = await updateUserPassword(formPwd)
     console.log(data);
 }
 </script>

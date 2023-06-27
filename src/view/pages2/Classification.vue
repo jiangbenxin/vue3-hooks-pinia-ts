@@ -129,6 +129,7 @@ const articleTab2:any =computed(()=>{
         color:#000;
 }
 .articles{
+        position: relative;
         display: flex;
         flex-wrap: wrap;
         margin: 0 auto;

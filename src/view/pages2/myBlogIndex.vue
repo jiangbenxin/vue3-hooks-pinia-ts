@@ -78,7 +78,7 @@ const articleDetail = (id:number)=>{
 const classification2:any =computed(()=>{
         return (id:any)=>{
                 let str:any =''
-                store.state.Artcate.forEach((item:any) => {
+                store.state.Artcate?.forEach((item:any) => {
                         if(item.id == id){
                                 str = item.name 
                         }
@@ -89,7 +89,7 @@ const classification2:any =computed(()=>{
 const articleTab2:any =computed(()=>{
         return (id:any)=>{
                 let str:any =''
-                store.state.articleTabs.forEach((item:any) => {
+                store.state.articleTabs?.forEach((item:any) => {
                         if(item.id == id) str = item.tabName 
                 });
                 return str

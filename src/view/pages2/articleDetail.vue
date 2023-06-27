@@ -62,7 +62,6 @@ const cmOptions = reactive({
     readOnly:true,
 })
 onMounted(async()=>{
-        console.log(route.query);
         const res = await getArtcateDetail(route.query.id)
         setTimeout(()=>{
                 articleDetails.value = res.data

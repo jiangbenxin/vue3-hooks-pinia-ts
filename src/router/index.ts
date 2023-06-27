@@ -7,6 +7,9 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { App } from 'vue'
 import store from '../store'
 import Cookies from 'js-cookie'
+import { useTestPinia } from '../pinia/index'
+// const testsss = useTestPinia()
+
 // const router = new VueRouter({})
 const routes:RouteRecordRaw[] =[
     {
@@ -55,23 +58,21 @@ const routes:RouteRecordRaw[] =[
             name: 'articleDetail',
             component: () => import('../view/pages2/articleDetail.vue'),
           },
-          
         ]
-
     },
-    {
-        path: '/',
-        name: 'homepage',
-        component: () => import('../view/homepage/homepage.vue'),
-        redirect: '/index',
-        children: [
-          {
-            path: 'index',
-            name: 'index',
-            component: () => import('../view/index/index/index.vue'),
-          }
-        ]
-    }
+    // {
+    //     path: '/',
+    //     name: 'homepage',
+    //     component: () => import('../view/homepage/homepage.vue'),
+    //     redirect: '/index',
+    //     children: [
+    //       {
+    //         path: 'index',
+    //         name: 'index',
+    //         component: () => import('../view/index/index/index.vue'),
+    //       }
+    //     ]
+    // }
 ]
 const router = createRouter({
     history: createWebHashHistory(),
@@ -106,18 +107,21 @@ const whiteList = ['/myBlogIndex','/articleDetail', '/Classification', '/theTabs
 // 前置路由守卫
 router.beforeEach((to,from,next)=>{
     const token = Cookies.get('token')
-    store.dispatch('getSelect')
+    if(store.state.articleTabs == null){
+      store.dispatch('getSelect')
+    }
     if(token&&store.state.menus.length === 0){
-      // console.log('menus为空');
       // 异步
       store.dispatch('getAdminInfo').then(()=>{
         genRoutes()
         next(to)
       })
-    }else if(token&&store.state.menus.length !== 0){
-      next()
+    }else if(token&&store.state.menus.length !== 0&& to.path == '/admin'&&store.state.userInfo.username == 'admin'){
+      next('/')
     }else if(!token && whiteList.indexOf(to.path) == -1){
       next('myBlogIndex')
+    }else if(token&&store.state.menus.length !== 0&&to.path == '/'&&store.state.userInfo.username == 'admin'){
+      next({path:'/index/index'})
     }else{
       next()
     }

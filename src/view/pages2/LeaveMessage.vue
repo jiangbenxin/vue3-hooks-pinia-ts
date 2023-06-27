@@ -11,18 +11,18 @@
             <template #inner>
                 <div class="container">
                     <div class="container-login">
-                        <span style="background-color: #12b7f5;color: #fff;font-size: 0.6rem;padding: 2px 3px;">登录/注册</span>
+                        <span style="background-color: #12b7f5;color: #fff;font-size: 0.6rem;padding: 2px 3px;" @click="token?'':gologin()">{{token?'已登录':'登录/注册'}}</span>
                     </div>
                     <el-input
                         type="textarea"
                         :autosize="{ minRows: 2, maxRows: 4}"
-                        placeholder="登录注册后即可留言"
+                        placeholder="请前往管理页面登录之后即可留言(登录注册很简单，只需要账号密码)"
                         v-model="textarea2"
                     >
                     </el-input>
                     <div class="ipt-footer">
-                        <div class="publish">发表评论</div>
-                        <div class="publish">发表评论</div>
+                        <div class="publish" @click="addArtcateFn(false)">匿名评论</div>
+                        <div class="publish" @click="addArtcateFn(true)">{{ !token?'登录后发表评论':'发表评论' }}</div>
                     </div>
                     <div class="comments">
                         <div class="comments-title">评论{{ total }}</div>
@@ -48,21 +48,60 @@
 import theTitle from '../../components/theTitle.vue'
 import { ref, onMounted } from 'vue'
 import {getArtcateList} from '../../api/leaveMessage'
-import { dayjs } from 'element-plus'
+import { dayjs, ElMessage } from 'element-plus'
+import { addArtcate } from '../../api/leaveMessage'
+import store from '../../store'
+import Cookie from 'js-cookie'
+import { useRouter } from 'vue-router'
+const token = Cookie.get('token')
+const router = useRouter()
 onMounted(()=>{
     getFn()
 })
-const getFn = async()=>{
-    let obj ={
+const total:any = ref()
+const gologin = ()=>{
+    router.push('admin')
+}
+let form =ref({
         curPage:1,
         pageSize:5,
+    })
+const addArtcateFn = async(flag:any)=>{
+    if(flag){
+        if(token){
+            const userInfo = store.state.userInfo
+            let obj ={
+                link:userInfo.username,
+                text:textarea2.value,
+                name:userInfo.nickname
+            }
+            const res:any = await addArtcate(obj)
+            form.value.pageSize++
+            getFn()
+            ElMessage.success('成功')
+        }else{
+            ElMessage.success('请前往的管理页面登录')
+
+        }
+    }else{
+        let obj2 ={
+            link:'一个匿名大佬',
+            text:textarea2.value,
+            name:'一个匿名大佬'
+        }
+        const res:any = await addArtcate(obj2)
+        form.value.pageSize++
+        getFn()
+        ElMessage.success('匿名发言成功')
     }
-    const res:any = await getArtcateList(obj)
-    let arr = leaveMessage.value.concat(res.data)
-    leaveMessage.value = arr
+}
+const getFn = async()=>{
+    const res:any = await getArtcateList(form.value)
+    // let arr = leaveMessage.value.concat(res.data)
+    total.value = res.total
+    leaveMessage.value = res.data
 }
 const leaveMessage:any =ref([])
-const total = ref(12)
 const textarea2 = ref()
 </script>
 <style lang="less" scoped>

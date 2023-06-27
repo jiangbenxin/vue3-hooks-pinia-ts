@@ -4,6 +4,9 @@ import { getAdminInfo } from '../api/user'
 // import { def } from '@vue/shared'
 import { getArtcate } from './../api/artcate'
 import { getarticleTabs } from './../api/articleTabs'
+import { getuserRouter } from './../api/router'
+import Cookie from 'js-cookie'
+import { adminLogin, adminLogout } from '../api/user'
 
 interface MenuObj {
     parentId:number
@@ -34,28 +37,11 @@ const store = createStore<State>({
             },
             articleTabs:null,
             Artcate:null,
+            allRouters:null
         }
     },
     getters:{
-        getNewMenus(state){
-            // console.log(`------------`);
-            const newMenus:NewMenus = {}
-            // 获取旧的菜单
-            const menus = state.menus
-            menus.forEach((item: MenuObj) => {
-                if(!item.parentId){
-                    newMenus[item.id] = {...item,children:newMenus[item.id]?.children || []}
-                }else{
-                    let parentId:any = item.parentId //对应的一级菜单id
-                    newMenus[parentId] = newMenus[parentId] || {}
-                    newMenus[parentId].children = newMenus[parentId].children || []
-                    newMenus[parentId].children.push(item)
-                }
-            })
-            // console.log(newMenus);
-            
-            return newMenus
-        }
+        getNewMenus(state) {return state.menus}
     },
     mutations:{
         updateMenus(state,menus){
@@ -70,188 +56,42 @@ const store = createStore<State>({
         updateArtcate(state,Artcate){
             state.Artcate = Artcate
         },
+        updateallRouters(state,allRouters){
+            state.allRouters = allRouters
+        },
     },
     actions:{
-        getAdminInfo({ commit }){
-            const id = 5
+        adminLogin({ commit },loginForm:any){
+            return new Promise((resolve:any,reject:any)=>{
+              adminLogin(loginForm).then((res: any)=>{
+                  if(res.code == 200){
+                    Cookie.set('token',res.token)
+                    resolve(res)
+                  }else{
+                    reject(res)
+                  }            
+              })
+            })
+          },
+        getAdminInfo({ commit,dispatch }){
             return new Promise((resolve: (arg0: unknown) => void,reject: (arg0: unknown) => void)=>{
-                getAdminInfo(id).then((res: any)=>{
+                getAdminInfo().then((res: any)=>{
                     if(res.status == 0){
-                        // let routers = res.data.router || [
-                        //     {   
-                        //         parentId:0,
-                        //         title:'index',
-                        //         name: 'index',
-                        //         hidden:0,
-                        //         id:100,
-                        //     },
-                        //     {   
-                        //         hidden:0,
-                        //         id:88,
-                        //         parentId:100,
-                        //         title:'index',
-                        //         name: 'index',
-                        //     },
-                        // ]
-                        let routers = [
-                            {   
-                                parentId:0,
-                                title:'index',
-                                name: 'index',
-                                path: '/index',
-                                hidden:0,
-                                id:100,
-                            },
-                            {   
-                                hidden:0,
-                                id:88,
-                                parentId:100,
-                                title:'index',
-                                name: 'index',
-                                path: '/index',
-                            },
-                            {   
-                                parentId:0,
-                                title:'router',
-                                name: 'router',
-                                path: '/router',
-                                hidden:0,
-                                id:110,
-                            },
-                            {
-                                hidden:0,
-                                id:12,
-                                parentId:110,
-                                title:'router',
-                                name: 'router',
-                                path: '/router',
-                            },
-                            {
-                                parentId:0,
-                                title:'npm',
-                                name: 'npm',
-                                path: '/npm',
-                                hidden:0,
-                                id:117,
-                            },
-                            {
-                                parentId:0,
-                                title:'articleManage',
-                                name: 'articleManage',
-                                path: '/articleManage',
-                                hidden:0,
-                                id:999,
-                            },
-                            {   
-                                hidden:0,
-                                id:1000,
-                                parentId:999,
-                                title:'articleClassification',
-                                name: 'articleClassification',
-                                path: '/articleClassification',
-                            },
-                            {   
-                                hidden:0,
-                                id:1001,
-                                parentId:999,
-                                title:'articles',
-                                name: 'articles',
-                                path: '/articles',
-                            },
-                           
-                            {   
-                                hidden:0,
-                                id:1002,
-                                parentId:999,
-                                title:'articleTabs',
-                                name: 'articleTabs',
-                                path: '/articleTabs',
-                            },
-                            {   
-                                hidden:0,
-                                id:1003,
-                                parentId:999,
-                                title:'friendChain',
-                                name: 'friendChain',
-                                path: '/friendChain',
-                            },
-                            {   
-                                hidden:0,
-                                id:1004,
-                                parentId:999,
-                                title:'leaveMessage',
-                                name: 'leaveMessage',
-                                path: '/leaveMessage',
-                            },
-
-                            {   
-                                path: '/components',
-                                parentId:0,
-                                id:118,
-                                name: 'components',
-                                hidden:0,
-                                title:'components',
-                            },
-                            {   
-                                path: '/map',
-                                parentId:0,
-                                id:120,
-                                name: 'map',
-                                hidden:0,
-                                title:'map',
-                            },
-                            {   
-                                parentId:120,
-                                id:121,
-                                name: 'map',
-                                hidden:0,
-                                title:'map',
-                                path: '/map',
-                            },
-                            {   
-                                path: '/vue3',
-                                parentId:0,
-                                id:121,
-                                name: 'vue3',
-                                hidden:0,
-                                title:'vue3',
-                            },
-                            {   
-                                parentId:121,
-                                id:122,
-                                name: 'vue3',
-                                hidden:0,
-                                title:'vue3',
-                                path: '/vue3',
-                            },
-                            {   
-                                hidden:0,
-                                id:42,
-                                parentId:118,
-                                title:'piniaAndVuex',
-                                name: 'piniaAndVuex',
-                                path: '/piniaAndVuex',
-                            },
-                            {   
-                                hidden:0,
-                                id:43,
-                                parentId:118,
-                                title:'hooksUse',
-                                name: 'hooksUse',
-                                path: '/hooksUse',
-                            },
-                            {   
-                                parentId:117,
-                                title:'npm',
-                                hidden:0,
-                                name: 'npm',
-                                id:523,
-                                path: '/npm',
-                            },
-                            
-                        ]
+                        const menuRoutersArr = JSON.parse(res.data.menuRouters)
                         commit('updateUserInfo', res.data)
-                        commit('updateMenus', routers)
+                        const newMenus:NewMenus = {}
+                        menuRoutersArr.forEach((item: MenuObj) => {
+                            if(!item.parentId){
+                                newMenus[item.id] = {...item,children:newMenus[item.id]?.children || []}
+                            }else{
+                                let parentId:any = item.parentId //对应的一级菜单id
+                                newMenus[parentId] = newMenus[parentId] || {}
+                                newMenus[parentId].children = newMenus[parentId].children || []
+                                newMenus[parentId].children.push(item)
+                            }
+                        })
+                        commit('updateMenus', newMenus)
+                        dispatch('getSelect')
                         resolve(res)
                     }else{
                         reject(res)
@@ -260,16 +100,38 @@ const store = createStore<State>({
             })
         },
         getSelect({ commit }){
-            const id = 5
-            new Promise((resolve: (arg0: unknown) => void,reject: (arg0: unknown) => void)=>{
+              const promise1:any = new Promise(()=>{
                 getarticleTabs().then((res: any)=>{
                     commit('updatearticleTabs', res.data)
                 })
+            })
+            const promise2:any = new Promise(()=>{
                 getArtcate().then((res: any)=>{
                     commit('updateArtcate', res.data)
                 })
             })
-        }
+            const promise3:any = new Promise(()=>{
+                getuserRouter().then((res: any)=>{
+                    commit('updateallRouters', res.data)
+                })
+            })
+            return Promise.all([promise1,promise2,promise3]).then(function (posts) {
+                console.log("ok")
+            }).catch(function(){
+                console.log('出错了')
+            })
+            // return new Promise((resolve: (arg0: unknown) => void,reject: (arg0: unknown) => void)=>{
+            //     getarticleTabs().then((res: any)=>{
+            //         commit('updatearticleTabs', res.data)
+            //     })
+            //     getArtcate().then((res: any)=>{
+            //         commit('updateArtcate', res.data)
+            //     })
+            //     getuserRouter().then((res: any)=>{
+            //         commit('updateallRouters', res.data)
+            //     })
+            // })
+        },
     },
     modules:{}
 })

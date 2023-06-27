@@ -4,7 +4,7 @@
                 <div class="center" :style="{'font-size': !flag? '16px':'12px'}"><div class="center-tabs-item" v-for="(item,index) in tabList" :key="index" @click="setActiveItem(index,item.route)"><img class="the-icon" :src="item.icon" alt="" srcset="">{{ item.title }} </div></div>
                 <div v-if="!flag" class="right"><img class="right-avatar" src="src/assets/images/me.jpg"></div>
         </div>
-        <el-carousel  indicator-position="none" ref="remarkCaruselUp" :autoplay="false" :interval="1000" arrow="never">
+        <el-carousel :initial-index="carouselIndex"  indicator-position="none" ref="remarkCaruselUp" :autoplay="false" :interval="1000" arrow="never">
                 <el-carousel-item v-for="(item,index) in tabList" :name="`${index}`" :key="item">
                         <myBlogIndex v-if="index==0"></myBlogIndex>
                         <Classification v-if="index==1"></Classification>
@@ -43,7 +43,7 @@ import FriendChain from './components/FriendChain/index.vue'
 import LeaveMessage from './components/LeaveMessage/index.vue'
 import Admin from './components/login/index.vue'
 import About from './components/About/index.vue'
-import { ref, nextTick, reactive, onMounted} from 'vue'
+import { ref, nextTick, reactive, onMounted, onBeforeMount} from 'vue'
 import { useRouter , useRoute} from 'vue-router'
 import { useTestPinia  } from '../../pinia/index'
 import store from '../../store/index';
@@ -60,58 +60,56 @@ const tabList = reactive([
         {title:'友链',icon:'/src/assets/icon/邮箱.png',route:'FriendChain'},
         {title:'留言',icon:'/src/assets/icon/微信.png',route:'LeaveMessage'},
         {title:'管理',icon:'/src/assets/icon/微信.png',route:'admin'},
-        {title:'关于',icon:'/src/assets/icon/friend.png',route:'About'},])
+        {title:'关于',icon:'/src/assets/icon/friend.png',route:'About'},
+])
 const remarkCaruselUp:any = ref(null)
 const containerBodyMarginTop = ref('10px')
 
-
+const carouselIndex:any = ref()
 const adminFlag = ref(true)
+onBeforeMount(()=>{
+})
+        
 onMounted(()=>{
-        routeTest(route.name)
-        if(route.name =='admin'){
-                adminFlag.value = false
-        }else{
-                adminFlag.value= true
+        if(route.path != '/articleDetail'){
+                carouselIndex.value =Number(localStorage.getItem('carouselIndex'))|| 0
+                let route:any = null
+                tabList.forEach((item,index)=>{
+                        if(carouselIndex.value == index) route =item.route
+                })
+                setActiveItem(carouselIndex.value,route)
+                routeTest(route.name)
         }
-        if(route.name =='admin'){
-                carouselHeight.value = '100vh'
-        }
+        adminFlag.value = route.name =='admin'
+        if(route.name =='admin') carouselHeight.value = '100vh'
 })
 const whiteList1 = ['myBlogIndex', 'Classification','theTabs','FriendChain','LeaveMessage','admin','About']
 const setActiveItem = (index:number,route:string) => {
         //查看对应name的图片
+        localStorage.setItem('carouselIndex',`${index}`)
         setTimeout(()=>{
                 router.push({path:route})
                 routeTest(route)
-        },300)
-        nextTick(() => {
-                        remarkCaruselUp.value.setActiveItem(index)
-        })
+        },200)
+        nextTick(() => remarkCaruselUp.value.setActiveItem(index))
 }
-
 const carouselHeight:any = ref(`${document.documentElement.clientWidth * 0.54}px`)
 const routeTest:any = (route:any)=>{
         const arr =['0px','-15%','-15%','-15%','-15%','-15%','-15%',]
         containerBodyMarginTop.value = arr[whiteList1.indexOf(route)]
         let height = document.documentElement.clientWidth
         carouselHeight.value = `${height * 0.54}px`
-       if( route =='admin'){
-        carouselHeight.value = '100vh'
-       }
+       if( route =='admin') carouselHeight.value = '100vh'
 }
 window.addEventListener('resize', function () {
-        console.log(route.name);
         if(route.name =='admin'){
                 carouselHeight.value = '100vh'
         }else{
                 let height = document.documentElement.clientWidth
                 carouselHeight.value = `${height * 0.54}px`
         }
-      
 })
-const goScollTop = ()=>{
-        document.documentElement.scrollTop = 0
-}
+const goScollTop = ()=>document.documentElement.scrollTop = 0
 const topMenuScroll:any = ref('')
 window.addEventListener('scroll', function () {
         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;

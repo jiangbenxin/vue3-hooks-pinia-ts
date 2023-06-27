@@ -8,7 +8,8 @@
                                 <el-input v-model="ruleForm.password" type="password" autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item>
-                                <button class="light-btn" @click="loginFn()" >{{ register?'register':'login' }}</button>
+                                <!-- <button class="light-btn" @click.native="loginFn()" >{{ register?'register':'login' }}</button> -->
+                                <el-button  @click.native="loginFn()" >{{ register?'register':'login' }}</el-button>
                         </el-form-item>
                         <div style="text-align: right;padding-right: 40px;margin-top: 40px;">
                                 <el-link type="primary" :underline="false" @click="register=!register">{{ register?'去登录':'去注册' }}</el-link>
@@ -21,10 +22,10 @@ import { useTestPinia } from '../../../../pinia/index'
 import { storeToRefs } from 'pinia'
 import {reactive,toRefs,ref} from 'vue'
 import {adminResgiter} from '../../../../api/user'
-import Cookie from 'js-cookie'
 import { useRouter} from 'vue-router'
 import {useStore} from 'vuex'
-
+import { ElMessage} from 'element-plus'
+import Cookie from 'js-cookie'
 const data = reactive({
         ruleForm:{
                 username:'',
@@ -55,25 +56,24 @@ const rules = reactive({
 // 点击登录按钮触发
 const loginFn = async()=>{
         ruleFormRef.value.validate().then( async()=>{
-        let loginForm = {
-                        username:ruleForm.value.username,
-                        password:ruleForm.value.password,
-                }
                 if(!register.value){
-                        pinia.adminLogin(loginForm).then((res: { code: number; token: string })=>{
-                        if(res.code == 200){
-                                // 使用js-cookie储存token
-                                Cookie.set('token',res.token,{expires:7})
-                                store.dispatch('getAdminInfo').then(res=>{
-                                        setTimeout(()=>{
-                                                router.push('index')
-                                        },1000)
-                                })
-                        }
-                })
-                
+                       store.dispatch('adminLogin',ruleForm.value).then((res: { code: number; token: string })=>{
+                        // pinia.adminLogin(loginForm).then((res: { code: number; token: string })=>{
+                                if(res.code == 200){
+                                                console.log(ruleForm.value.username);
+                                                if(ruleForm.value.username == 'admin'){
+                                                        console.log(ruleForm.value.username);
+                                                        setTimeout(()=>{
+                                                                router.push('/')
+                                                        },500)
+                                                }else{
+                                                        ElMessage.success('登录成功，管理系统不对外开放')
+                                                }
+                                }
+                        })
                 }else{
-                const res =  await adminResgiter(loginForm)
+                        const res =  await adminResgiter(ruleForm.value)
+                        ElMessage.success('注册成功')
                 }
         }).catch(()=>{
                 console.log('校验不通过');

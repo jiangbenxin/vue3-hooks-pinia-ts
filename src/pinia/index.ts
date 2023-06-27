@@ -2,14 +2,16 @@ import { defineStore } from 'pinia'
 import { adminLogin, adminLogout } from '../api/user'
 import Cookie from 'js-cookie'
 import store from '../store'
+
 type TestState = {
   theToken:string
   count: number
   user: {
     age: number
-    name: string|number
+    name: string|number,
+    id:any
   },
-  themeFzColor:string
+  themeFzColor:string|null
 }
 // 在此约束类型不管编写或使用都可有较好的提示
 export const useTestPinia = defineStore<string, TestState>('TestId', {
@@ -18,7 +20,8 @@ export const useTestPinia = defineStore<string, TestState>('TestId', {
     count: 10,
     user: {
       age: 18,
-      name: '小明'
+      name: '小明',
+      id:null
     },
     themeFzColor:'#fff'
   }),
@@ -32,10 +35,11 @@ export const useTestPinia = defineStore<string, TestState>('TestId', {
       return new Promise((resolve:any,reject:any)=>{
         adminLogin(loginForm).then((res: any)=>{
             if(res.code == 200){
+              Cookie.set('token',res.token,{expires:7})
               this.theToken =res.token
               resolve(res)
             }else{
-                reject(res)
+              reject(res)
             }            
         })
       })

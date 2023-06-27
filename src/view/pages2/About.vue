@@ -29,7 +29,7 @@
                     <div>关于</div>
                     <div>关于</div>
                     <div>关于</div>
-                    <articleCom :item="itemss"></articleCom>
+                    <!-- <articleCom :item="itemss"></articleCom> -->
                 </div>
             </template>
         </theTitle>

@@ -7,7 +7,7 @@ export const adminResgiter = (data:AdminLoginData):PromiseRes<AdminLoginRes> => 
 // 退出登录
 export const adminLogout = (data:AdminLogoutData) => request.post('/api/logout',data)
 // 获取当前登录用户信息
-export const getAdminInfo = (data:any) => request.get('/my/userinfo',data)
+export const getAdminInfo = () => request.get('/my/userinfo')
 // 更新用户信息
 export const updateUserInfo = (data:any) => request.post('/my/userinfo',data)
 // 修改密码
