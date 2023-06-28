@@ -9,7 +9,7 @@
                         </el-form-item>
                         <el-form-item>
                                 <!-- <button class="light-btn" @click.native="loginFn()" >{{ register?'register':'login' }}</button> -->
-                                <el-button  @click.native="loginFn()" >{{ register?'register':'login' }}</el-button>
+                                <el-button style="width: 100px;margin: 0 auto;" type="primary"  @click.native="loginFn()" >{{ register?'register':'login' }}</el-button>
                         </el-form-item>
                         <div style="text-align: right;padding-right: 40px;margin-top: 40px;">
                                 <el-link type="primary" :underline="false" @click="register=!register">{{ register?'去登录':'去注册' }}</el-link>
@@ -64,7 +64,7 @@ const loginFn = async()=>{
                                                 if(ruleForm.value.username == 'admin'){
                                                         console.log(ruleForm.value.username);
                                                         setTimeout(()=>{
-                                                                router.push('/')
+                                                                router.push('index')
                                                         },500)
                                                 }else{
                                                         ElMessage.success('登录成功，管理系统不对外开放')

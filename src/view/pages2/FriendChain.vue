@@ -5,7 +5,7 @@
                     <h3 class="friend-title">双向</h3>
                     <div class="friend-chain">
                     <div class="friend-chains" @click="otherBlog(item.url)" v-for="item in friendChainList">
-                        <img class="friend-img" src="src/assets/images/me.jpg" alt="">
+                        <img class="friend-img" src="../../assets/images/me.jpg" alt="">
                         <div class="friend-chains-right">
                             <div class="friend-name">{{ item.friendName }}</div>
                             <div class="friend-intro">{{ item.intro }}</div>

@@ -14,7 +14,7 @@
                 </theTitle>
                 <div class="articles">
                 <div class="article" @click="articleDetail(item.id)" v-for="(item,index) in articleList">
-                        <img class="article-img" :src='item.imgUrl||"src/assets/images/bg1.jpg"' alt="">
+                        <img class="article-img" :src="item.imgUrl||imgBg" alt="">
                         <div class="article-title">
                                 <div>{{ item.articleTitle }}</div>
                                 <div>{{ dayjs(item.date).format('YYYY-MM-DD') }}</div>
@@ -25,9 +25,9 @@
                         </div>
                 </div>
                 <div class="blog-footer">
-                    <div class="blog-footer-left" @click="addOrReduce('-')">左边</div>
-                    <div class="blog-footer-center">{{ form.curPage }} / {{ totals }}</div>
-                    <div class="blog-footer-right" @click="addOrReduce('+')">右边</div>
+                        <div class="blog-footer-left" @click="addOrReduce('-')"><img class="blog-footer-left-icon" src="../../assets/icon/left.png" alt=""></div>
+                        <div class="blog-footer-center">{{ form.curPage }} / {{ totals }}</div>
+                        <div class="blog-footer-right" @click="addOrReduce('+')"><img class="blog-footer-left-icon" src="../../assets/icon/right.png" alt=""></div>
                 </div>
         </div>
         <div class="blog-footer">
@@ -44,6 +44,7 @@ import { ref , computed, onMounted } from 'vue'
 import { useTestPinia  } from '../../pinia/index'
 import store from '../../store/index';
 import { dayjs } from 'element-plus';
+import imgBg from '../../assets/images/bg1.jpg'
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const testStore = useTestPinia()
 const themeFzColor = testStore.themeFzColor
@@ -193,8 +194,20 @@ const articleTab2:any =computed(()=>{
         background-image: v-bind(themeColor);
         border-radius: 50%;
         width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
-}
+        .blog-footer-left-icon{
+                width: 60%;
+                height: 60%;
+        }
+    }
+    .blog-footer-left{
+        padding-left: 0px;
+        padding-right: 5px;
+
+    }
 .blog-footer-center{
         text-align: center;
         height: 50px;

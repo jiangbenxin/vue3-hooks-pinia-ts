@@ -1,37 +1,41 @@
 <template>
-        <div :class="['testColor','tabs']">
-                <div v-if="!flag" class="left">originalheart</div>   
-                <div class="center" :style="{'font-size': !flag? '16px':'12px'}"><div class="center-tabs-item" v-for="(item,index) in tabList" :key="index" @click="setActiveItem(index,item.route)"><img class="the-icon" :src="item.icon" alt="" srcset="">{{ item.title }} </div></div>
-                <div v-if="!flag" class="right"><img class="right-avatar" src="src/assets/images/me.jpg"></div>
+        <div :class="['testColor', 'tabs']">
+                <div v-if="!flag" class="left">originalheart</div>
+                <div class="center" :style="{ 'font-size': !flag ? '16px' : '12px' }">
+                        <div class="center-tabs-item" v-for="(item, index) in tabList" :key="index"
+                                @click="setActiveItem(index, item.route)">
+                                <img class="the-icon" :src="`${item.icon}`" alt="" srcset="">
+                                {{ item.title }}
+                        </div>
+                </div>
+                <div v-if="!flag" class="right"><img class="right-avatar" :src="imgMe"></div>
         </div>
-        <el-carousel :initial-index="carouselIndex"  indicator-position="none" ref="remarkCaruselUp" :autoplay="false" :interval="1000" arrow="never">
-                <el-carousel-item v-for="(item,index) in tabList" :name="`${index}`" :key="item">
-                        <myBlogIndex v-if="index==0"></myBlogIndex>
-                        <Classification v-if="index==1"></Classification>
-                        <theTabs v-if="index==2"></theTabs>
-                        <FriendChain v-if="index==3"></FriendChain>
-                        <LeaveMessage v-if="index==4"></LeaveMessage>
-                        <Admin v-if="index==5"></Admin>
-                        <About v-if="index==6"></About>
+        <el-carousel :initial-index="carouselIndex" indicator-position="none" ref="remarkCaruselUp" :autoplay="false"
+                :interval="1000" arrow="never">
+                <el-carousel-item v-for="(item, index) in tabList" :name="`${index}`" :key="item">
+                        <myBlogIndex v-if="index == 0"></myBlogIndex>
+                        <Classification v-if="index == 1"></Classification>
+                        <theTabs v-if="index == 2"></theTabs>
+                        <FriendChain v-if="index == 3"></FriendChain>
+                        <LeaveMessage v-if="index == 4"></LeaveMessage>
+                        <Admin v-if="index == 5"></Admin>
+                        <About v-if="index == 6"></About>
                 </el-carousel-item>
         </el-carousel>
         <div class="container-body">
                 <keep-alive>
-                        <router-view></router-view>
+                        <router-view ref="child"></router-view>
                 </keep-alive>
         </div>
         <div class="footer">
                 <div class="footer-inner">
                         <span class="footer-left">Copyright ©
-                </span>
-                <div class="go-scoll-top" @click="goScollTop()">back</div>
-                <span class="footer-right">
-                        <img class="the-iconn" src="src/assets/icon/QQ.png" alt="">
-                        <img class="the-iconn" src="src/assets/icon/QQ.png" alt="">
-                        <img class="the-iconn" src="src/assets/icon/QQ.png" alt="">
-                        <img class="the-iconn" src="src/assets/icon/QQ.png" alt="">
-                        <!-- <img class="the-iconn" src="src/assets/icon/QQ.png" alt=""> -->
-                </span>
+                        </span>
+                        <div class="go-scoll-top" @click="goScollTop()">back</div>
+                        <span class="footer-right">
+                                <img class="the-iconn" v-for="item in 4" src="../../assets//icon/brand_hot.png" alt="">
+                                
+                        </span>
                 </div>
         </div>
 </template>
@@ -43,93 +47,95 @@ import FriendChain from './components/FriendChain/index.vue'
 import LeaveMessage from './components/LeaveMessage/index.vue'
 import Admin from './components/login/index.vue'
 import About from './components/About/index.vue'
-import { ref, nextTick, reactive, onMounted, onBeforeMount} from 'vue'
-import { useRouter , useRoute} from 'vue-router'
-import { useTestPinia  } from '../../pinia/index'
+import { ref, nextTick, reactive, onMounted, onBeforeMount } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useTestPinia } from '../../pinia/index'
 import store from '../../store/index';
-
+import imgMe from '../../assets/images/me.jpg'
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const testStore = useTestPinia()
 const themeFzColor = testStore.themeFzColor
 const router = useRouter()
 const route = useRoute()
-const tabList = reactive([
-        {title:'首页',icon:'/src/assets/icon/QQ.png',route:'myBlogIndex'},
-        {title:'分类',icon:'/src/assets/icon/github.png',route:'Classification'},
-        {title:'标签',icon:'/src/assets/icon/邮箱.png',route:'theTabs'},
-        {title:'友链',icon:'/src/assets/icon/邮箱.png',route:'FriendChain'},
-        {title:'留言',icon:'/src/assets/icon/微信.png',route:'LeaveMessage'},
-        {title:'管理',icon:'/src/assets/icon/微信.png',route:'admin'},
-        {title:'关于',icon:'/src/assets/icon/friend.png',route:'About'},
+const tabList = ref([
+        { title: '首页', icon: 'src/assets/icon/QQ.png', route: 'myBlogIndex' },
+        { title: '分类', icon: 'src/assets/icon/github.png', route: 'Classification' },
+        { title: '标签', icon: 'src/assets/icon/邮箱.png', route: 'theTabs' },
+        { title: '友链', icon: 'src/assets/icon/邮箱.png', route: 'FriendChain' },
+        { title: '留言', icon: 'src/assets/icon/微信.png', route: 'LeaveMessage' },
+        { title: '管理', icon: 'src/assets/icon/微信.png', route: 'admin' },
+        { title: '关于', icon: 'src/assets/icon/friend.png', route: 'About' },
 ])
-const remarkCaruselUp:any = ref(null)
+const remarkCaruselUp: any = ref(null)
 const containerBodyMarginTop = ref('10px')
 
-const carouselIndex:any = ref()
+const carouselIndex: any = ref()
 const adminFlag = ref(true)
-onBeforeMount(()=>{
+onBeforeMount(() => {
 })
-        
-onMounted(()=>{
-        if(route.path != '/articleDetail'){
-                carouselIndex.value =Number(localStorage.getItem('carouselIndex'))|| 0
-                let route:any = null
-                tabList.forEach((item,index)=>{
-                        if(carouselIndex.value == index) route =item.route
+
+onMounted(() => {
+        if (route.path != '/articleDetail') {
+                carouselIndex.value = Number(localStorage.getItem('carouselIndex')) || 0
+                let route: any = null
+                tabList.value.forEach((item, index) => {
+                        if (carouselIndex.value == index) route = item.route
                 })
-                setActiveItem(carouselIndex.value,route)
+                setActiveItem(carouselIndex.value, route)
                 routeTest(route.name)
         }
-        adminFlag.value = route.name =='admin'
-        if(route.name =='admin') carouselHeight.value = '100vh'
+        adminFlag.value = route.name == 'admin'
+        if (route.name == 'admin') carouselHeight.value = '100vh'
 })
-const whiteList1 = ['myBlogIndex', 'Classification','theTabs','FriendChain','LeaveMessage','admin','About']
-const setActiveItem = (index:number,route:string) => {
+const whiteList1 = ['myBlogIndex', 'Classification', 'theTabs', 'FriendChain', 'LeaveMessage', 'admin', 'About']
+const setActiveItem = (index: number, route: string) => {
         //查看对应name的图片
-        localStorage.setItem('carouselIndex',`${index}`)
-        setTimeout(()=>{
-                router.push({path:route})
+        localStorage.setItem('carouselIndex', `${index}`)
+        setTimeout(() => {
+                router.push({ path: route })
                 routeTest(route)
-        },200)
+        }, 200)
         nextTick(() => remarkCaruselUp.value.setActiveItem(index))
 }
-const carouselHeight:any = ref(`${document.documentElement.clientWidth * 0.54}px`)
-const routeTest:any = (route:any)=>{
-        const arr =['0px','-15%','-15%','-15%','-15%','-15%','-15%',]
+const carouselHeight: any = ref(`${document.documentElement.clientWidth * 0.54}px`)
+const routeTest: any = (route: any) => {
+        const arr = ['0px', '-15%', '-15%', '-15%', '-15%', '-15%', '-15%',]
         containerBodyMarginTop.value = arr[whiteList1.indexOf(route)]
         let height = document.documentElement.clientWidth
         carouselHeight.value = `${height * 0.54}px`
-       if( route =='admin') carouselHeight.value = '100vh'
+        if (route == 'admin') carouselHeight.value = '100vh'
 }
 window.addEventListener('resize', function () {
-        if(route.name =='admin'){
+        if (route.name == 'admin') {
                 carouselHeight.value = '100vh'
-        }else{
+        } else {
                 let height = document.documentElement.clientWidth
                 carouselHeight.value = `${height * 0.54}px`
         }
 })
-const goScollTop = ()=>document.documentElement.scrollTop = 0
-const topMenuScroll:any = ref('')
+const goScollTop = () => document.documentElement.scrollTop = 0
+const topMenuScroll: any = ref('')
 window.addEventListener('scroll', function () {
         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        if(scrollTop){
+        if (scrollTop) {
                 topMenuScroll.value = themeColor.value
-        }else{
+        } else {
                 topMenuScroll.value = ''
         }
 })
 const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
 </script>
 <style lang='less' scoped>
-.container-body{
+.container-body {
         margin-top: v-bind(containerBodyMarginTop);
 }
-.testColor{
+
+.testColor {
         background-image: v-bind(topMenuScroll);
-        color:v-bind(themeFzColor);
+        color: v-bind(themeFzColor);
 }
-.tabs{  
+
+.tabs {
         display: flex;
         z-index: 99999999;
         align-items: center;
@@ -137,20 +143,23 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
         position: fixed;
         top: 0;
         left: 50%;
-        transform: translate(-50%,0);
+        transform: translate(-50%, 0);
         width: 100%;
         height: 64px;
-        .left{
+
+        .left {
                 // margin-left: 20vw;
                 flex: 1;
                 text-align: right;
         }
-        .center{
+
+        .center {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 min-width: 60%;
-                        .center-tabs-item{
+
+                .center-tabs-item {
                         transition: opacity 0.5s;
                         opacity: 1;
                         flex: 1;
@@ -159,51 +168,58 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
                         align-items: center;
                         // width: 90px;
                         height: 50px;
-                        cursor:pointer;
+                        cursor: pointer;
                         // font-size: 12px;
                 }
+
                 .center-tabs-item:hover {
                         opacity: 0.5;
                         // background: linear-gradient(to right, #4cbf30  0%,#0f9d58 100%) !important;
                 }
         }
-        .right{
+
+        .right {
                 flex: 1;
                 display: flex;
                 justify-content: left;
                 align-items: center;
+
                 // margin-right: 20vw;
-                .right-avatar{
+                .right-avatar {
                         width: 40px;
                         height: 40px;
                         border-radius: 50%;
                 }
         }
 }
+
 :deep(.el-carousel__container) {
         height: v-bind(carouselHeight);
 }
-.footer{
-        color:v-bind(themeFzColor);
+
+.footer {
+        color: v-bind(themeFzColor);
         height: 80px;
         margin: 0 auto;
         background-image: v-bind(themeColor);
 
-        .footer-inner{
+        .footer-inner {
                 margin: 0 auto;
                 width: 60%;
                 height: 100%;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                .footer-left{
-                }
-                .footer-right{
+
+                .footer-left {}
+
+                .footer-right {
                         display: flex;
                         justify-content: right;
                         align-items: center;
                         margin-left: 10%;
-                        .the-iconn{
+
+                        .the-iconn {
                                 margin-left: 10px;
                                 width: 20%;
                                 height: 20%;
@@ -211,7 +227,8 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
                                 max-height: 50px;
                         }
                 }
-                .go-scoll-top{
+
+                .go-scoll-top {
                         position: fixed;
                         bottom: 20px;
                         right: 20px;
@@ -221,9 +238,8 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
                         background-image: v-bind(themeColor);
                         border-radius: 50%;
                         width: 50px;
-                        cursor:pointer
+                        cursor: pointer
                 }
         }
-       
-}
-</style>
+
+}</style>

@@ -1,14 +1,13 @@
 <template>
     <div class="article">
-        <img class="article-img" src='src/assets/images/bg1.jpg' alt="">
-        <div class="article-title">
+        <!-- <div class="article-title">
                 <div>{{ item.articleTitle }}</div>
                 <div>{{ dayjs(item.date).format('YYYY-MM-DD') }}</div>
         </div>
         <div class="article-tabs">
                 <div class="classification">{{  classification2(item.classificationId) }}</div>
                 <div class="tab">{{  articleTab2(item.articleTab) }}</div>
-        </div>
+        </div>  -->
     </div>
 </template>
 

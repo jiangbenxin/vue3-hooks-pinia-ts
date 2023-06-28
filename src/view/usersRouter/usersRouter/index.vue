@@ -13,7 +13,7 @@
 </el-form>
 <div style="margin-top: 20px">
     <el-button @click="batchDelete()">批量删除</el-button>
-    <el-button @click="toggleSelection(tableData)">反选</el-button>
+    <!-- <el-button @click="toggleSelection(tableData)">反选</el-button> -->
     <el-button @click="addFn">添加</el-button>
   </div>
 <el-table
@@ -118,7 +118,6 @@ const clear = ()=>{
 onMounted(()=>{
   getArtcateListfn()
   treeObj.value = genRoutesFn(store.state.allRouters)
-  console.log(treeObj.value);
 })
 const treeObj = ref([])
 const getArtcateListfn = async()=>{
@@ -195,13 +194,13 @@ const handleCurrentChange = (val:any)=> {
 }
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const multipleSelection = ref<any>([])
-const toggleSelection = (rows: any) => {
-  if (rows) {
-    rows.forEach((row:any) => multipleTableRef.value!.toggleRowSelection(row, undefined))
-  } else {
-    multipleTableRef.value!.clearSelection()
-  }
-}
+// const toggleSelection = (rows: any) => {
+//   if (rows) {
+//     rows.forEach((row:any) => multipleTableRef.value!.toggleRowSelection(row, undefined))
+//   } else {
+//     multipleTableRef.value!.clearSelection()
+//   }
+// }
 const handleSelectionChange = (val: any) => {
   multipleSelection.value = val
 }

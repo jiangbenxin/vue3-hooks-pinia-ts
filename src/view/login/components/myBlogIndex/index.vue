@@ -1,7 +1,8 @@
 <template>
    <div id="mainmmm" class="main pop-box">
-    <h1 v-if="route.name == 'articleDetail' " class="img-title">看不懂没关系，一天卷1个</h1>
-    <img class="the-img" src="src/assets/images/bg1.jpg" alt="">
+    <h1 v-if="route.name == 'articleDetail' " class="img-title">详情页</h1>
+    <h1 v-else  class="img-title">首页</h1>
+    <img class="the-img" src="../../../../assets//images/bg1.jpg" alt="">
    </div>
 </template>
 <script lang='ts' setup>

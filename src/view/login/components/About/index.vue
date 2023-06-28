@@ -1,7 +1,7 @@
 <template>
     <div class="pop-box">
-      <h1 class="img-title">看不懂没关系，一天卷1个</h1>
-    <img class="the-img" src="src/assets/images/bg1.jpg" alt="">
+      <h1 class="img-title">关于我</h1>
+    <img class="the-img" src="../../../../assets//images/bg1.jpg" alt="">
     <!-- <audio controls autoplay>
         <source src="./mp3/zzsc.mp3">
     </audio> -->

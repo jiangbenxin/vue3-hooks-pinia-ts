@@ -12,7 +12,7 @@
         </theTitle>
         <div class="articles">
                 <div class="article" @click="articleDetail(item.id)" v-for="(item,index) in articleList">
-                        <img class="article-img" src='src/assets/images/bg1.jpg' alt="">
+                        <img class="article-img" src='../../assets/images/bg1.jpg' alt="">
                         <div class="article-title">
                                 <div>{{ item.articleTitle }}</div>
                                 <div>{{ dayjs(item.date).format('YYYY-MM-DD') }}</div>
@@ -23,9 +23,9 @@
                         </div>
                 </div>
                 <div class="blog-footer">
-                    <div class="blog-footer-left" @click="addOrReduce('-')">左边</div>
+                    <div class="blog-footer-left" @click="addOrReduce('-')"><img class="blog-footer-left-icon" src="../../assets/icon/left.png" alt=""></div>
                     <div class="blog-footer-center">{{ form.curPage }} / {{ totals }}</div>
-                    <div class="blog-footer-right" @click="addOrReduce('+')">右边</div>
+                    <div class="blog-footer-right" @click="addOrReduce('+')"><img class="blog-footer-left-icon" src="../../assets/icon/right.png" alt=""></div>
                 </div>
         </div>
     </div>
@@ -164,7 +164,20 @@ const articleTab2:any =computed(()=>{
         border-radius: 50%;
         width: 50px;
         color: v-bind(themeFzColor);
+        display: flex;
+        justify-content: center;
+        align-items: center;
         cursor:pointer;
+        padding-left: 5px;
+        .blog-footer-left-icon{
+                width: 60%;
+                height: 60%;
+        }
+    }
+    .blog-footer-left{
+        padding-left: 0px;
+        padding-right: 5px;
+
     }
     .blog-footer-center{
         text-align: center;

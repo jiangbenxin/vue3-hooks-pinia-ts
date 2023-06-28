@@ -34,7 +34,7 @@ const pinia = useTestPinia() as any
 // 点击登录按钮触发
 const logout = ()=>{
   pinia.adminLogout().then((res:any)=>{
-    if(res.code == 200) router.push('/login')
+    if(res.code == 200) router.push('admin')
   })
 }
 </script>

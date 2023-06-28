@@ -59,7 +59,6 @@ const user_pic = computed(()=>{
 })
 let router = useRouter()
 let route = useRoute()
-console.log(router,route);
 const dialogFormVisible = ref(false)
 const handleUserInfo = ()=>{
   dialogFormVisible.value = !dialogFormVisible.value

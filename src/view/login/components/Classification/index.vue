@@ -1,7 +1,7 @@
 <template>
     <div class="pop-box">
-      <h1 class="img-title">看不懂没关系，一天卷1个</h1>
-    <img class="the-img" src="src/assets/images/bg1.jpg" alt="">
+      <h1 class="img-title">文章分类</h1>
+    <img class="the-img" src="../../../../assets//images/bg1.jpg" alt="">
       <div class="buttons main">
       <!-- <button class="btn-hover color-1">BUTTON</button> -->
       <!-- <button class="btn-hover color-2">BUTTON</button>
@@ -20,13 +20,14 @@
 <script lang='ts' setup>
 // @ts-nocheck
 // import { ref } from 'vue'
+// import taohua from '../../../../assets/images/taohua.png'
 // let x:any = ref()
 // let y:any = ref()
 //  let stop:any ,staticx:any
 //  const img = new Image();
 // // 杩欓噷鍘焜s浣滆€呰崚濡栨搷浣�,璇风湅婧愮爜,濡備綍杩涘埗杞垚妯辫姳
-// img.src ='/src/assets/images/taohua.png'
-// // img.src ='/src/assets/images/hua1.png'
+// img.src =taohua
+// // img.src ='/images/hua1.png'
 // function Sakura(x, y, s, r, fn) {
 //   this.x = x;
 //   this.y = y;
@@ -152,7 +153,7 @@
 //   document.getElementsByTagName("body")[0].appendChild(canvas);
 //   cxt = canvas.getContext("2d");
 //   const sakuraList = new SakuraList();
-//   for (let i = 0; i < 1; i++) {
+//   for (let i = 0; i < 20; i++) {
 //     let sakura,
 //       randomX,
 //       randomY,

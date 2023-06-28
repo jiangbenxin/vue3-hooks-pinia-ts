@@ -31,7 +31,10 @@ export const getJSonParse =(str:string)=>{
         const arr = JSON.parse(parsedJson)
         arr.forEach((item:any) => {
             item.code = item.code?.replace(/@/g, '\n')
-            item.text = item.text?.replace(/@/g, '\n')
+            item.text.forEach((item2:any) => {
+                item2?.replace(/@/g, '\n')
+            });
+            // item.text = item.text?.replace(/@/g, '\n')
         });
     return arr
 }

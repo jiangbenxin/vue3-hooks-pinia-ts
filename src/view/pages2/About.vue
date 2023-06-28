@@ -2,7 +2,7 @@
         <theTitle>
             <template #inner>
                 <div class="about">
-                   <img class="about-img" src="src/assets/images/me.jpg" alt="" srcset="">
+                   <img class="about-img" src="../../assets//images//me.jpg" alt="" srcset="">
                    <div>originalheart</div>
                    <div>年龄：18岁</div>
                    <div>性别：男</div>
@@ -16,17 +16,21 @@
                                 :content="item.url"
                                 placement="top"
                             >
-                                <div><div class="about-tab" ></div>
-                                <div>{{ item.title }}</div></div>
+                                <div>
+                                    <div class="about-tab" >
+                                        <img class="about-tab-img" src="../../assets/icon/github.png">
+                                    </div>
+                                    <div>{{ item.title }}</div>
+                                </div>
                             </el-tooltip>
                         </div>
                     </div>
                     <div class="about-info">     职业规划：做一名摸鱼菜鸡，在这个高速发展，信息万变的时代，没有人能有最固定的职业规划，我的职业规划也不例外，如果不出意外的话，几年内一定会前端主流技术学好，学到熟练很熟练的程度</div>
                     <p style="text-align: left;margin-top: 10px;">如果有什么好的建议或者分享更好的技术，请您留言或者联系我qq、微信、公众，我一定回复，谢谢</p>
                     <div>关于</div>
-                    <div>关于</div>
-                    <div>关于</div>
-                    <div>关于</div>
+                    <div>还没想好写什么，你教我啊</div>
+                    <div>还没想好写什么，你教我啊</div>
+                    <div>还没想好写什么，你教我啊</div>
                     <div>关于</div>
                     <div>关于</div>
                     <!-- <articleCom :item="itemss"></articleCom> -->
@@ -84,8 +88,12 @@ const goto = (url:string,index:number)=>{
             border-radius: 50%;
             color: aliceblue;
             cursor:pointer
+            
         }
     }
 }
-
+.about-tab-img{
+    width: 60%;
+    height: 60%;
+}
 </style>
