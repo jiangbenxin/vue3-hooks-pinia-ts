@@ -21,7 +21,8 @@ const tabList:any = ref([
     {icon: getAssetsFile('wx.png'),link:''},
     {icon: getAssetsFile('QQ.png'),link:''},
     {icon: getAssetsFile('email.png'),link:''},
-])
+]) 
+
 const gotonext = (url:string,index:number)=>{
     if(index == 0 ||index ==1){
         let path = window.location.protocol +  "//" + url
