@@ -1,14 +1,14 @@
 <template>
   <div class="pop-box">
-    <h1 class="img-title">一天学一个吧1个标签</h1>
-    <img class="the-img" src="../../../../assets//images//bg1.jpg" alt="">
+    <h1 class="img-title">你轻轻地来，正如你沉甸甸的走</h1>
+    <img class="the-img" src="@/assets//images//bg1.jpg" alt="">
 </div>
 </template>
 <script lang='ts' setup>
 </script>
 <style lang='less' scoped>
 .pop-box{
-  position: relative
+  position: relative;
 }
 
 </style>

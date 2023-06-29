@@ -5,7 +5,7 @@
                     <h3 class="friend-title">双向</h3>
                     <div class="friend-chain">
                     <div class="friend-chains" @click="otherBlog(item.url)" v-for="item in friendChainList">
-                        <img class="friend-img" src="../../assets/images/me.jpg" alt="">
+                        <img class="friend-img" src="@/assets/images/me.jpg" alt="">
                         <div class="friend-chains-right">
                             <div class="friend-name">{{ item.friendName }}</div>
                             <div class="friend-intro">{{ item.intro }}</div>
@@ -17,8 +17,8 @@
     </div>
 </template>
 <script lang='ts'  setup>
-import theTitle from '../../components/theTitle.vue'
-import { getArtcate } from '../../api/friendChain'
+import theTitle from '@/components/theTitle.vue'
+import { getArtcate } from '@/api/friendChain'
 import { ref,onMounted} from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
@@ -63,12 +63,13 @@ const otherBlog:any = (url:any)=>{
                 text-align: left;
                 padding-left: 10px;
                 font-size: 22px;
+                color: #fff;
             }
             .friend-intro{
               color: #000;
               text-align: left;
               padding-left: 10px;
-
+              color: #fff;
             }
         }
 }

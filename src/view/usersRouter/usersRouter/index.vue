@@ -78,11 +78,11 @@
 </el-dialog>
 </template>
 <script lang="ts" setup>
-import { addArtcate,getArtcateDetail,updateArtcates,getArtcateList, deleteArtcates } from '../../../api/userManage'
-import { genRoutesFn } from '../../../utils/niceFun'
+import { addArtcate,getArtcateDetail,updateArtcates,getArtcateList, deleteArtcates } from '@/api/userManage'
+import { genRoutesFn } from '@/utils/niceFun'
 import { ref,inject, onMounted } from 'vue'
 import { ElTable,dayjs } from 'element-plus'
-import store from '../../../store'
+import store from '@/store'
 const testtest =  inject('$ElMessage') as any
 const tableData:any = ref()
 const optionProps =ref({

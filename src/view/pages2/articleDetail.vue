@@ -41,17 +41,17 @@
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import store from '../../store';
-import { useTestPinia  } from '../../pinia/index'
+import store from '@/store';
+import { useTestPinia  } from '@/pinia/index'
 import { useRouter, useRoute  } from 'vue-router'
 import "codemirror/mode/javascript/javascript.js"
 import Codemirror from "codemirror-editor-vue3"
 import "codemirror/theme/ayu-mirage.css";
 import "codemirror/theme/neo.css";
-import { getArtcateDetail } from '../../api/article'
+import { getArtcateDetail } from '@/api/article'
 import { dayjs } from 'element-plus'
-import { getJSonParse } from '../../utils/niceFun'
-import imgBg from '../../assets/images/bg1.jpg'
+import { getJSonParse } from '@/utils/niceFun'
+import imgBg from '@/assets/images/bg1.jpg'
 const testStore = useTestPinia()
 const router = useRouter()
 const route = useRoute()

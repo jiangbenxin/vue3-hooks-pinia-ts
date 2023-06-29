@@ -4,7 +4,7 @@
     </div>
 </template>
 <script lang='ts' setup>
-import useMove from "../../../hooks/index"
+import useMove from "@/hooks/index"
 
 const {  x, y } = useMove()
 </script>

@@ -27,7 +27,7 @@
                     <div class="comments">
                         <div class="comments-title">评论{{ total }}</div>
                         <div class="comment" v-for="item in leaveMessage">
-                            <img src="../../assets/images/me.jpg" class="comment-avatar"/>
+                            <img src="@/assets/images/me.jpg" class="comment-avatar"/>
                             <div class="comment-right">
                                 <div class="comment-msg">
                                     <div class="comment-author">{{ item.name }}</div>
@@ -45,12 +45,12 @@
     </div>
 </template>
 <script lang='ts'  setup>
-import theTitle from '../../components/theTitle.vue'
+import theTitle from '@/components/theTitle.vue'
 import { ref, onMounted } from 'vue'
-import {getArtcateList} from '../../api/leaveMessage'
+import {getArtcateList} from '@/api/leaveMessage'
 import { dayjs, ElMessage } from 'element-plus'
-import { addArtcate } from '../../api/leaveMessage'
-import store from '../../store'
+import { addArtcate } from '@/api/leaveMessage'
+import store from '@/store'
 import Cookie from 'js-cookie'
 import { useRouter } from 'vue-router'
 const token = Cookie.get('token')

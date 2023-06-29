@@ -66,7 +66,7 @@
 </el-dialog>
 </template>
 <script lang="ts" setup>
-import { addArtcate,getArtcateDetail,updateArtcates,getArtcateList, deleteArtcates } from '../../../api/artcate'
+import { addArtcate,getArtcateDetail,updateArtcates,getArtcateList, deleteArtcates } from '@/api/artcate'
 import { ref,inject, onMounted } from 'vue'
 import { ElTable,dayjs } from 'element-plus'
 const testtest =  inject('$ElMessage') as any

@@ -1,96 +1,49 @@
 <template>
-   <div id="mainmmm" class="main pop-box">
-    <h1 v-if="route.name == 'articleDetail' " class="img-title">详情页</h1>
-    <h1 v-else  class="img-title">首页</h1>
-    <img class="the-img" src="../../../../assets//images/bg1.jpg" alt="">
-   </div>
+    <div id="mainmmm" class="main pop-box">
+        <h1 v-if="route.name == 'articleDetail'" class="img-title">文章内容并不饱满，想全面的学习请前往官网查看</h1>
+        <div v-if="route.name != 'articleDetail'" class="img-title">
+            <h3>vue3+vite+ts个人博客兼备忘录管理系统(已开源)</h3>
+        </div>
+        <div class="indexIcons"><img @click="gotonext(item.link)" class="indexIcon" v-for="item in tabList" :src="item.icon" alt=""></div>
+
+        <img class="the-img" src="@/assets//images/bg1.jpg" alt="">
+    </div>
 </template>
 <script lang='ts' setup>
-import {ref, onMounted ,nextTick} from 'vue'
-import store from '../../../../store'
-import { useRoute } from 'vue-router';
+import { ref } from 'vue'
+import { getAssetsFile } from '@/utils/niceFun'
+import { useRoute } from 'vue-router'
 const route = useRoute()
-// const base64Img:any = [
-//     '/src/assets/images/hua1.png',
-//     '/src/assets/images/hua2.png',
-//     '/src/assets/images/hua3.png',
-//     '/src/assets/images/hua4.png',
-//     '/src/assets/images/hua5.png',
-//     '/src/assets/images/hua6.png',
-//     '/src/assets/images/hua7.png',
-//     '/src/assets/images/hua8.png',
-// ]
-// //生成从minNum到maxNum的随机数
-// const randomNum = (minNum:any, maxNum:any) => {
-//     if (minNum && maxNum) {
-//         return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
-//     } else if (minNum) {
-//         return parseInt(`${Math.random() * minNum + 1}`, 10);
-//     } else {
-//         return parseInt(`${Math.random() * 10}`, 10);
-//     }
-// }
-
-// // 桃花素材
-// // const snowflakeURl = new Array(6).fill(null,0,0).map((item, index) => `/src/assets/images/hua${index + 1}.png`)
-
-// // 随机六张图
-// // const getImagesName = () => snowflakeURl[randomNum(8,null)];
-// const getImagesName = () => base64Img[randomNum(8,null)];
-
-// // 创建一个雪花元素
-// const createSnow = () => {
-//     let theBody  =  document.body.offsetWidth
-//     const startPositionLeft = randomNum(theBody,null);
-//     let randomStart = Math.random();
-//     randomStart = randomStart < 0.5 ? 1 : randomStart;
-//     const snowboxCssText = `
-//     position: fixed;
-//     top:-10px;
-//     width: 25px;
-//     transform: rotate(0deg);
-//     height: 26px;
-//     background-repeat:no-repeat;
-//     opacity:${randomStart};
-//     background-image: url(${getImagesName()});
-//     left:${startPositionLeft}px;
-//     `;
-//     const snow = document.createElement('div');
-//     snow.style.cssText = snowboxCssText;
-//     return snow;
-// }
-
-// const main = () => {
-//     // 造新落花
-//     const snow = createSnow();
-//     var mainmmm:any =document.querySelector(".main");
-//     // document.body.appendChild(snow);
-//     if(mainmmm){
-//         mainmmm.appendChild(snow)
-//     }
-//     const duration = randomNum(6, 10) * 1000; //随机下落时间
-//     const endPositionLeft = Number(snow.style.left.replace('px', '')) - 100 + Math.random() * 500 + 'px'; //所及下落左/右位置
-//     snow.animate([
-//         { top: '160vh', transform: `rotate(${randomNum(100, 360 * 3)}deg)`, left: endPositionLeft }
-//     ], {
-//         duration
-//     })
-//     snow.getAnimations().map((animation) => {
-//         animation?.finished.then(() => {
-//             // console.log('finished');
-//             snow.remove();
-//         })
-//     })
-// }
-// main()
-// setInterval(async () => {
-//     main()
-// }, 99999)
+const tabList:any = ref([
+    {icon: getAssetsFile('github.png'),link:'https://github.com/jiangbenxin/vue3-hooks-pinia-ts'},
+    {icon: getAssetsFile('gitee.png'),link:'https://gitee.com/jiangbenxin/vue3'},
+    {icon: getAssetsFile('facebook.png'),link:''},
+    {icon: getAssetsFile('wx.png'),link:''},
+    {icon: getAssetsFile('QQ.png'),link:''},
+    {icon: getAssetsFile('email.png'),link:''},
+])
+const gotonext = (url:string,index:number)=>{
+    if(index == 0 ||index ==1){
+        let path = window.location.protocol +  "//" + url
+        window.open(path)
+    }
+}
 </script>
 <style lang='less' scoped>
-.the-img{
-    // width: 100%;/
-    // height: 100%;
-    // min-width: 800px;
-}
+    .indexIcons{
+        position: absolute;
+        bottom: 20%;
+        left: 50%;;
+        transform: translate(-50%,-50%);
+        display: flex;
+        justify-content: center;
+        cursor: pointer;
+        .indexIcon{
+            width: 7%;
+            height: 7%;
+            min-height: 30px;
+            min-width: 30px;
+            margin: 0 5px;
+        }
+    }
 </style>

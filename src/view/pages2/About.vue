@@ -2,7 +2,7 @@
         <theTitle>
             <template #inner>
                 <div class="about">
-                   <img class="about-img" src="../../assets//images//me.jpg" alt="" srcset="">
+                   <img class="about-img" src="@/assets/images/me.jpg" alt="" srcset="">
                    <div>originalheart</div>
                    <div>年龄：18岁</div>
                    <div>性别：男</div>
@@ -18,14 +18,15 @@
                             >
                                 <div>
                                     <div class="about-tab" >
-                                        <img class="about-tab-img" src="../../assets/icon/github.png">
+                                        <img class="about-tab-img" :src="item.imgUrl||'/src/assets/icon/github.png'">
                                     </div>
                                     <div>{{ item.title }}</div>
                                 </div>
                             </el-tooltip>
                         </div>
                     </div>
-                    <div class="about-info">     职业规划：做一名摸鱼菜鸡，在这个高速发展，信息万变的时代，没有人能有最固定的职业规划，我的职业规划也不例外，如果不出意外的话，几年内一定会前端主流技术学好，学到熟练很熟练的程度</div>
+                    <div class="about-info">
+                        职业规划：做一名摸鱼菜鸡，在这个高速发展，信息万变的时代，没有人能有最固定的职业规划，我的职业规划也不例外，如果不出意外的话，几年内一定会前端主流技术学好，学到熟练很熟练的程度</div>
                     <p style="text-align: left;margin-top: 10px;">如果有什么好的建议或者分享更好的技术，请您留言或者联系我qq、微信、公众，我一定回复，谢谢</p>
                     <div>关于</div>
                     <div>还没想好写什么，你教我啊</div>
@@ -33,29 +34,25 @@
                     <div>还没想好写什么，你教我啊</div>
                     <div>关于</div>
                     <div>关于</div>
-                    <!-- <articleCom :item="itemss"></articleCom> -->
                 </div>
             </template>
         </theTitle>
 </template>
 <script lang='ts'  setup>
-import theTitle from '../../components/theTitle.vue'
+import theTitle from '@/components/theTitle.vue'
 import { ref } from 'vue'
-import store from '../../store';
-import { useRouter } from 'vue-router';
-import articleCom from '../../components/article.vue'
-const itemss:any = ref({
-    articleTitle:'test',
-    date:'2020-12-13',
-    classificationId:25,
-    articleTab:58,
-})
+import store from '@/store';
+import github from '@/assets/icon/github.png'
+import gitee from '@/assets/icon/gitee.png'
+import xiaoWX from '@/assets/icon/xiaoWX.png'
+import WX from '@/assets/icon/WX.png'
+import {getAssetsFile} from '@/utils/niceFun'
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const list =ref([
-    {title:'github',info:'访问我的gitee',url:'www.baidu.com'},
-    {title:'gitee',info:'访问我的github',url:'www.baidu.com'},
-    {title:'小程序',info:'查看我的小程序',url:'前往微信搜索小程序'},
-    {title:'公众号',info:'查看我的公众号',url:'请前往微信公众搜索'},
+    {title:'github',info:'访问我的gitee',url:'www.baidu.com',imgUrl:getAssetsFile('github.png')},
+    {title:'gitee',info:'访问我的github',url:'www.baidu.com',imgUrl:getAssetsFile('gitee.png')},
+    {title:'小程序',info:'查看我的小程序',url:'前往微信搜索小程序',imgUrl:getAssetsFile('xiaoWX.png')},
+    {title:'公众号',info:'查看我的公众号',url:'请前往微信公众搜索',imgUrl:getAssetsFile('wx.png')},
 ])
 const goto = (url:string,index:number)=>{
     if(index == 0 ||index ==1){
@@ -87,13 +84,17 @@ const goto = (url:string,index:number)=>{
             text-align: center;
             border-radius: 50%;
             color: aliceblue;
-            cursor:pointer
-            
+            cursor:pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .about-tab-img{
+                width: 60%;
+                height: 60%;
+            }
         }
     }
 }
-.about-tab-img{
-    width: 60%;
-    height: 60%;
-}
+
+
 </style>

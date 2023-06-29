@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 // import VueRouter from 'vue-router'
 // import Vue from 'vue'
@@ -84,7 +83,7 @@ const genRoutes = () => {
   // const newRoutes:RouteRecordRaw[] = []
   // 循环菜单对象
   for (const key in menus) {
-    const newRoute: RouteRecordRaw = {
+    const newRoute: any = {
       path: '/' + menus[key].name,
       name: menus[key].name,
       component: () => import('../view/homepage/homepage.vue'),
@@ -104,25 +103,29 @@ const genRoutes = () => {
   }
 }
 const whiteList = ['/myBlogIndex', '/articleDetail', '/Classification', '/theTabs', '/FriendChain', '/LeaveMessage', '/About', '/admin'] // no redirect whitelist
+const userWhiteList = ['admin','admin2','admin3','admin4','admin5',] // no redirect whitelist
+
 // 前置路由守卫
 router.beforeEach((to, from, next) => {
   const token = Cookies.get('token')
+  let username = store.state.userInfo.username
+  let menusLength = store.state.menus.length
   if (store.state.articleTabs == null) {
     store.dispatch('getSelect')
   }
-  if (token && store.state.menus.length === 0) {
+  if (token && menusLength === 0) {
     // 异步
     store.dispatch('getAdminInfo').then(() => {
       genRoutes()
       next(to)
     })
-  } else if (token && store.state.menus.length !== 0 && store.state.userInfo.username == 'admin'&&to.path !=='/') {
+  } else if (token && menusLength !== 0 && userWhiteList.indexOf(username) != -1 &&to.path !=='/') {
     next()
-  } else if (token && store.state.menus.length !== 0 && store.state.userInfo.username == 'admin'&&to.path =='/') {
+  } else if (token && menusLength !== 0 && userWhiteList.indexOf(username) != -1 &&to.path =='/') {
     next('index')
-  } else if (token && store.state.menus.length !== 0 && store.state.userInfo.username != 'admin' && whiteList.indexOf(to.path) == -1) {
+  } else if (token && menusLength !== 0 && userWhiteList.indexOf(username) == -1 && whiteList.indexOf(to.path) == -1) {
     next('admin')
-  } else if (token && store.state.menus.length !== 0 && store.state.userInfo.username !== 'admin' && whiteList.indexOf(to.path)) {
+  } else if (token && menusLength !== 0 && userWhiteList.indexOf(username) == -1 && whiteList.indexOf(to.path)) {
     next()
   } else if (!token && whiteList.indexOf(to.path) == -1) {
     next('/myBlogIndex')

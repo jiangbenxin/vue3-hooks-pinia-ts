@@ -101,15 +101,15 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { addArtcate, getArtcateDetail, updateArtcates, getArtcateList, deleteArtcates } from '../../../api/article'
+import { addArtcate, getArtcateDetail, updateArtcates, getArtcateList, deleteArtcates } from '@/api/article'
 import { ref, inject, onMounted, computed } from 'vue'
 import { ElTable, dayjs } from 'element-plus'
 import "codemirror/mode/javascript/javascript.js"
 import Codemirror from "codemirror-editor-vue3"
 import "codemirror/theme/ayu-mirage.css";
 import "codemirror/theme/neo.css";
-import store from '../../../store'
-import { getJSonParse } from '../../../utils/niceFun'
+import store from '@/store'
+import { getJSonParse } from '@/utils/niceFun'
 const cmOptions = ref({
   mode: "text/javascript",
   lineNumbers: true, // Show line number

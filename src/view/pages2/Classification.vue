@@ -25,9 +25,9 @@
                         </div>
                 </div>
                 <div class="blog-footer">
-                        <div class="blog-footer-left" @click="addOrReduce('-')"><img class="blog-footer-left-icon" src="../../assets/icon/left.png" alt=""></div>
+                        <div class="blog-footer-left" @click="addOrReduce('-')"><img class="blog-footer-left-icon" src="@/assets/icon/left.png" alt=""></div>
                         <div class="blog-footer-center">{{ form.curPage }} / {{ totals }}</div>
-                        <div class="blog-footer-right" @click="addOrReduce('+')"><img class="blog-footer-left-icon" src="../../assets/icon/right.png" alt=""></div>
+                        <div class="blog-footer-right" @click="addOrReduce('+')"><img class="blog-footer-left-icon" src="@/assets/icon/right.png" alt=""></div>
                 </div>
         </div>
         <div class="blog-footer">
@@ -36,15 +36,15 @@
 </div>
 </template>
 <script lang='ts'  setup>
-import { getArtcateList } from '../../api/article'
-import {getRandomColor} from '../../utils/niceFun'
+import { getArtcateList } from '@/api/article'
+import {getRandomColor} from '@/utils/niceFun'
 import { useRouter } from 'vue-router'
-import theTitle from '../../components/theTitle.vue'
+import theTitle from '@/components/theTitle.vue'
 import { ref , computed, onMounted } from 'vue'
-import { useTestPinia  } from '../../pinia/index'
-import store from '../../store/index';
+import { useTestPinia  } from '@/pinia/index'
+import store from '@/store/index';
 import { dayjs } from 'element-plus';
-import imgBg from '../../assets/images/bg1.jpg'
+import imgBg from '@/assets/images/bg1.jpg'
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const testStore = useTestPinia()
 const themeFzColor = testStore.themeFzColor

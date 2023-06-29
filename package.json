@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/express-rate-limit": "^6.0.0",
     "@types/js-cookie": "^3.0.2",
+    "@types/node": "^20.3.2",
     "@types/qs": "^6.9.7",
     "@types/rate-limit-redis": "^3.0.0",
     "@vitejs/plugin-vue": "^4.0.0",

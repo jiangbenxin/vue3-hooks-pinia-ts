@@ -2,15 +2,15 @@
   <div>
     <!-- 你好 {{ testStore.username }} -->
     <el-button @click="handleUserInfo()">修改个人用户信息</el-button>
-      <el-button @click="updateUserPwd()">修改密码</el-button>
-      <div>用户头像：<img class="userAvatar"  :src="user_pic" alt=""></div>
+      <el-button @click=handleUpdateUserPwd()>修改密码</el-button>
+      <div>用户头像：<img class="userAvatar"  :src="store.state.userInfo.user_pic|| avatar" alt=""></div>
       <div>用户昵称:{{ store.state.userInfo.nickname }}</div>
       <div>用户联系方式:{{ store.state.userInfo.email }}</div>
       <div>用户账号：{{ store.state.userInfo.username }}</div>
       <el-dialog v-model="dialogFormVisible" title="信息修改">
-        <el-form ref="form" :model="formInfo" label-width="80px">
+        <el-form v-if="!editrPwd" ref="form" :model="formInfo" label-width="80px">
           <el-form-item label="头像:" :label-width="labelWidth">
-            <img class="userAvatar" :src="imageUrl||user_pic" alt="" srcset="">
+            <img class="userAvatar" :src="imageUrl" alt="" srcset="">
             <el-upload
               ref="uploadRef"
               class="upload-demo"
@@ -32,10 +32,21 @@
             <el-input v-model="formInfo.email"></el-input>
           </el-form-item>
       </el-form>
+      <el-form v-else ref="form" :model="formInfo" label-width="80px">
+        <el-form-item label="旧密码:" :label-width="labelWidth">
+            <el-input v-model="formPwd.oldPwd"></el-input>
+          </el-form-item>
+          <el-form-item label="新密码:" :label-width="labelWidth">
+            <el-input v-model="formPwd.newPwd"></el-input>
+          </el-form-item>
+          <el-form-item label="新密码:"  :label-width="labelWidth">
+            <el-input v-model="formPwd.newPwd"></el-input>
+          </el-form-item>
+      </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="updateUserInfoFn()">
+          <el-button type="primary" @click="editrPwd?updateUserPwd():updateUserInfoFn()">
             Confirm
           </el-button>
         </span>
@@ -44,23 +55,31 @@
   </div>
 </template>
 <script lang="ts" setup>
-import  { updateUserInfo,updateUserPassword } from '../../../api/user'
-import store from '../../../store';
-import avatar from '../../../assets/images/me.jpg'
-import { ref, computed, inject, reactive, onMounted } from 'vue'
+import  { updateUserInfo,updateUserPassword } from '@/api/user'
+import store from '@/store';
+import avatar from '@/assets/images/me.jpg'
+import { ref, inject, reactive} from 'vue'
 import type { UploadProps} from 'element-plus'
 import type { UploadInstance } from 'element-plus'
-import { useRouter, useRoute} from 'vue-router'
+const imageUrl:any = ref( store.state.userInfo.user_pic|| avatar)
 
+const formInfo:any = reactive({
+    id:store.state.userInfo.id,
+    nickname:store.state.userInfo.nickname,
+    email:store.state.userInfo.email,
+    user_pic:store.state.userInfo.user_pic
+})
+const formPwd = reactive({
+    id:store.state.userInfo.id,
+    newPwd:null,
+    oldPwd:null
+})
 const ElMessage =  inject('$ElMessage') as any
 const labelWidth = ref('120px')
-const user_pic = computed(()=>{
-  return store.state.userInfo.user_pic|| avatar
-})
-let router = useRouter()
-let route = useRoute()
+const editrPwd = ref(false)
 const dialogFormVisible = ref(false)
 const handleUserInfo = ()=>{
+  editrPwd.value = false
   dialogFormVisible.value = !dialogFormVisible.value
 }
 const uploadRef = ref<UploadInstance>()
@@ -72,14 +91,22 @@ const uploadRef = ref<UploadInstance>()
 //   }
 // }
 const updateUserInfoFn = async()=>{
-  const res = await updateUserInfo(formInfo)
-  console.log(res);
+  const res:any = await updateUserInfo(formInfo)
+  if(res.status == 0){
+    ElMessage.success(res.message)
+    store.dispatch('getAdminInfo')
+    dialogFormVisible.value = !dialogFormVisible.value
+  }
 }
-const imageUrl:any = ref()
 const handleChange: UploadProps['onChange'] = (uploadFile:any) => {
-   tobase64(uploadFile).then((res:any)=>{
+  tobase64(uploadFile).then((res:any)=>{
     imageUrl.value = res
-   })
+    formInfo.user_pic = imageUrl.value
+  })
+}
+const handleUpdateUserPwd = ()=>{
+  editrPwd.value = true
+  dialogFormVisible.value = !dialogFormVisible.value
 }
 const tobase64 = (uploadFile:any)=>{
   return new Promise(function (resolve, reject) {
@@ -97,21 +124,13 @@ const tobase64 = (uploadFile:any)=>{
     };
   });
 }
-const formInfo:any = reactive({
-    id:store.state.userInfo.id,
-    nickname:'111',
-    email:'111@qq.com',
-    avatar:imageUrl.value,
-    menuRouters:'[1,3,2]'
-})
-const formPwd = reactive({
-    id:store.state.userInfo.id,
-    newPwd:'1234567',
-    oldPwd:'123456'
-})
+
 const updateUserPwd = async ()=>{
-    const data = await updateUserPassword(formPwd)
-    console.log(data);
+    const res:any = await updateUserPassword(formPwd)
+    if(res.status == 0){ 
+      dialogFormVisible.value = !dialogFormVisible.value
+      ElMessage.success(res.message)
+    }
 }
 </script>
 <style lang="less" scoped>

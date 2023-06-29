@@ -9,7 +9,7 @@
   <script lang="ts">
   import { defineComponent} from 'vue'
   // 引入hooks
-  import useMousePosition from '../../../hooks'
+  import useMousePosition from '@/hooks'
   export default defineComponent({
     setup () {
       // 使用hooks功能

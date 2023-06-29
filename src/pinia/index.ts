@@ -48,6 +48,7 @@ export const useTestPinia = defineStore<string, TestState>('TestId', {
       let username:any = store.state.userInfo.username
       return new Promise((resolve:any,reject:any)=>{
         adminLogout({username}).then((res: any)=>{
+          store.dispatch('logout')
           if(res.code == 200){
             Cookie.remove('token')
             this.theToken = ''

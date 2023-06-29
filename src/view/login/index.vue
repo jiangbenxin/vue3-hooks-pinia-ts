@@ -33,7 +33,7 @@
                         </span>
                         <div class="go-scoll-top" @click="goScollTop()">back</div>
                         <span class="footer-right">
-                                <img class="the-iconn" v-for="item in 4" src="../../assets//icon/brand_hot.png" alt="">
+                                <img class="the-iconn" v-for="item in footerList" :src="item" alt="">
                                 
                         </span>
                 </div>
@@ -49,22 +49,29 @@ import Admin from './components/login/index.vue'
 import About from './components/About/index.vue'
 import { ref, nextTick, reactive, onMounted, onBeforeMount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useTestPinia } from '../../pinia/index'
-import store from '../../store/index';
-import imgMe from '../../assets/images/me.jpg'
+import { useTestPinia } from '@/pinia/index'
+import store from '@/store/index';
+import imgMe from '@/assets/images/me.jpg'
+import {getAssetsFile} from '@/utils/niceFun'
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const testStore = useTestPinia()
 const themeFzColor = testStore.themeFzColor
 const router = useRouter()
 const route = useRoute()
 const tabList = ref([
-        { title: '首页', icon: 'src/assets/icon/QQ.png', route: 'myBlogIndex' },
-        { title: '分类', icon: 'src/assets/icon/github.png', route: 'Classification' },
-        { title: '标签', icon: 'src/assets/icon/邮箱.png', route: 'theTabs' },
-        { title: '友链', icon: 'src/assets/icon/邮箱.png', route: 'FriendChain' },
-        { title: '留言', icon: 'src/assets/icon/微信.png', route: 'LeaveMessage' },
-        { title: '管理', icon: 'src/assets/icon/微信.png', route: 'admin' },
-        { title: '关于', icon: 'src/assets/icon/friend.png', route: 'About' },
+        { title: '首页', icon: getAssetsFile('index.png'), route: 'myBlogIndex' },
+        { title: '分类', icon: getAssetsFile('class.png'), route: 'Classification' },
+        { title: '标签', icon: getAssetsFile('tab.png'), route: 'theTabs' },
+        { title: '友链', icon: getAssetsFile('friend.png'), route: 'FriendChain' },
+        { title: '留言', icon: getAssetsFile('mesage.png'), route: 'LeaveMessage' },
+        { title: '管理', icon: getAssetsFile('setting.png'), route: 'admin' },
+        { title: '关于', icon: getAssetsFile('about.png'), route: 'About' },
+])
+const footerList = ref([
+        getAssetsFile('facebook.png'),
+        getAssetsFile('wx.png'),
+        getAssetsFile('QQ.png'),
+        getAssetsFile('email.png'),
 ])
 const remarkCaruselUp: any = ref(null)
 const containerBodyMarginTop = ref('10px')
@@ -169,7 +176,7 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
                         // width: 90px;
                         height: 50px;
                         cursor: pointer;
-                        // font-size: 12px;
+                        font-size: 0.8rem;
                 }
 
                 .center-tabs-item:hover {
@@ -221,8 +228,8 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
 
                         .the-iconn {
                                 margin-left: 10px;
-                                width: 20%;
-                                height: 20%;
+                                width: 15%;
+                                height: 15%;
                                 max-width: 50px;
                                 max-height: 50px;
                         }

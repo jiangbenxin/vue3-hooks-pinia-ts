@@ -15,8 +15,8 @@
     </div>
 </template>
 <script lang='ts' setup>
-import store from '../../../store';
-import { useTestPinia  } from '../../../pinia/index'
+import store from '@/store';
+import { useTestPinia  } from '@/pinia/index'
 const testStore = useTestPinia()
 // // 修改state数据方式1
 const fn5 = ()=>testStore.count = 11

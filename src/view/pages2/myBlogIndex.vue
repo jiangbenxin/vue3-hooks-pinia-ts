@@ -2,17 +2,17 @@
     <div>
         <theTitle>
                 <template #title>
-                        <h2 class="title">我的我的我的我的</h2>
+                        <h2 class="title">人生的意义是什么</h2>
                 </template>
                 <template #inner> 
-                <div style="color: #000;">
-                        classificationId2
+                <div style="color: #000;text-indent: 2em;margin: 0 30px;">
+                        {{info}}
                 </div>
                 </template>
         </theTitle>
         <div class="articles">
                 <div class="article" @click="articleDetail(item.id)" v-for="(item,index) in articleList">
-                        <img class="article-img" src='../../assets/images/bg1.jpg' alt="">
+                        <img class="article-img" src='@/assets/images/bg1.jpg' alt="">
                         <div class="article-title">
                                 <div>{{ item.articleTitle }}</div>
                                 <div>{{ dayjs(item.date).format('YYYY-MM-DD') }}</div>
@@ -23,21 +23,22 @@
                         </div>
                 </div>
                 <div class="blog-footer">
-                    <div class="blog-footer-left" @click="addOrReduce('-')"><img class="blog-footer-left-icon" src="../../assets/icon/left.png" alt=""></div>
+                    <div class="blog-footer-left" @click="addOrReduce('-')"><img class="blog-footer-left-icon" src="@/assets/icon/left.png" alt=""></div>
                     <div class="blog-footer-center">{{ form.curPage }} / {{ totals }}</div>
-                    <div class="blog-footer-right" @click="addOrReduce('+')"><img class="blog-footer-left-icon" src="../../assets/icon/right.png" alt=""></div>
+                    <div class="blog-footer-right" @click="addOrReduce('+')"><img class="blog-footer-left-icon" src="@/assets/icon/right.png" alt=""></div>
                 </div>
         </div>
     </div>
 </template>
 <script lang='ts'  setup>
-import theTitle from '../../components/theTitle.vue'
+import theTitle from '@/components/theTitle.vue'
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import store from '../../store/index';
-import { useTestPinia  } from '../../pinia/index'
-import { getArtcateList } from '../../api/article'
+import store from '@/store/index';
+import { useTestPinia  } from '@/pinia/index'
+import { getArtcateList } from '@/api/article'
 import { dayjs } from 'element-plus';
+const info = '躺平与奋斗是两种种过程，愿你躺平的时候玩的开心，奋斗的时候收获满满，而不是躺平的时候玩的不开心，奋斗的时候又不够奋斗'
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const testStore = useTestPinia()
 const themeFzColor = testStore.themeFzColor
@@ -56,7 +57,6 @@ const addOrReduce = (flag:any)=>{
                 form.value.curPage--
                 getList()
         }
-        
 }
 let total:any = ref()
 const totals:any =computed(()=>{

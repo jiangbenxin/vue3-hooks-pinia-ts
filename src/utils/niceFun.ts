@@ -3,6 +3,9 @@
 //         return (c ? arguments.callee(m, s, c - 1) : '#') +
 //             s[m.floor(m.random() * 16)]
 //     })(Math, '0123456789abcdef', 5)
+
+import { log } from "console"
+
 // }
 const colorArr:any = [
     '#d7bde2',
@@ -59,4 +62,9 @@ export const genRoutesFn = (routers:any)=>{
         }
     })
     return treeObj
+}
+
+// 获取assets静态资源
+export const getAssetsFile = (url: string) => {
+    return new URL(`../assets/icon/${url}`, import.meta.url).href;
 }

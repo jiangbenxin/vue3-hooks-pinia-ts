@@ -13,8 +13,8 @@
 </template>
 
 <script lang='ts' setup>
-import Header from '../../layout/header.vue'
-import sideBar from '../../layout/sideBar.vue'
+import Header from '@/layout/header.vue'
+import sideBar from '@/layout/sideBar.vue'
 // [{title: '一级菜单标题', children: [{二级菜单对象}, {二级菜单对象}]}, {。。。}]
 //{ 一级菜单id: {title: '一级菜单标题', children: [{二级菜单对象}, {二级菜单对象}]}}
 </script>

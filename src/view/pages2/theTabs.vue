@@ -17,10 +17,10 @@
     </div>
 </template>
 <script lang='ts'  setup>
-import theTitle from '../../components/theTitle.vue'
-import {getRandomColor} from '../../utils/niceFun'
+import theTitle from '@/components/theTitle.vue'
+import {getRandomColor} from '@/utils/niceFun'
 import { ref, onMounted } from 'vue'
-import { getarticleTabs } from '../../api/articleTabs'
+import { getarticleTabs } from '@/api/articleTabs'
 onMounted(async()=>{
     const res = await getarticleTabs()
     tabList2.value = res.data

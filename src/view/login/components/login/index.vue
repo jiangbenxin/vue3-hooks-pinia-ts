@@ -18,10 +18,10 @@
         </div>
 </template>
 <script lang='ts' setup>
-import { useTestPinia } from '../../../../pinia/index'
+import { useTestPinia } from '@/pinia/index'
 import { storeToRefs } from 'pinia'
 import {reactive,toRefs,ref} from 'vue'
-import {adminResgiter} from '../../../../api/user'
+import {adminResgiter} from '@/api/user'
 import { useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import { ElMessage} from 'element-plus'
@@ -53,6 +53,7 @@ const rules = reactive({
         username:[{required:true,message:'用户名不能为空',trigger:'blur'}],
         password:[{required:validatepassword,trigger:'blur'}]
 })
+const userWhiteList = ['admin','admin2','admin3','admin4','admin5',] // no redirect whitelist
 // 点击登录按钮触发
 const loginFn = async()=>{
         ruleFormRef.value.validate().then( async()=>{
@@ -60,15 +61,14 @@ const loginFn = async()=>{
                        store.dispatch('adminLogin',ruleForm.value).then((res: { code: number; token: string })=>{
                         // pinia.adminLogin(loginForm).then((res: { code: number; token: string })=>{
                                 if(res.code == 200){
+                                        if(userWhiteList.indexOf(ruleForm.value.username) != -1){
                                                 console.log(ruleForm.value.username);
-                                                if(ruleForm.value.username == 'admin'){
-                                                        console.log(ruleForm.value.username);
-                                                        setTimeout(()=>{
-                                                                router.push('index')
-                                                        },500)
-                                                }else{
-                                                        ElMessage.success('登录成功，管理系统不对外开放')
-                                                }
+                                                setTimeout(()=>{
+                                                        router.push('index')
+                                                },500)
+                                        }else{
+                                                ElMessage.success('登录成功，管理系统不对外开放')
+                                        }
                                 }
                         })
                 }else{
@@ -83,7 +83,7 @@ const loginFn = async()=>{
 </script>
 <style lang='less' scoped>
 .login-container{
-        background-image: url('../../../../assets//images//bg1.jpg');
+        background-image: url('@/assets/images/bg1.jpg');
         background-repeat: no-repeat;
         background-size: cover;
         height: 100%;
