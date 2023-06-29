@@ -4,7 +4,7 @@
         <div v-if="route.name != 'articleDetail'" class="img-title">
             <h3>vue3+vite+ts个人博客兼备忘录管理系统(已开源)</h3>
         </div>
-        <div class="indexIcons"><img @click="gotonext(item.link)" class="indexIcon" v-for="item in tabList" :src="item.icon" alt=""></div>
+        <div class="indexIcons"><img @click="gotonext(item.link,index)" class="indexIcon" v-for="(item,index) in tabList" :src="item.icon" alt=""></div>
 
         <img class="the-img" src="@/assets//images/bg1.jpg" alt="">
     </div>
