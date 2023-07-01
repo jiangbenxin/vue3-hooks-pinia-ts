@@ -10,7 +10,7 @@
                 </div>
                 <div v-if="!flag" class="right"><img class="right-avatar" :src="imgMe"></div>
         </div>
-        <el-carousel :initial-index="carouselIndex" indicator-position="none" ref="remarkCaruselUp" :autoplay="false"
+        <el-carousel :initial-index="carouselIndexs" indicator-position="none" ref="remarkCaruselUp" :autoplay="false"
                 :interval="1000" arrow="never">
                 <el-carousel-item v-for="(item, index) in tabList" :name="`${index}`" :key="item">
                         <myBlogIndex v-if="index == 0"></myBlogIndex>
@@ -47,7 +47,7 @@ import FriendChain from './components/FriendChain/index.vue'
 import LeaveMessage from './components/LeaveMessage/index.vue'
 import Admin from './components/login/index.vue'
 import About from './components/About/index.vue'
-import { ref, nextTick, reactive, onMounted, onBeforeMount } from 'vue'
+import { ref, nextTick, reactive, computed, onMounted, onBeforeMount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useTestPinia } from '@/pinia/index'
 import store from '@/store/index';
@@ -77,6 +77,9 @@ const remarkCaruselUp: any = ref(null)
 const containerBodyMarginTop = ref('10px')
 
 const carouselIndex: any = ref()
+const carouselIndexs: any = computed(()=>{
+        return carouselIndex.value 
+})
 const adminFlag = ref(true)
 onBeforeMount(() => {
 })

@@ -67,6 +67,29 @@
           <el-option v-for="item in classificationList" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="头像:" :label-width="formLabelWidth">
+            <!-- <img class="userAvatar" :src="dialogForm.imgUrl" alt="" srcset="">
+            <el-upload
+              class="upload-demo"
+              action="#"
+              :auto-upload="false"
+              :show-file-list="false"
+              :name="'avatar'"
+              :on-change="handleChange"
+            >
+            </el-upload> -->
+            <el-upload
+              action="#"
+              :on-change="handleChange"
+              class="upload-demo"
+              :auto-upload="false"
+              :show-file-list="false"
+              list-type='picture'
+            >
+            <img v-if="dialogForm.imgUrl" :src="dialogForm.imgUrl" class="avatar" />
+              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+            </el-upload>
+          </el-form-item>
       <el-form-item label="文章内容：" :label-width="formLabelWidth">
         <div class="titleText" v-for="(item, index) in dialogForm.articleText" :key="item">
           <el-form-item label="小标题"  style="margin-bottom: 5px;display: flex;">
@@ -103,13 +126,15 @@
 <script lang="ts" setup>
 import { addArtcate, getArtcateDetail, updateArtcates, getArtcateList, deleteArtcates } from '@/api/article'
 import { ref, inject, onMounted, computed } from 'vue'
-import { ElTable, dayjs } from 'element-plus'
+import { ElForm,ElTable, dayjs, UploadInstance,UploadProps  } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
 import "codemirror/mode/javascript/javascript.js"
 import Codemirror from "codemirror-editor-vue3"
 import "codemirror/theme/ayu-mirage.css";
 import "codemirror/theme/neo.css";
 import store from '@/store'
 import { getJSonParse } from '@/utils/niceFun'
+import { Buffer } from 'buffer';
 const cmOptions = ref({
   mode: "text/javascript",
   lineNumbers: true, // Show line number
@@ -135,6 +160,7 @@ const testtest = inject('$ElMessage') as any
 const tableData: any = ref()
 let dialogForm: any = ref({
   articleTitle: null,
+  imgUrl:null,
   id: null,
   articleTab: null,
   articleText: [
@@ -144,6 +170,7 @@ let dialogForm: any = ref({
   ],
   classificationId: null
 })
+
 const formInline = ref({
   articleTitle: null,
   id: null,
@@ -195,16 +222,27 @@ const reducetext: any = (flag: number) => {
     Reflect.deleteProperty(lastFormText, 'code')
   }
 }
-const clear2 = () => {
-  dialogForm.value = {
-    articleTitle: null,
-    id: null,
-    articleTab: null,
-    articleText: [
-      { title: null, text: null },
-    ],
-    classificationId: null
-  }
+const handleChange: UploadProps['onChange'] = (uploadFile:any) => {
+  // dialogForm.value.imgUrl =  URL.createObjectURL(uploadFile.raw)
+  tobase64(uploadFile).then((res:any)=>{
+    dialogForm.value.imgUrl = res
+  })
+}
+const tobase64 = (uploadFile:any)=>{
+  return new Promise(function (resolve, reject) {
+    const reader = new FileReader();
+    let imgResult:any = null;
+    reader.readAsDataURL(uploadFile.raw);
+    reader.onload = function () {
+      imgResult = reader.result;
+    };
+    reader.onerror = function (error) {
+      reject(error);
+    };
+    reader.onloadend = function () {
+      resolve(imgResult);
+    };
+  });
 }
 const classificationList: any = ref(store.state.Artcate)
 const articleTabList: any = ref(store.state.articleTabs)
@@ -217,6 +255,18 @@ const getArtcateListfn = async () => {
   total.value = res.total
 }
 const addaddadd = () => {
+  dialogForm.value = {
+  articleTitle: null,
+  imgUrl:null,
+  id: null,
+  articleTab: null,
+  articleText: [
+    {
+      title: '', text: [''], code: ''
+    },
+  ],
+  classificationId: null
+}
   dialogFormVisible.value = true
   edit.value = false
 }
@@ -230,30 +280,36 @@ const addaddArtcate = async () => {
     id: dialogForm.value.id,
     articleTab: dialogForm.value.articleTab,
     articleText: JSON.stringify(dialogForm.value.articleText),
-    classificationId: dialogForm.value.classificationId
+    classificationId: dialogForm.value.classificationId,
+    imgUrl:dialogForm.value.imgUrl
   }
   const res: any = await addArtcate(obj)
   if (res.status == 0) {
     getArtcateListfn()
     testtest.success(res.message)
     dialogFormVisible.value = !dialogFormVisible.value
+
   } else {
     testtest.success(res.message)
   }
 }
+const reader = new FileReader();
 const updateArtcate = async () => {
-  let obj = {
+  // 解码 Base64 图片为二进制数据
+  let data = {
     articleTitle: dialogForm.value.articleTitle,
     id: dialogForm.value.id,
     articleTab: dialogForm.value.articleTab,
     articleText: JSON.stringify(dialogForm.value.articleText),
-    classificationId: dialogForm.value.classificationId
+    classificationId: dialogForm.value.classificationId,
+    imgUrl: dialogForm.value.imgUrl
   }
-  await updateArtcates(obj).then((res: any) => {
+  await updateArtcates(data).then((res: any) => {
     if (res.status == 0) {
       testtest.success(res.message)
       dialogFormVisible.value = !dialogFormVisible.value
       getArtcateListfn()
+      
     }
   })
 }
@@ -261,12 +317,9 @@ const handleEdit = async (index: number, row: any) => {
   edit.value = true
   const res: any = await getArtcateDetail(row.id)
   if (res.status == 0) {
-    setTimeout(() => {
-      dialogForm.value = res.data
-      console.log(dialogForm.value,res.data);
-      dialogForm.value.articleText = getJSonParse(res.data.articleText)
+      dialogForm.value = res.data[1]
+      dialogForm.value.articleText = getJSonParse(res.data[1].articleText)
       testtest.success(res.message)
-    }, 100)
     dialogFormVisible.value = !dialogFormVisible.value
   }
 }
@@ -360,6 +413,34 @@ const articleTab2: any = computed(() => {
   color: aliceblue;
   right: -30px;
   cursor: pointer;
+}
+.userAvatar{
+  max-height: 300px;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #000;
+}
+.avatar{
+  max-height: 200px;
 }
 </style>
   

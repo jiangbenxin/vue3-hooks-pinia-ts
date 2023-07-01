@@ -12,7 +12,7 @@
         </theTitle>
         <div class="articles">
                 <div class="article" @click="articleDetail(item.id)" v-for="(item,index) in articleList">
-                        <img class="article-img" src='@/assets/images/bg1.jpg' alt="">
+                        <img class="article-img" :src='item.imgUrl||imgBg' alt="">
                         <div class="article-title">
                                 <div>{{ item.articleTitle }}</div>
                                 <div>{{ dayjs(item.date).format('YYYY-MM-DD') }}</div>
@@ -38,6 +38,7 @@ import store from '@/store/index';
 import { useTestPinia  } from '@/pinia/index'
 import { getArtcateList } from '@/api/article'
 import { dayjs } from 'element-plus';
+import imgBg from '@/assets/images/bg1.jpg'
 const info = '躺平与奋斗是两种种过程，愿你躺平的时候玩的开心，奋斗的时候收获满满，而不是躺平的时候玩的不开心，奋斗的时候又不够奋斗'
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const testStore = useTestPinia()

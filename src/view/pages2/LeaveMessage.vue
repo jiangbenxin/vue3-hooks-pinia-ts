@@ -60,7 +60,7 @@ onMounted(()=>{
 })
 const total:any = ref()
 const gologin = ()=>{
-    localStorage.setItem('carouselIndex',`4`)
+    localStorage.setItem('carouselIndex',`5`)
     router.push('admin')
 }
 let form =ref({

@@ -8,7 +8,7 @@
                 <div class="artile-detail-line"></div>
                 <div class="artile-details" v-for="item in articleDetails.articleText">
                         <div class="artile-details-title" >{{ item.title }}</div>
-                        <div v-for="(item2,index) in item.text">
+                        <div v-for="(item2,index) in item.text||[]">
                                 <div class="artile-details-text"  v-html="item2"></div>
                         </div>
                         <Codemirror
@@ -83,8 +83,8 @@ const getDeatil = async(id:any)=>{
                                 item.articleText = getJSonParse(item.articleText) 
                         }
                 })
-                articleDetails.value = datalist[0]
-                footerList.value = [datalist[1],datalist[2]]
+                articleDetails.value = datalist[1]
+                footerList.value = [datalist[0],datalist[2]]
         })
 }
 const footerList:any = ref([])

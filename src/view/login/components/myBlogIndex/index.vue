@@ -4,7 +4,7 @@
         <div v-if="route.name != 'articleDetail'" class="img-title">
             <h3>vue3+vite+ts个人博客兼备忘录管理系统(已开源)</h3>
         </div>
-        <div class="indexIcons"><img @click="gotonext(item.link)" class="indexIcon" v-for="item in tabList" :src="item.icon" alt=""></div>
+        <div class="indexIcons"><img @click="gotonext(item.link,index)" class="indexIcon" v-for="(item,index) in tabList" :src="item.icon" alt=""></div>
 
         <img class="the-img" src="@/assets//images/bg1.jpg" alt="">
     </div>
@@ -15,8 +15,8 @@ import { getAssetsFile } from '@/utils/niceFun'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 const tabList:any = ref([
-    {icon: getAssetsFile('github.png'),link:'https://github.com/jiangbenxin/vue3-hooks-pinia-ts'},
-    {icon: getAssetsFile('gitee.png'),link:'https://gitee.com/jiangbenxin/vue3'},
+    {icon: getAssetsFile('github.png'),link:'github.com/jiangbenxin/vue3-hooks-pinia-ts.git'},
+    {icon: getAssetsFile('gitee.png'),link:'gitee.com/jiangbenxin/vue3'},
     {icon: getAssetsFile('facebook.png'),link:''},
     {icon: getAssetsFile('wx.png'),link:''},
     {icon: getAssetsFile('QQ.png'),link:''},

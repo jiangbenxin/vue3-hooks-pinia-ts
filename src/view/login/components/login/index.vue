@@ -25,7 +25,6 @@ import {adminResgiter} from '@/api/user'
 import { useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import { ElMessage} from 'element-plus'
-import Cookie from 'js-cookie'
 const data = reactive({
         ruleForm:{
                 username:'',
