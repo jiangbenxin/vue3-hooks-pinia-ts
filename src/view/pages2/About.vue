@@ -4,6 +4,7 @@
             <theTitle>
             <template #inner>
                 <div class="about">
+                    
                    <img class="about-img" src="@/assets/images/me.jpg" alt="" srcset="">
                    <div>originalheart</div>
                    <div>年龄：18岁</div>
