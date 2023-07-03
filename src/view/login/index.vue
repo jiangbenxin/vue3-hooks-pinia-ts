@@ -34,7 +34,6 @@
                         <div class="go-scoll-top" @click="goScollTop()">back</div>
                         <span class="footer-right">
                                 <img class="the-iconn" v-for="item in footerList" :src="item" alt="">
-                                
                         </span>
                 </div>
         </div>
@@ -52,8 +51,10 @@ import { useRouter, useRoute } from 'vue-router'
 import { useTestPinia } from '@/pinia/index'
 import store from '@/store/index';
 import imgMe from '@/assets/images/me.jpg'
-import {getAssetsFile} from '@/utils/niceFun'
-const themeColor = ref(store.state.userInfo.topMenuScroll)
+import { getAssetsFile } from '@/utils/niceFun'
+const themeColor = computed(()=>{
+        return  store.state.userInfo.topMenuScroll
+})
 const testStore = useTestPinia()
 const themeFzColor = testStore.themeFzColor
 const router = useRouter()
@@ -77,8 +78,8 @@ const remarkCaruselUp: any = ref(null)
 const containerBodyMarginTop = ref('10px')
 
 const carouselIndex: any = ref()
-const carouselIndexs: any = computed(()=>{
-        return carouselIndex.value 
+const carouselIndexs: any = computed(() => {
+        return carouselIndex.value
 })
 const adminFlag = ref(true)
 onBeforeMount(() => {
@@ -128,7 +129,7 @@ const topMenuScroll: any = ref('')
 window.addEventListener('scroll', function () {
         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
         if (scrollTop) {
-                topMenuScroll.value = themeColor.value
+                topMenuScroll.value = store.state.userInfo.topMenuScroll
         } else {
                 topMenuScroll.value = ''
         }
@@ -252,4 +253,5 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
                 }
         }
 
-}</style>
+}
+</style>

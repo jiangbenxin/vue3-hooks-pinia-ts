@@ -1,6 +1,6 @@
 <template>
   <div class="pop-box">
-    <h1 class="img-title">你轻轻地来，正如你沉甸甸的走</h1>
+    <div class="img-title">你轻轻地来，正如你沉甸甸的走</div>
     <img class="the-img" src="@/assets//images//bg1.jpg" alt="">
 </div>
 </template>

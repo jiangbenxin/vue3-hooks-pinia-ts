@@ -1,8 +1,8 @@
 <template>
     <div id="mainmmm" class="main pop-box">
-        <h1 v-if="route.name == 'articleDetail'" class="img-title">文章内容并不饱满，想全面的学习请前往官网查看</h1>
+        <div v-if="route.name == 'articleDetail'" class="img-title">文章内容并不饱满，想全面的学习请前往官网查看</div>
         <div v-if="route.name != 'articleDetail'" class="img-title">
-            <h3>vue3+vite+ts个人博客兼备忘录管理系统(已开源)</h3>
+            <div>vue3+vite+ts个人博客兼备忘录管理系统(已开源)</div>
         </div>
         <div class="indexIcons"><img @click="gotonext(item.link,index)" class="indexIcon" v-for="(item,index) in tabList" :src="item.icon" alt=""></div>
 

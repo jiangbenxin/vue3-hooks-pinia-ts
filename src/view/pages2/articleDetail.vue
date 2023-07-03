@@ -12,6 +12,7 @@
                                 <div class="artile-details-text"  v-html="item2"></div>
                         </div>
                         <Codemirror
+                                style="margin-top: 10px;"
                                 v-if="item.code!=''&&item.code != null&& item.code!=undefined"
                                 :value="item.code"
                                 :options="cmOptions"

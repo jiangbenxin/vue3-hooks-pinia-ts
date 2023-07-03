@@ -25,4 +25,24 @@ function useMousePosition(): MousePosition {
   return { x, y }
 }
 
+export const useDefer = (maxCount:any = 100)=>{
+  const frameCount = ref (0)
+  let rafId:any
+  const updateFrameCount = ()=>{
+    rafId = requestAnimationFrame(()=>{
+      frameCount.value++
+      if(frameCount.value >= maxCount) return
+      updateFrameCount()
+    })
+  }
+  updateFrameCount()
+  onUnmounted(() => {
+    cancelAnimationFrame(rafId)
+  })
+  const defer = (n:any)=>{
+    return frameCount.value >= n
+  }
+  return defer
+}
+
 export default useMousePosition

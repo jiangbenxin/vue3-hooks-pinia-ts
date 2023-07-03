@@ -1,6 +1,6 @@
 <template>
    <div class="pop-box">
-      <h1 class="img-title">留言必看，也可以直接联系我</h1>
+      <div class="img-title">留言必看，也可以直接联系我</div>
       <img class="the-img" src="@/assets/images//bg1.jpg" alt="">
    </div>
 </template>

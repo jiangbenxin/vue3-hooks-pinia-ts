@@ -1,5 +1,7 @@
 <template>
-        <theTitle>
+        <div v-for="(item,index) in 10"  >
+            <div v-if="defer(index)">
+            <theTitle>
             <template #inner>
                 <div class="about">
                    <img class="about-img" src="@/assets/images/me.jpg" alt="" srcset="">
@@ -32,21 +34,21 @@
                     <div>还没想好写什么，你教我啊</div>
                     <div>还没想好写什么，你教我啊</div>
                     <div>还没想好写什么，你教我啊</div>
-                    <div>关于</div>
+                    <div>{{ userAgent }}</div>
                     <div>关于</div>
                 </div>
             </template>
-        </theTitle>
+            </theTitle>
+        </div>
+       </div>
 </template>
 <script lang='ts'  setup>
 import theTitle from '@/components/theTitle.vue'
 import { ref } from 'vue'
 import store from '@/store';
-import github from '@/assets/icon/github.png'
-import gitee from '@/assets/icon/gitee.png'
-import xiaoWX from '@/assets/icon/xiaoWX.png'
-import WX from '@/assets/icon/WX.png'
 import {getAssetsFile} from '@/utils/niceFun'
+import {useDefer} from '../../hooks'
+const defer = useDefer()
 const themeColor = ref(store.state.userInfo.topMenuScroll)
 const list =ref([
     {title:'github',info:'访问我的gitee',url:'www.baidu.com',imgUrl:getAssetsFile('github.png')},
@@ -60,6 +62,7 @@ const goto = (url:string,index:number)=>{
         window.open(path)
     }
 }
+const  userAgent = ref(navigator.userAgent)
 </script>
 <style lang="less" scoped>
 .about{
