@@ -1,6 +1,7 @@
 <template>
         <div class="login-container">
                 <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm">
+                        <div style="margin-bottom: 20px;">{{ register?'注册':'登录' }}</div>
                         <el-form-item label="账号:" prop="username">
                         <el-input v-model="ruleForm.username" autocomplete="off"></el-input>
                         </el-form-item>    
@@ -14,6 +15,14 @@
                         <div style="text-align: right;padding-right: 40px;margin-top: 40px;">
                                 <el-link type="primary" :underline="false" @click="register=!register">{{ register?'去登录':'去注册' }}</el-link>
                         </div>
+                        <div style="margin-top: 20px;">
+                                <div>切换主题</div>
+                                <div style="height: 75px;">
+                                        <div @click="checkBgc(0)" class="bgc bgc1"></div>
+                                        <div @click="checkBgc(1)" class="bgc bgc2"></div>
+                                        <div @click="checkBgc(2)" class="bgc bgc3"></div>
+                                </div>
+                        </div>
                 </el-form> 
         </div>
 </template>
@@ -25,7 +34,6 @@ import {adminResgiter} from '@/api/user'
 import { useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import { ElMessage} from 'element-plus'
-import Cookie from 'js-cookie'
 const data = reactive({
         ruleForm:{
                 username:'',
@@ -41,6 +49,16 @@ let { ruleForm ,register } = toRefs(data)
 let ruleFormRef = ref()
 let router = useRouter()
 let store = useStore()
+const bgc = ref([
+        'linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E)',
+        'linear-gradient(to right, #4cbf30 0%, #0f9d58 100%)',
+        'linear-gradient(to right, #64b3f4 0%, #00ecbc 100%)',
+])
+const checkBgc = (index:number)=>{
+        localStorage.setItem('bgc',bgc.value[index])
+        store.state.userInfo.topMenuScroll = bgc.value[index]
+        console.log(bgc.value[index]);
+}
 const validatepassword = (rule:unknown,value:string|undefined,cb:(msg?:string)=>void)=>{
         if(!value){
                 cb('密码不能为空')
@@ -82,6 +100,20 @@ const loginFn = async()=>{
 
 </script>
 <style lang='less' scoped>
+.bgc{
+        height: 20px;
+        margin-top: 5px;
+        cursor: pointer;
+}
+.bgc1{
+        background-image: linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E);
+}
+.bgc2{
+        background-image: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%);
+}
+.bgc3{
+        background-image: linear-gradient(to right, #64b3f4 0%, #00ecbc 100%);
+}
 .login-container{
         background-image: url('@/assets/images/bg1.jpg');
         background-repeat: no-repeat;

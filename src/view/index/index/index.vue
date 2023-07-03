@@ -59,8 +59,7 @@ import  { updateUserInfo,updateUserPassword } from '@/api/user'
 import store from '@/store';
 import avatar from '@/assets/images/me.jpg'
 import { ref, inject, reactive} from 'vue'
-import type { UploadProps} from 'element-plus'
-import type { UploadInstance } from 'element-plus'
+import type { UploadProps, UploadInstance } from 'element-plus'
 const imageUrl:any = ref( store.state.userInfo.user_pic|| avatar)
 
 const formInfo:any = reactive({

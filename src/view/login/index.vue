@@ -10,7 +10,7 @@
                 </div>
                 <div v-if="!flag" class="right"><img class="right-avatar" :src="imgMe"></div>
         </div>
-        <el-carousel :initial-index="carouselIndex" indicator-position="none" ref="remarkCaruselUp" :autoplay="false"
+        <el-carousel :initial-index="carouselIndexs" indicator-position="none" ref="remarkCaruselUp" :autoplay="false"
                 :interval="1000" arrow="never">
                 <el-carousel-item v-for="(item, index) in tabList" :name="`${index}`" :key="item">
                         <myBlogIndex v-if="index == 0"></myBlogIndex>
@@ -34,7 +34,6 @@
                         <div class="go-scoll-top" @click="goScollTop()">back</div>
                         <span class="footer-right">
                                 <img class="the-iconn" v-for="item in footerList" :src="item" alt="">
-                                
                         </span>
                 </div>
         </div>
@@ -47,13 +46,15 @@ import FriendChain from './components/FriendChain/index.vue'
 import LeaveMessage from './components/LeaveMessage/index.vue'
 import Admin from './components/login/index.vue'
 import About from './components/About/index.vue'
-import { ref, nextTick, reactive, onMounted, onBeforeMount } from 'vue'
+import { ref, nextTick, reactive, computed, onMounted, onBeforeMount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useTestPinia } from '@/pinia/index'
 import store from '@/store/index';
 import imgMe from '@/assets/images/me.jpg'
-import {getAssetsFile} from '@/utils/niceFun'
-const themeColor = ref(store.state.userInfo.topMenuScroll)
+import { getAssetsFile } from '@/utils/niceFun'
+const themeColor = computed(()=>{
+        return  store.state.userInfo.topMenuScroll
+})
 const testStore = useTestPinia()
 const themeFzColor = testStore.themeFzColor
 const router = useRouter()
@@ -77,6 +78,9 @@ const remarkCaruselUp: any = ref(null)
 const containerBodyMarginTop = ref('10px')
 
 const carouselIndex: any = ref()
+const carouselIndexs: any = computed(() => {
+        return carouselIndex.value
+})
 const adminFlag = ref(true)
 onBeforeMount(() => {
 })
@@ -125,7 +129,7 @@ const topMenuScroll: any = ref('')
 window.addEventListener('scroll', function () {
         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
         if (scrollTop) {
-                topMenuScroll.value = themeColor.value
+                topMenuScroll.value = store.state.userInfo.topMenuScroll
         } else {
                 topMenuScroll.value = ''
         }
@@ -249,4 +253,5 @@ const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Andr
                 }
         }
 
-}</style>
+}
+</style>

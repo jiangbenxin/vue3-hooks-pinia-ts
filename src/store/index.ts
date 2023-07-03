@@ -30,10 +30,10 @@ const getDefaultState = () => {
             email:null,
             username:null,
             user_pic:'test',
-            topMenuScroll: 'linear-gradient(to right, #9733EE, #DA22FF)',
+            // topMenuScroll: 'linear-gradient(to right, #9733EE, #DA22FF)',
             // topMenuScroll: 'linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E)'
             // topMenuScroll: 'linear-gradient(to right, #4cbf30 0%, #0f9d58 100%)',
-            // topMenuScroll: 'linear-gradient(to right, #64b3f4 0%, #00ecbc 100%);',
+            topMenuScroll: 'linear-gradient(to right, #64b3f4 0%, #00ecbc 100%);',
         },
         articleTabs:null,
         Artcate:null,
@@ -50,7 +50,7 @@ const store = createStore<State>({
                 email:null,
                 username:null,
                 user_pic:'test',
-                topMenuScroll: 'linear-gradient(to right, #9733EE, #DA22FF)',
+                topMenuScroll: localStorage.getItem('bgc')||'linear-gradient(to right, #9733EE, #DA22FF)',
                 // topMenuScroll: 'linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E)'
                 // topMenuScroll: 'linear-gradient(to right, #4cbf30 0%, #0f9d58 100%)',
                 // topMenuScroll: 'linear-gradient(to right, #64b3f4 0%, #00ecbc 100%);',
@@ -167,7 +167,7 @@ const store = createStore<State>({
                     email:null,
                     username:null,
                     user_pic:'test',
-                    topMenuScroll: 'linear-gradient(to right, #9733EE, #DA22FF)',
+                    topMenuScroll: store.state.userInfo.topMenuScroll,
                     // topMenuScroll: 'linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E)'
                     // topMenuScroll: 'linear-gradient(to right, #4cbf30 0%, #0f9d58 100%)',
                     // topMenuScroll: 'linear-gradient(to right, #64b3f4 0%, #00ecbc 100%);',
@@ -177,8 +177,9 @@ const store = createStore<State>({
                 Artcate:null,
                 allRouters:null
             }
+            console.log(store.state)
             commit('clearState', state)
-            console.log(store.state);
+            console.log(store.state)
         }
     },
     modules:{}

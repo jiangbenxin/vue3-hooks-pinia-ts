@@ -1,6 +1,6 @@
 <template>
     <div class="pop-box">
-      <h1 class="img-title">关于我，至于你？</h1>
+      <div class="img-title">关于我，至于你？</div>
     <img class="the-img" src="@/assets/images/bg1.jpg" alt="">
     <!-- <audio controls autoplay>
         <source src="./mp3/zzsc.mp3">
